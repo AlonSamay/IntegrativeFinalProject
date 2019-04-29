@@ -60,9 +60,6 @@ public class UserEntity implements SmartspaceEntity<UserKey> {
     }
 
 
-
-
-
     public String getUsername() {
         return username;
     }
@@ -72,7 +69,7 @@ public class UserEntity implements SmartspaceEntity<UserKey> {
         return avatar;
     }
 
-//    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     public UserRole getRole() {
         return role;
     }

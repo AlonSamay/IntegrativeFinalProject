@@ -114,14 +114,13 @@ public class ActionEntity implements SmartspaceEntity<String> {
         return actionType;
     }
 
-//    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreationTimeStamp() {
         return creationTimeStamp;
     }
 
-
-//    @Lob
-//	@Convert(converter= MapToJsonConverter.class)
+    @Lob
+	@Convert(converter= MapToJsonConverter.class)
     public Map<String, Object> getMoreAttributes() {
         return moreAttributes;
     }

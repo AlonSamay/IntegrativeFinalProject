@@ -106,7 +106,7 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
         return type;
     }
 
-//    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreationTimeStamp() {
         return creationTimeStamp;
     }
