@@ -21,7 +21,7 @@ public class DaoDemo implements CommandLineRunner{
 	private IdGeneratorCrud idGeneratorCrud;
 	private EntityFactory factory;
 
-//	@Autowired
+	@Autowired
 	public DaoDemo(EnhancedUserDao<UserKey> enhancedUserDao,
 				   EnhancedActionDao enhancedActionDao,
 				   EnhancedElementDao<ElementKey> enchancedElementDao,
@@ -53,7 +53,7 @@ public class DaoDemo implements CommandLineRunner{
 //		readAllActions();
 
 //		ElementEntity elementEntity = readElementById();
-		UserEntity userEntity = readUserById();
+//		UserEntity userEntity = readUserById();
 
 
 //
