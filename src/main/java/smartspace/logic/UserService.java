@@ -23,7 +23,6 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
 
     @Override
     public List<UserEntity> getAll(int size, int page) {
-        System.out.println("read all user service");
         return this.userDao.readAll(size,page);
     }
 
@@ -33,7 +32,7 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
         if(this.validate(userEntity))
             return this.userDao.create(userEntity);
         else
-            throw  new RuntimeException("input not valid");
+            throw new RuntimeException("not valid fields");
     }
 
     private boolean validate(UserEntity userEntity) {
@@ -43,7 +42,7 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
 //                userEntity.getRole() != null &&
 //                userEntity.getPoints() instanceof Long &&
 //                userEntity.getPoints() > 0;
-        return this.isValid(userEntity.getKey().getId()) &&
+        return  this.isValid(userEntity.getKey().getId()) && !userEntity.getKey().equals("2019BTal.Cohen") &&
                 this.isValid(userEntity.getKey().getEmail()) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&

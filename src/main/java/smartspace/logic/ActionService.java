@@ -37,7 +37,7 @@ public class ActionService extends Validator implements ServicePattern<ActionEnt
 
     private boolean validate(ActionEntity actionEntity) {
 
-        return  this.isValid(actionEntity.getActionId()) &&
+        return  this.isValid(actionEntity.getActionId()) && !actionEntity.getActionSmartSpace().equals("2019BTal.Cohen") &&
                 this.isValid(actionEntity.getElementSmartSpace()) &&
                 this.isValid(actionEntity.getElementId()) &&
                 this.isValid(actionEntity.getPlayerSmartSpace()) &&
