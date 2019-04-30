@@ -53,10 +53,8 @@ public class ElementBoundary {
     public ElementEntity convertToEntity() {
         ElementEntity entity = new ElementEntity();
 
-
-        if (this.key.get(ID) != null && this.key.get(SMARTSPACE) != null) {
-            ElementKey key = new ElementKey(this.key.get(ID));
-            entity.setKey(key);
+        if (this.key.get(ID) != null) {
+            entity.setKey(new ElementKey(this.key.get(ID)));
         }
 
         if (this.latlng.get(LAT) != null && this.latlng.get(LNG) != null) {
@@ -64,8 +62,11 @@ public class ElementBoundary {
         }
 
         entity.setName(this.name);
+
         entity.setType(this.elementType);
+
         entity.setCreationTimeStamp(this.created);
+
         entity.setExpired(this.expired);
 
         if (this.creator.get(EMAIL) != null && this.creator.get(SMARTSPACE) != null) {
