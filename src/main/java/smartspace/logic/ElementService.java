@@ -39,7 +39,7 @@ public class ElementService extends Validator implements ServicePattern<ElementE
 
     private boolean validate(ElementEntity elementEntity) {
 
-        return this.isValid(elementEntity.getName()) &&
+        return this.isValid(elementEntity.getName()) && !elementEntity.getCreatorSmartSpace().equals("2019BTal.Cohen") &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
                 this.isValid(elementEntity.getCreatorEmail()) &&

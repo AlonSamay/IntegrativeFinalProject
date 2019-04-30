@@ -38,15 +38,15 @@ public class ActionController extends ValidateController implements Controller<A
             @PathVariable("adminEmail") String adminEmail,
             @RequestParam(name="size", required=false, defaultValue="10") int size,
             @RequestParam(name="page", required=false, defaultValue="0") int page) {
-        if(this.isAdminRole(adminEmail) && this.isLocalSmartSpace(adminSmartSpace))
-            return this.actionService
+            if(this.isAValidUrl(adminEmail,adminSmartSpace))
+                return this.actionService
                 .getAll(size,page)
                 .stream()
                 .map(ActionBoundary::new)
                 .collect(Collectors.toList())
                 .toArray(new ActionBoundary[0]);
-        else
-            return new ActionBoundary[0];
+            else
+                throw new RuntimeException("not valid admin details");
     }
 
     @RequestMapping(
@@ -58,13 +58,13 @@ public class ActionController extends ValidateController implements Controller<A
             @PathVariable("adminSmartSpace") String adminSmartSpace,
             @PathVariable("adminEmail") String adminEmail,
             @RequestBody ActionBoundary[] actionBoundaries) {
-        if(this.isAdminRole(adminEmail) && !this.isLocalSmartSpace(adminSmartSpace))
+        if(this.isAValidUrl(adminEmail,adminSmartSpace))
             return Arrays.stream(actionBoundaries)
                 .map(actionBoundary -> new ActionBoundary(this.actionService.store(actionBoundary.convertToEntity())))
                 .collect(Collectors.toList())
                 .toArray(new ActionBoundary[0]);
         else
-            return new ActionBoundary[0];
+            throw new RuntimeException("not valid admin details");
     }
 
 

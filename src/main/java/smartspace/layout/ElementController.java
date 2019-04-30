@@ -39,7 +39,7 @@ public class ElementController extends ValidateController implements Controller<
             @PathVariable("adminEmail") String adminEmail,
             @RequestParam(name="size", required=false, defaultValue="10") int size,
             @RequestParam(name="page", required=false, defaultValue="0") int page) {
-        if(this.isAdminRole(adminEmail) && this.isLocalSmartSpace(adminSmartSpace))
+        if(this.isAValidUrl(adminEmail,adminSmartSpace))
             return this.elementService
                 .getAll(size,page)
                 .stream()
@@ -47,7 +47,7 @@ public class ElementController extends ValidateController implements Controller<
                 .collect(Collectors.toList())
                 .toArray(new ElementBoundary[0]);
         else
-            return new ElementBoundary[0];
+            throw new RuntimeException("not valid admin details");
     }
 
     @RequestMapping(
@@ -59,13 +59,13 @@ public class ElementController extends ValidateController implements Controller<
             @PathVariable("adminSmartSpace") String adminSmartSpace,
             @PathVariable("adminEmail") String adminEmail,
             @RequestBody ElementBoundary[] elementBoundaries) {
-        if(this.isAdminRole(adminEmail) && this.isLocalSmartSpace(adminSmartSpace))
+        if(this.isAValidUrl(adminEmail,adminSmartSpace))
             return Arrays.stream(elementBoundaries)
                 .map(elementBoundary -> new ElementBoundary(this.elementService.store(elementBoundary.convertToEntity())))
                 .collect(Collectors.toList())
                 .toArray(new ElementBoundary[0]);
         else
-            return new ElementBoundary[0];
+            throw new RuntimeException("not valid admin details");
     }
 
 }

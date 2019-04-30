@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
+import smartspace.data.UserRole;
 
 import java.util.Optional;
 
@@ -16,14 +17,17 @@ public class ValidateController {
         this.userDao = userDao;
     }
 
-    public boolean isAdminRole (String email) {
-//        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(email)).orElseThrow(
-//                    ()-> new RestException("not found in db"));
-        return true;
+    public boolean isAValidUrl (String email,String smartSpaceName) {
+        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(email));
+        if(!userFromDb.isPresent())
+            return false;
+        else {
+            return userFromDb.get().getRole() == UserRole.ADMIN && userFromDb.get().getKey().getId().equals(smartSpaceName);
+        }
     }
 
-    public boolean isLocalSmartSpace(String smartSpace){
-        return smartSpace != null && smartSpace.equals("2019BTal.Cohen");
-    }
+//    public boolean isLocalSmartSpace(String smartSpace){
+//        return smartSpace != null && smartSpace.equals("2019BTal.Cohen");
+//    }
 
 }
