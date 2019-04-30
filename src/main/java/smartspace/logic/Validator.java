@@ -19,11 +19,11 @@ public class Validator {
     }
 
     boolean isValid(Long x) {
-        return x instanceof Long && x > 0;
+        return x != null && x > 0;
     }
 
     boolean isValid(Double x) {
-        return x instanceof Double && x > 0;
+        return x != null && x > 0;
     }
 
     boolean isValid(Map<String,Object> checkMap) {

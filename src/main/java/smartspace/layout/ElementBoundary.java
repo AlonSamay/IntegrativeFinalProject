@@ -4,7 +4,7 @@ import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 import smartspace.data.Location;
 
-//import java.sql.Timestamp;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
@@ -20,7 +20,7 @@ public class ElementBoundary {
     private String elementType;
     private String name;
     private Boolean expired;
-    private Date created;
+    private Timestamp created;
     private Map<String, String> creator;
     private Map<String, Double> latlng;
     private Map<String, Object> elementProperties;
@@ -37,7 +37,8 @@ public class ElementBoundary {
 
         this.name = entity.getName();
 
-        this.created = entity.getCreationTimeStamp();
+        this.expired = entity.getExpired();
+        this.created = new Timestamp(entity.getCreationTimeStamp().getTime());
 
         this.creator = new TreeMap<>();
         this.creator.put(EMAIL, entity.getCreatorEmail());
@@ -115,7 +116,7 @@ public class ElementBoundary {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 

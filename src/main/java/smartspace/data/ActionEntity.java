@@ -14,7 +14,6 @@ import java.util.Map;
 public class ActionEntity implements SmartspaceEntity<String> {
 
     private String actionSmartSpace;
-
     private String actionId;
     private String elementSmartSpace;
     private String elementId;

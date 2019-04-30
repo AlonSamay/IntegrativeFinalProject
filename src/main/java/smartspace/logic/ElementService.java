@@ -34,7 +34,7 @@ public class ElementService extends Validator implements ServicePattern<ElementE
             return this.elementDao.create(elementEntity);
         }
         else
-            throw new RuntimeException("not valid");
+            throw new RuntimeException("Element Service: validation failed");
     }
 
     private boolean validate(ElementEntity elementEntity) {
@@ -45,7 +45,7 @@ public class ElementService extends Validator implements ServicePattern<ElementE
                 this.isValid(elementEntity.getCreatorEmail()) &&
                 this.isValid(elementEntity.getLocation().getX()) &&
                 this.isValid(elementEntity.getLocation().getY()) &&
-                elementEntity.getExpired() &&
+                !elementEntity.getExpired() &&
                 this.isValid(elementEntity.getMoreAttributes()) &&
                 this.isValid(elementEntity.getElementKey().getElementId());
     }

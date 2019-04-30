@@ -54,13 +54,13 @@ public class ActionBoundary {
         entity.setCreationTimeStamp(this.created);
 
         if (this.element != null && this.element.get(ID) != null && this.element.get(SMARTSPACE) != null) {
-            entity.setActionId(this.element.get(ID));
+            entity.setElementId(this.element.get(ID));
             entity.setElementSmartSpace(this.element.get(SMARTSPACE));
         }
 
-        if (this.player != null && this.player.get(ID) != null && this.player.get(SMARTSPACE) != null) {
-            entity.setActionId(this.player.get(ID));
-            entity.setElementSmartSpace(this.player.get(SMARTSPACE));
+        if (this.player != null && this.player.get(EMAIL) != null && this.player.get(SMARTSPACE) != null) {
+            entity.setPlayerEmail(this.player.get(EMAIL));
+            entity.setPlayerSmartSpace(this.player.get(SMARTSPACE));
         }
 
         if (this.properties != null) {

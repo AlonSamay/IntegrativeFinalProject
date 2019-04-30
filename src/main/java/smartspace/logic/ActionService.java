@@ -32,7 +32,7 @@ public class ActionService extends Validator implements ServicePattern<ActionEnt
             return this.actionDao.create(actionEntity);
         }
         else
-            throw new RuntimeException("not valid");
+            throw new RuntimeException("Action Service: validation failed");
     }
 
     private boolean validate(ActionEntity actionEntity) {

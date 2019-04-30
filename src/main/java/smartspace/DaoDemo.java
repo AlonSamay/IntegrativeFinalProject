@@ -139,16 +139,24 @@ public class DaoDemo implements CommandLineRunner{
 	}
 
 	private void createUser() {
+		UserEntity user1 = factory.createNewUser(
+				"Alon",
+				"AlonSamay",
+				":)",
+				UserRole.ADMIN,
+				(long) 456);
+		user1.setKey(new UserKey("alon@gmail.com"));
+		this.enhancedUserDao.create(user1);
 
 
-		UserEntity user = factory.createNewUser(
+		UserEntity user2 = factory.createNewUser(
 						"Oren",
 						"OrenShadmi",
 						"1234",
 						UserRole.PLAYER,
 						(long) 123);
-		user.setKey(new UserKey("c@gmail.com"));
-		this.enhancedUserDao.create(user);
+		user2.setKey(new UserKey("c@gmail.com"));
+		this.enhancedUserDao.create(user2);
 	}
 
 }

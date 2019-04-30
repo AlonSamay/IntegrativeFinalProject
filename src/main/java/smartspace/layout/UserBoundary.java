@@ -54,6 +54,8 @@ public class UserBoundary {
 
         entity.setPoints(this.points);
 
+        entity.setUserSmartSpace(this.key.get(SMARTSPACE));
+
         return entity;
     }
 
