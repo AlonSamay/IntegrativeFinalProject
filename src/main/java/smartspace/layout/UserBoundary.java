@@ -9,42 +9,56 @@ import java.util.TreeMap;
 
 public class UserBoundary {
 
-    private Map<String,String> key;
-    private UserRole role;
+    private Map<String, String> key;
+    private String role;
     private String username;
     private String avatar;
     private Long points;
 
-    public UserBoundary(){
+    public UserBoundary() {
 
     }
-    public UserBoundary(UserEntity entity){
 
+    // TODO: check which strings might have spaces in it. replace any space with #
+    public UserBoundary(UserEntity entity) {
         this.key = new TreeMap<>();
-        this.key.put("id",entity.getUserSmartSpace());
-        this.key.put("email",entity.getKey().getEmail());
+        this.key.put("smartspace", entity.getUserSmartSpace());
+        this.key.put("email", entity.getKey().getEmail());
 
-        this.role = entity.getRole();
+        this.role = entity.getRole().name();
+
         this.username = entity.getUsername();
-        this.avatar = entity.getAvatar();
+
+        if (entity.getAvatar() != null) {
+            this.avatar = entity.getAvatar().replaceAll(" ", "#");
+        } else {
+            this.avatar = null;
+        }
+
         this.points = entity.getPoints();
     }
-    
-    public UserEntity convertToEntity(){
+
+    // TODO: check if exception should be here
+    public UserEntity convertToEntity() {
         UserEntity entity = new UserEntity();
-        if(this.key != null && this.key.get("id") !=null && this.key.get("email") != null){
-//            entity.setKey(new UserKey(this.key.get("id"),this.key.get("email"))); //TODO: need to fix
-        }
-        entity.setRole(this.role);
 
-        if (entity.getUsername() != null) {
-            this.username = entity.getUsername().replace("#"," ");// ask oren how space is shown in db
-        } else {
-            this.username = null;
+//        String email = this.key.get("email");
+//        if (!entity.getUserSmartSpace().equals(email)) {
+//            throw new Exception();
+//        }
+
+        if (this.key != null && this.key.get("email") != null) {
+            entity.setKey(new UserKey(this.key.get("email")));
         }
 
-        entity.setAvatar(this.avatar);
+        entity.setRole(UserRole.valueOf(this.role));
+
+        entity.setUsername(this.username);
+
+        entity.setAvatar(this.avatar.replaceAll("#", " "));
+
         entity.setPoints(this.points);
+
         return entity;
     }
 
@@ -56,11 +70,11 @@ public class UserBoundary {
         this.key = key;
     }
 
-    public UserRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

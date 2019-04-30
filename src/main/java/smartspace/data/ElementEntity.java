@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
 import org.springframework.data.annotation.Id;
+import smartspace.dao.rdb.MapToJsonConverter;
+
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Date;
@@ -28,9 +30,6 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
     @Id
     private ElementKey elementKey;
 
-    
-
-
     public ElementEntity() {
         this.moreAttributes = new HashMap<>();
 
@@ -45,10 +44,7 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
         this.creatorSmartSpace = creatorSmartSpace;
         this.expired = expired;
         this.moreAttributes = moreAttributes;
-
     }
-
-
 
     public void setLocation(Location location) {
         this.location = location;
@@ -126,8 +122,8 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
         return creatorEmail;
     }
 
-//    @Lob
-//    @Convert(converter= MapToJsonConverter.class)
+    @Lob
+    @Convert(converter= MapToJsonConverter.class)
     public Map<String, Object> getMoreAttributes() {
         return moreAttributes;
     }

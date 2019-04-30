@@ -10,49 +10,60 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ElementBoundary {
+    private static final String ID = "id";
+    private static final String SMARTSPACE = "smartspace";
+    private static final String EMAIL = "email";
+    private static final String LAT = "lat";
+    private static final String LNG = "lng";
 
-    private Map<String,String> key;
+    private Map<String, String> key;
     private String elementType;
     private String name;
     private Boolean expired;
     private Date created;
-    private Map<String,String> creator;
+    private Map<String, String> creator;
     private Map<String, Double> latlng;
-    private Map<String,Object> elementProperties;
+    private Map<String, Object> elementProperties;
 
-
-
-
-    public ElementBoundary(){
+    public ElementBoundary() {
     }
-//
-    public ElementBoundary(ElementEntity entity){
+
+    public ElementBoundary(ElementEntity entity) {
         this.key = new TreeMap<>();
-        this.key.put("id",entity.getKey().getElementId());
-        this.key.put("smartspace",entity.getKey().getElementSmartSpace());
+        this.key.put(ID, entity.getKey().getElementId());
+        this.key.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
 
         this.elementType = entity.getType();
+
         this.name = entity.getName();
+
         this.created = entity.getCreationTimeStamp();
+
         this.creator = new TreeMap<>();
-        this.creator.put("email",entity.getCreatorEmail());
-        this.creator.put("smartspace",entity.getKey().getElementSmartSpace());
+        this.creator.put(EMAIL, entity.getCreatorEmail());
+        this.creator.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
 
         this.latlng = new TreeMap<>();
-        this.latlng.put("lat",entity.getLocation().getX());
-        this.latlng.put("lng",entity.getLocation().getY());
+        this.latlng.put(LAT, entity.getLocation().getX());
+        this.latlng.put(LNG, entity.getLocation().getY());
 
         this.elementProperties = entity.getMoreAttributes();
     }
+
     public ElementEntity convertToEntity() {
         ElementEntity entity = new ElementEntity();
 
-        if (!this.key.isEmpty() && this.key.get("id") != null && this.key.get("smartspace") != null) {
-            entity.setKey(new ElementKey(this.key.get("id")));
-//            entity.setElementSmartSpace(this.key.get("smartspace"));  //TODO: need to fix
+//        if (entity.getKey().getElementSmartSpace().equals(this.key.get(SMARTSPACE))) {
+//            throw new Exception();
+//        }
+
+        if (this.key.get(ID) != null && this.key.get(SMARTSPACE) != null) {
+            ElementKey key = new ElementKey(this.key.get(ID));
+            entity.setKey(key);
         }
-        if (!this.latlng.isEmpty() && this.latlng.get("lat") != null && this.latlng.get("lng") != null) {
-            entity.setLocation(new Location(this.latlng.get("lat"), this.latlng.get("lng")));
+
+        if (this.latlng.get(LAT) != null && this.latlng.get(LNG) != null) {
+            entity.setLocation(new Location(this.latlng.get(LAT), this.latlng.get(LNG)));
         }
 
         entity.setName(this.name);
@@ -60,15 +71,16 @@ public class ElementBoundary {
         entity.setCreationTimeStamp(this.created);
         entity.setExpired(this.expired);
 
-        if (!this.creator.isEmpty() && this.creator.get("email") != null && this.creator.get("smartspace") != null) {
-            entity.setCreatorSmartSpace(this.creator.get("smartspace"));
-            entity.setCreatorEmail(this.creator.get("email"));
+        if (this.creator.get(EMAIL) != null && this.creator.get(SMARTSPACE) != null) {
+            entity.setCreatorSmartSpace(this.creator.get(SMARTSPACE));
+            entity.setCreatorEmail(this.creator.get(EMAIL));
         }
 
         entity.setMoreAttributes(this.elementProperties);
 
         return entity;
     }
+
     public Map<String, String> getKey() {
         return key;
     }
@@ -100,14 +112,6 @@ public class ElementBoundary {
     public void setExpired(Boolean expired) {
         this.expired = expired;
     }
-
-//    public Timestamp getCreated() {
-//        return created;
-//    }
-//
-//    public void setCreated(Timestamp created) {
-//        this.created = created;
-//    }
 
     public Date getCreated() {
         return created;

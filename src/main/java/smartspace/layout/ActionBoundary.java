@@ -7,62 +7,69 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ActionBoundary {
+    private static final String ID = "id";
+    private static final String SMARTSPACE = "smartspace";
+    private static final String EMAIL = "email";
 
-    private Map<String,String> actionKey;
+    private Map<String, String> actionKey;
     private String type;
     private Date created;
-    private Map<String,String> element;
-    private Map<String,String> player;
-    private Map<String,Object> properties;
+    private Map<String, String> element;
+    private Map<String, String> player;
+    private Map<String, Object> properties;
 
-
-
-    public ActionBoundary(){
+    public ActionBoundary() {
     }
-    public ActionBoundary(ActionEntity entity){
+
+    public ActionBoundary(ActionEntity entity) {
         this.actionKey = new TreeMap<>();
-        this.actionKey.put("id",entity.getActionId());
-        this.actionKey.put("smartspace",entity.getActionSmartSpace());
+        this.actionKey.put(ID, entity.getActionId());
+        this.actionKey.put(SMARTSPACE, entity.getActionSmartSpace());
 
         this.type = entity.getActionType();
+
         this.created = entity.getCreationTimeStamp();
 
         this.element = new TreeMap<>();
-        this.element.put("id",entity.getElementId());
-        this.element.put("smartspace",entity.getActionSmartSpace());
+        this.element.put(ID, entity.getElementId());
+        this.element.put(SMARTSPACE, entity.getElementSmartSpace());
 
         this.player = new TreeMap<>();
-        this.player.put("smartspace",entity.getActionSmartSpace());
-        this.player.put("email",entity.getPlayerEmail());
+        this.player.put(SMARTSPACE, entity.getPlayerSmartSpace());
+        this.player.put(EMAIL, entity.getPlayerEmail());
 
         this.properties = entity.getMoreAttributes();
     }
-    public  ActionEntity convertToEntity(){
+
+    public ActionEntity convertToEntity() {
         ActionEntity entity = new ActionEntity();
 
-        if(this.actionKey != null && this.actionKey.get("id") !=null && this.actionKey.get("smartspace") != null){
-            entity.setKey(this.actionKey.get("id"));
-            entity.setActionSmartSpace(this.actionKey.get("smartspace"));
+        if (this.actionKey != null && this.actionKey.get(ID) != null && this.actionKey.get(SMARTSPACE) != null) {
+            entity.setKey(this.actionKey.get(ID));
+            entity.setActionSmartSpace(this.actionKey.get(SMARTSPACE));
         }
 
         entity.setActionType(this.type);
+
         entity.setCreationTimeStamp(this.created);
 
-        if(this.element != null && this.element.get("id") !=null && this.element.get("smartspace") != null) {
-            entity.setActionId(this.element.get("id"));
-            entity.setElementSmartSpace(this.element.get("smartspace"));
-        }
-        if(this.player != null && this.player.get("id") !=null && this.player.get("smartspace") != null) {
-            entity.setActionId(this.player.get("id"));
-            entity.setElementSmartSpace(this.player.get("smartspace"));
+        if (this.element != null && this.element.get(ID) != null && this.element.get(SMARTSPACE) != null) {
+            entity.setActionId(this.element.get(ID));
+            entity.setElementSmartSpace(this.element.get(SMARTSPACE));
         }
 
-        entity.setMoreAttributes(new TreeMap<String, Object>());
-        if(this.properties != null){
+        if (this.player != null && this.player.get(ID) != null && this.player.get(SMARTSPACE) != null) {
+            entity.setActionId(this.player.get(ID));
+            entity.setElementSmartSpace(this.player.get(SMARTSPACE));
+        }
+
+        if (this.properties != null) {
             entity.setMoreAttributes(this.properties);
         }
+
         return entity;
     }
+
     public Map<String, String> getActionKey() {
         return actionKey;
     }
