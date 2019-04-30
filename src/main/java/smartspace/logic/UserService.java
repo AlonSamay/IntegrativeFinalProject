@@ -42,7 +42,8 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
 //                userEntity.getRole() != null &&
 //                userEntity.getPoints() instanceof Long &&
 //                userEntity.getPoints() > 0;
-        return  this.isValid(userEntity.getKey().getId()) && !userEntity.getKey().equals("2019BTal.Cohen") &&
+        return  this.isValid(userEntity.getKey().getId()) &&
+                !userEntity.getKey().getId().equals("2019BTal.Cohen") &&
                 this.isValid(userEntity.getKey().getEmail()) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&
