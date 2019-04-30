@@ -53,9 +53,6 @@ public class ElementBoundary {
     public ElementEntity convertToEntity() {
         ElementEntity entity = new ElementEntity();
 
-//        if (entity.getKey().getElementSmartSpace().equals(this.key.get(SMARTSPACE))) {
-//            throw new Exception();
-//        }
 
         if (this.key.get(ID) != null && this.key.get(SMARTSPACE) != null) {
             ElementKey key = new ElementKey(this.key.get(ID));

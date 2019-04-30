@@ -38,14 +38,8 @@ public class UserBoundary {
         this.points = entity.getPoints();
     }
 
-    // TODO: check if exception should be here
     public UserEntity convertToEntity() {
         UserEntity entity = new UserEntity();
-
-//        String email = this.key.get("email");
-//        if (!entity.getUserSmartSpace().equals(email)) {
-//            throw new Exception();
-//        }
 
         if (this.key != null && this.key.get("email") != null) {
             entity.setKey(new UserKey(this.key.get("email")));
