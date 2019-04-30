@@ -30,12 +30,7 @@ public class UserBoundary {
         this.role = entity.getRole().name();
 
         this.username = entity.getUsername();
-
-        if (entity.getAvatar() != null) {
-            this.avatar = entity.getAvatar().replaceAll(" ", "#");
-        } else {
-            this.avatar = null;
-        }
+        this.avatar = entity.getAvatar();
 
         this.points = entity.getPoints();
     }
@@ -47,11 +42,15 @@ public class UserBoundary {
             entity.setKey(new UserKey(this.key.get(EMAIL)));
         }
 
-        entity.setRole(UserRole.valueOf(this.role));
+        if (this.role != null) {
+            entity.setRole(UserRole.valueOf(this.role));
+        } else {
+            entity.setRole(null);
+        }
 
         entity.setUsername(this.username);
 
-        entity.setAvatar(this.avatar.replaceAll("#", " "));
+        entity.setAvatar(this.avatar);
 
         entity.setPoints(this.points);
 
