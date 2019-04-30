@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class UserService extends Validator implements ServicePattern<UserEntity> {
 
-    private EnhancedUserDao <UserKey>  userDao;
+    private EnhancedUserDao<UserKey> userDao;
 
     @Autowired
     public UserService(EnhancedUserDao<UserKey> userDao) {
@@ -23,13 +23,13 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
 
     @Override
     public List<UserEntity> getAll(int size, int page) {
-        return this.userDao.readAll(size,page);
+        return this.userDao.readAll(size, page);
     }
 
     @Override
     @Transactional
     public UserEntity store(UserEntity userEntity) {
-        if(this.validate(userEntity))
+        if (this.validate(userEntity))
             return this.userDao.create(userEntity);
         else
             throw new RuntimeException("UserService: validation failed");
@@ -42,7 +42,7 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
 //                userEntity.getRole() != null &&
 //                userEntity.getPoints() instanceof Long &&
 //                userEntity.getPoints() > 0;
-        return  this.isValid(userEntity.getKey().getId()) &&
+        return this.isValid(userEntity.getKey().getId()) &&
                 !userEntity.getKey().getId().equals("2019BTal.Cohen") &&
                 this.isValid(userEntity.getKey().getEmail()) &&
                 this.isValid(userEntity.getAvatar()) &&

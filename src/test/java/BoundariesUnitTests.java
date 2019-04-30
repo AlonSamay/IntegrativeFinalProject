@@ -23,7 +23,7 @@ import java.util.List;
 @SpringBootTest (classes = Application.class)
 @TestPropertySource(properties = {
         "spring.profiles.active=default"})
-public class BoundaryTests {
+public class BoundariesUnitTests {
     private EntityFactory factory;
 
     private ActionDao actionDao;
@@ -42,15 +42,16 @@ public class BoundaryTests {
     @Test
     public void testUserConversion() {
         UserEntity user1 = this.factory.createNewUser(
-                "yanai1@gmail.com",
-                "Yanai",
-                "Yanai100",
+                "Ba",
+                "Babi",
+                "B",
                 UserRole.PLAYER,
                 (long) 123);
+        user1.setKey(new UserKey("alon@gmail.com"));
 
         UserBoundary boundary = new UserBoundary(user1);
 
-        assertThat(boundary.convertToEntity()).isEqualTo(user1);
+        assertThat(boundary.convertToEntity()).isEqualToComparingFieldByFieldRecursively(user1);
     }
 
     @Test
@@ -64,12 +65,9 @@ public class BoundaryTests {
                 "fds",
                 null);
 
-        actionDao.create(newAction);
-        List<ActionEntity> actual = actionDao.readAll();
-
         ActionBoundary boundary = new ActionBoundary(newAction);
 
-        assertThat(actual.get(0)).isEqualTo(boundary.convertToEntity());
+        assertThat(newAction).isEqualToComparingFieldByFieldRecursively(boundary.convertToEntity());
     }
 
     @Test
@@ -80,13 +78,14 @@ public class BoundaryTests {
                 new Location(5, 4),
                 new Timestamp(new Date().getTime()),
                 "csda@gmail.com",
-                "fds",
+                "gsdfn",
                 false,
                 null);
+        newElement.setKey(new ElementKey("1"));
 
         ElementBoundary boundary = new ElementBoundary(newElement);
 
-        assertThat(boundary.convertToEntity()).isEqualTo(newElement);
+        assertThat(boundary.convertToEntity()).isEqualToComparingFieldByFieldRecursively(newElement);
     }
 
 }

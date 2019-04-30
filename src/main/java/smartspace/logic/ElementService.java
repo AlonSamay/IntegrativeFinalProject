@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ElementService extends Validator implements ServicePattern<ElementEntity> {
 
-    private EnhancedElementDao <ElementKey > elementDao;
+    private EnhancedElementDao<ElementKey> elementDao;
 
     @Autowired
     public ElementService(EnhancedElementDao<ElementKey> elementDao) {
@@ -23,23 +23,23 @@ public class ElementService extends Validator implements ServicePattern<ElementE
     @Override
     public List<ElementEntity> getAll(int size, int page) {
         System.out.println("read all elements service");
-        return this.elementDao.readAll(size,page);
+        return this.elementDao.readAll(size, page);
     }
 
     @Override
     @Transactional
     public ElementEntity store(ElementEntity elementEntity) {
-        if(validate(elementEntity)){
+        if (validate(elementEntity)) {
             elementEntity.setCreationTimeStamp(new Date());
             return this.elementDao.create(elementEntity);
-        }
-        else
+        } else
             throw new RuntimeException("Element Service: validation failed");
     }
 
     private boolean validate(ElementEntity elementEntity) {
 
-        return this.isValid(elementEntity.getName()) && !elementEntity.getCreatorSmartSpace().equals("2019BTal.Cohen") &&
+        return this.isValid(elementEntity.getName()) &&
+                !elementEntity.getCreatorSmartSpace().equals("2019BTal.Cohen") &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
                 this.isValid(elementEntity.getCreatorEmail()) &&

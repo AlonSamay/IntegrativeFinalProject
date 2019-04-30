@@ -1,4 +1,5 @@
 package smartspace.logic;
+
 import java.util.Date;
 
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedActionDao;
 import smartspace.data.ActionEntity;
+
 import java.util.List;
 
 @Service
@@ -21,23 +23,23 @@ public class ActionService extends Validator implements ServicePattern<ActionEnt
 
     @Override
     public List<ActionEntity> getAll(int size, int page) {
-        return this.actionDao.readAll(size,page);
+        return this.actionDao.readAll(size, page);
     }
 
     @Override
     @Transactional
     public ActionEntity store(ActionEntity actionEntity) {
-        if(validate(actionEntity)){
+        if (validate(actionEntity)) {
             actionEntity.setCreationTimeStamp(new Date());
             return this.actionDao.create(actionEntity);
-        }
-        else
+        } else
             throw new RuntimeException("Action Service: validation failed");
     }
 
     private boolean validate(ActionEntity actionEntity) {
 
-        return  this.isValid(actionEntity.getActionId()) && !actionEntity.getActionSmartSpace().equals("2019BTal.Cohen") &&
+        return this.isValid(actionEntity.getActionId()) &&
+                !actionEntity.getActionSmartSpace().equals("2019BTal.Cohen") &&
                 this.isValid(actionEntity.getElementSmartSpace()) &&
                 this.isValid(actionEntity.getElementId()) &&
                 this.isValid(actionEntity.getPlayerSmartSpace()) &&
