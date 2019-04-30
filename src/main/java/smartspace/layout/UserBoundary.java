@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class UserBoundary {
+    private static final String SMARTSPACE = "smartspace";
+    private static final String EMAIL = "email";
 
     private Map<String, String> key;
     private String role;
@@ -22,8 +24,8 @@ public class UserBoundary {
     // TODO: check which strings might have spaces in it. replace any space with #
     public UserBoundary(UserEntity entity) {
         this.key = new TreeMap<>();
-        this.key.put("smartspace", entity.getUserSmartSpace());
-        this.key.put("email", entity.getKey().getEmail());
+        this.key.put(SMARTSPACE, entity.getUserSmartSpace());
+        this.key.put(EMAIL, entity.getKey().getEmail());
 
         this.role = entity.getRole().name();
 
@@ -41,8 +43,8 @@ public class UserBoundary {
     public UserEntity convertToEntity() {
         UserEntity entity = new UserEntity();
 
-        if (this.key != null && this.key.get("email") != null) {
-            entity.setKey(new UserKey(this.key.get("email")));
+        if (this.key != null && this.key.get(EMAIL) != null) {
+            entity.setKey(new UserKey(this.key.get(EMAIL)));
         }
 
         entity.setRole(UserRole.valueOf(this.role));
