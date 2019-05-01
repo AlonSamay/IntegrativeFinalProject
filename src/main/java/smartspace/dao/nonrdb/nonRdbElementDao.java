@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
 
 @Repository
 public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     private NRdbElementCrud elementCrud;
     private IdGeneratorCrud idGeneratorCrud;
+    private final String NAME = "name";
 
 
 
@@ -101,6 +104,12 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
 
     @Override
     public List<ElementEntity> readAll(int size, int page) {
-        return elementCrud.findAll(PageRequest.of(page, size)).getContent();
+        return elementCrud.findAll(
+                PageRequest.of(
+                        page,
+                        size,
+                        ASC,
+                        NAME))
+                .getContent();
     }
 }

@@ -3,6 +3,7 @@ package smartspace.dao.nonrdb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
@@ -15,10 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
 
 @Repository
 public class nonRdbUserDao implements EnhancedUserDao<UserKey> {
     private NUserCrud userCrud;
+    private final String USER_NAME = "username";
 
 
     @Autowired
@@ -67,7 +71,13 @@ public class nonRdbUserDao implements EnhancedUserDao<UserKey> {
 
     @Override
     public List<UserEntity> readAll(int size, int page) {
-        return userCrud.findAll(PageRequest.of(page, size)).getContent();
+        return userCrud.findAll(
+                PageRequest.of(
+                        page,
+                        size,
+                        ASC,
+                        USER_NAME))
+                .getContent();
     }
 
 

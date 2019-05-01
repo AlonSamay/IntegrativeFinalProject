@@ -21,6 +21,8 @@ public class DaoDemo implements CommandLineRunner{
 	private IdGeneratorCrud idGeneratorCrud;
 	private EntityFactory factory;
 
+
+
 //	@Autowired
 	public DaoDemo(EnhancedUserDao<UserKey> enhancedUserDao,
 				   EnhancedActionDao enhancedActionDao,
@@ -33,6 +35,7 @@ public class DaoDemo implements CommandLineRunner{
 		this.enchancedElementDao = enchancedElementDao;
 		this.idGeneratorCrud = idGeneratorCrud;
 		this.factory = factory;
+
 	}
 
 
@@ -48,12 +51,13 @@ public class DaoDemo implements CommandLineRunner{
 		createElement(moreAttributes);
 		createAction(moreAttributes);
 
-//		readAllUsers();
-//		readAllElements();
-//		readAllActions();
+
+		readAllUsers();
+		readAllElements();
+		readAllActions();
 
 //		ElementEntity elementEntity = readElementById();
-		UserEntity userEntity = readUserById();
+//		UserEntity userEntity = readUserById();
 
 
 //
@@ -67,22 +71,26 @@ public class DaoDemo implements CommandLineRunner{
 
 //		elementDao.delete(elementEntity);
 //		readAllElements();
+//
+//        enchancedElementDao.deleteAll();
+//        enhancedActionDao.deleteAll();
+//        enhancedUserDao.deleteAll();
 	}
 
 	private void readAllActions() {
 		enhancedActionDao
-				.readAll(4, 0 ) // list
+				.readAll(10, 0 ) // list
 				.forEach(action->System.err.println(action));
 	}
 
 	private void readAllUsers() {
-		enhancedUserDao.readAll(3,0)// list
+		enhancedUserDao.readAll(10,0)// list
 		.forEach(user->System.err.println(user));
 	}
 
 	private void readAllElements() {
 		enchancedElementDao
-				.readAll(2, 0 ) // list
+				.readAll(10, 0 ) // list
 				.forEach(element -> System.err.println(element));
 	}
 
@@ -124,7 +132,7 @@ public class DaoDemo implements CommandLineRunner{
 
 	private void createElement(Map<String, Object> moreAttributes) {
 		ElementEntity element = factory.createNewElement(
-					"b",
+					"A",
 					"Checkout",
 					 new Location(1.0, 2.0),
 					new Date(),
@@ -136,6 +144,7 @@ public class DaoDemo implements CommandLineRunner{
 		elementKey.setElementSmartSpace("my_smartspace");
 		element.setElementKey(elementKey);
 		this.enchancedElementDao.create(element);
+
 	}
 
 	private void createUser() {
@@ -143,12 +152,13 @@ public class DaoDemo implements CommandLineRunner{
 
 		UserEntity user = factory.createNewUser(
 						"Oren",
-						"OrenShadmi",
+						"C",
 						"1234",
 						UserRole.PLAYER,
 						(long) 123);
-		user.setKey(new UserKey("c@gmail.com"));
+		user.setKey(new UserKey("h@gmail.com"));
 		this.enhancedUserDao.create(user);
+
 	}
 
 }
