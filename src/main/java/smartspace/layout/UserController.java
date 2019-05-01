@@ -41,6 +41,7 @@ public class UserController extends ValidateController implements Controller<Use
                 .collect(Collectors.toList())
                 .toArray(new UserBoundary[0]);
         else
+
             throw new RolePermissionException();
 
     }
