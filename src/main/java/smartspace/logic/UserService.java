@@ -35,6 +35,7 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
     @Override
 //    @Transactional(rollbackFor = RuntimeException.class,propagation = Propagation.MANDATORY)
     public UserEntity store(UserEntity userEntity) {
+
         if (this.validate(userEntity)){
             return this.userDao.create(userEntity);
         }
