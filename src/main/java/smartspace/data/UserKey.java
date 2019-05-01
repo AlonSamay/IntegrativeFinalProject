@@ -1,6 +1,4 @@
 package smartspace.data;
-
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,7 +11,7 @@ public class UserKey implements Serializable ,Comparable<String>{
     private String email;
 
     public UserKey() {
-//
+
 
     }
 
