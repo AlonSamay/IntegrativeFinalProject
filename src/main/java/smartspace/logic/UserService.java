@@ -39,7 +39,7 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
             return this.userDao.create(userEntity);
         }
         else
-            throw new RuntimeException("UserService");
+            throw new RuntimeException(this.getClass().getSimpleName());
     }
 
     private boolean validate(UserEntity userEntity) {

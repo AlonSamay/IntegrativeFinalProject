@@ -39,7 +39,7 @@ public class ElementService extends Validator implements ServicePattern<ElementE
             elementEntity.setCreationTimeStamp(new Date());
             return this.elementDao.create(elementEntity);
         } else
-            throw new FieldException("Element Service");
+            throw new FieldException(this.getClass().getSimpleName());
     }
 
     private boolean validate(ElementEntity elementEntity) {
