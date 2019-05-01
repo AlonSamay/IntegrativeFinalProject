@@ -85,11 +85,13 @@ public class ActionIntegrationTests {
     }
 
     @Test
-    public void testUsersPostRequest() {
+    public void testActionsPostRequest() {
         // GIVEN nothing
 
         // WHEN 10 action boundaries are posted to the server
         int totalSize = 10;
+        Map<String, Object> details = new HashMap<>();
+        details.put("key1","hello ");
 
         List<ActionBoundary> allUsers =
                 IntStream
@@ -101,7 +103,7 @@ public class ActionIntegrationTests {
                                 new Date(),
                                 "fda@gmail.com",
                                 "space",
-                                new HashMap<>()))
+                                details ))
                         .peek(action -> action.setKey("#" + ++counter))
                         .peek(action -> action.setActionSmartSpace("yo"))
                         .map(ActionBoundary::new)
