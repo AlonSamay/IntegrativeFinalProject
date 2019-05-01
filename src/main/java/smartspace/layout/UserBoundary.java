@@ -21,7 +21,6 @@ public class UserBoundary {
 
     }
 
-    // TODO: check which strings might have spaces in it. replace any space with #
     public UserBoundary(UserEntity entity) {
         this.key = new TreeMap<>();
         this.key.put(SMARTSPACE, entity.getKey().getId());

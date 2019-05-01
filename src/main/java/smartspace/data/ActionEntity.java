@@ -23,7 +23,6 @@ public class ActionEntity implements SmartspaceEntity<String> {
     private Date   creationTimeStamp;
     private Map<String,Object> moreAttributes;
 
-
     public ActionEntity() {
         this.moreAttributes = new HashMap<>();
     }
@@ -41,8 +40,6 @@ public class ActionEntity implements SmartspaceEntity<String> {
     public void setActionSmartSpace(String actionSmartSpace) {
         this.actionSmartSpace = actionSmartSpace;
     }
-
-
 
     public void setElementSmartSpace(String elementSmartSpace) {
         this.elementSmartSpace = elementSmartSpace;
@@ -72,7 +69,6 @@ public class ActionEntity implements SmartspaceEntity<String> {
         this.moreAttributes = moreAttributes;
     }
 
-
     @Id
     public String getActionId() {
         return actionId;
@@ -85,9 +81,6 @@ public class ActionEntity implements SmartspaceEntity<String> {
     public String getActionSmartSpace() {
         return actionSmartSpace;
     }
-
-
-
 
     public String getElementSmartSpace() {
         return elementSmartSpace;

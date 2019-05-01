@@ -14,11 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import smartspace.Application;
 import smartspace.dao.EnhancedActionDao;
+import smartspace.dao.EnhancedElementDao;
 import smartspace.dao.UserDao;
 import smartspace.dao.rdb.RdbActionDao;
 import smartspace.dao.rdb.RdbUserDao;
-import smartspace.data.ActionEntity;
-import smartspace.data.UserKey;
+import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.ActionBoundary;
 import smartspace.layout.UserBoundary;
@@ -44,11 +44,18 @@ public class ActionIntegrationTests {
     private ActionService actionService;
     private RestTemplate restTemplate;
 
+    private EnhancedElementDao<ElementKey> elementDao;
+
     private static int counter = 0;
 
     @Autowired
-    public void setUserDao(EnhancedActionDao actionDao) {
+    public void setActionDao(EnhancedActionDao actionDao) {
         this.actionDao = actionDao;
+    }
+
+    @Autowired
+    public void setElementDao(EnhancedElementDao<ElementKey> elementDao) {
+        this.elementDao = elementDao;
     }
 
     @LocalServerPort
@@ -57,7 +64,7 @@ public class ActionIntegrationTests {
     }
 
     @Autowired
-    public void setUserService(ActionService actionService) {
+    public void setActionService(ActionService actionService) {
         this.actionService = actionService;
     }
 
@@ -72,16 +79,10 @@ public class ActionIntegrationTests {
         this.restTemplate = new RestTemplate();
     }
 
-    public UserKey generateUserKey() {
-        UserKey key = new UserKey();
-        key.setId("Bla" + (++counter));
-        key.setEmail("bla@gmail.com");
-        return key;
-    }
-
     @After
     public void tearDown() {
         this.actionDao.deleteAll();
+        this.elementDao.deleteAll();
     }
 
     @Test
@@ -90,14 +91,15 @@ public class ActionIntegrationTests {
 
         // WHEN 10 action boundaries are posted to the server
         int totalSize = 10;
+
         Map<String, Object> details = new HashMap<>();
         details.put("key1","hello ");
 
-        List<ActionBoundary> allUsers =
+        List<ActionBoundary> allActions =
                 IntStream
                         .range(1, totalSize + 1)
                         .mapToObj(i -> factory.createNewAction(
-                                "element #" + i,
+                                "element",
                                 "smart",
                                 "Py",
                                 new Date(),
@@ -113,7 +115,7 @@ public class ActionIntegrationTests {
                 Arrays.stream(Objects.requireNonNull(
                         this.restTemplate.postForObject(
                                 this.baseUrl,
-                                allUsers,
+                                allActions,
                                 ActionBoundary[].class,
                                 ADMIN_SMARTSPACE,
                                 ADMIN_EMAIL)))
@@ -123,7 +125,7 @@ public class ActionIntegrationTests {
         List<ActionEntity> expected =
                 actualResult
                         .stream()
-                        .skip(5)
+                        .skip(4)
                         .limit(5)
                         .collect(Collectors.toList());
 
@@ -131,28 +133,43 @@ public class ActionIntegrationTests {
 
         int size = 5;
         int page = 1;
+
         assertThat(actionDao.readAll(size, page))
                 .usingElementComparatorOnFields("key")
-                .containsExactlyElementsOf(expected);
+                .containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
     public void testGetAllUsingPagination() {
-        // GIVEN the database contains 10 messages
+        // GIVEN database which contains 10 actions and 1 element
         int totalSize = 10;
+
+        ElementEntity elementEntity = factory.createNewElement("a",
+                "ab",
+                new Location(5.4,3.7),
+                new Date(),
+                "fsda@gmail.com",
+                "gfsd",
+                false,
+                null);
+        ElementKey key = elementDao.create(elementEntity).getKey();
+
+        Map<String, Object> details = new HashMap<>();
+        details.put("key1","hello ");
 
         List<ActionBoundary> allUsers =
                 IntStream
                         .range(1, totalSize + 1)
                         .mapToObj(i -> factory.createNewAction(
-                                "element #" + i,
-                                "smart",
+                                key.getElementId(),
+                                key.getElementSmartSpace(),
                                 "Py",
                                 new Date(),
                                 "fda@gmail.com",
                                 "space",
-                                new HashMap<>()))
-                        .peek(action -> action.setKey("#" + counter))
+                                details))
+                        .peek(action -> action.setKey("#" + ++counter))
+                        .peek(action->action.setActionSmartSpace("fds"))
                         .map(this.actionService::store)
                         .map(ActionBoundary::new)
                         .collect(Collectors.toList());
@@ -160,7 +177,7 @@ public class ActionIntegrationTests {
         List<ActionBoundary> expected =
                 allUsers
                         .stream()
-                        .skip(5)
+                        .skip(4)
                         .limit(5)
                         .collect(Collectors.toList());
 
@@ -179,12 +196,12 @@ public class ActionIntegrationTests {
 
         // THEN the result contains 5 users of the users inserted to the database
         assertThat(result)
-                .usingElementComparatorOnFields("key")
-                .containsExactlyElementsOf(expected);
+                .usingElementComparatorOnFields("actionKey")
+                .containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test(expected = Exception.class)
-    public void testGetMessagesWithInvalidType() {
+    public void testGetMessagesWithInvalidElement() {
         // GIVEN nothing
 
         // WHEN I invoke GET of users by the role of "TEMP"
@@ -192,7 +209,7 @@ public class ActionIntegrationTests {
         this.restTemplate
                 .getForObject(
                         this.baseUrl + "/{type}",
-                        UserBoundary[].class,
+                        ActionBoundary[].class,
                         type);
 
         // THEN I receive an error status

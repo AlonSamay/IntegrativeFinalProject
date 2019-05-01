@@ -44,26 +44,20 @@ public class ActionBoundary {
     public ActionEntity convertToEntity() {
         ActionEntity entity = new ActionEntity();
 
-        if (this.actionKey != null && this.actionKey.get(ID) != null && this.actionKey.get(SMARTSPACE) != null) {
-            entity.setKey(this.actionKey.get(ID));
-            entity.setActionSmartSpace(this.actionKey.get(SMARTSPACE));
-        }
+        entity.setKey(this.actionKey.get(ID));
+        entity.setActionSmartSpace(this.actionKey.get(SMARTSPACE));
 
         entity.setActionType(this.type);
 
         entity.setCreationTimeStamp(this.created);
 
-        if (this.element != null && this.element.get(ID) != null && this.element.get(SMARTSPACE) != null) {
-            entity.setElementId(this.element.get(ID));
-            entity.setElementSmartSpace(this.element.get(SMARTSPACE));
-        }
+        entity.setElementId(this.element.get(ID));
+        entity.setElementSmartSpace(this.element.get(SMARTSPACE));
 
-        if (this.player != null && this.player.get(EMAIL) != null && this.player.get(SMARTSPACE) != null) {
-            entity.setPlayerEmail(this.player.get(EMAIL));
-            entity.setPlayerSmartSpace(this.player.get(SMARTSPACE));
-        }
+        entity.setPlayerEmail(this.player.get(EMAIL));
+        entity.setPlayerSmartSpace(this.player.get(SMARTSPACE));
 
-        if (this.properties != null && !properties.isEmpty()) {
+        if (this.properties != null) {
             entity.setMoreAttributes(this.properties);
         } else {
             entity.setMoreAttributes(null);
