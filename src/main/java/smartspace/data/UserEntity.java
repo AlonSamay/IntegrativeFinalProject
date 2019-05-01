@@ -10,9 +10,6 @@ import javax.persistence.*;
 @Document(collection="USERS")
 public class UserEntity implements SmartspaceEntity<UserKey> {
 
-
-    private String userSmartSpace;
-//  private String userEmail;
     private String username;
     private String avatar;
     private UserRole role;
@@ -21,24 +18,16 @@ public class UserEntity implements SmartspaceEntity<UserKey> {
     @Id
     private UserKey userKey;
 
-
-    public UserEntity(String userSmartSpace, String userName, String avatar, UserRole role, Long points) {
-        this.userSmartSpace = userSmartSpace;
+    public UserEntity(String userName, String avatar, UserRole role, Long points) {
         this.username = userName;
         this.avatar = avatar;
         this.role = role;
         this.points = points;
     }
 
-
     public UserEntity() {
 
     }
-
-    public void setUserSmartSpace(String userSmartSpace) {
-        this.userSmartSpace = userSmartSpace;
-    }
-
 
     public void setUsername(String username) {
         this.username = username;
@@ -48,17 +37,9 @@ public class UserEntity implements SmartspaceEntity<UserKey> {
         this.avatar = avatar;
     }
 
-
-
     public void setPoints(Long points) {
         this.points = points;
     }
-
-
-    public String getUserSmartSpace() {
-        return userSmartSpace;
-    }
-
 
     public String getUsername() {
         return username;
@@ -103,7 +84,6 @@ public class UserEntity implements SmartspaceEntity<UserKey> {
     @Override
     public String toString() {
         return "UserEntity{" +
-                "userSmartSpace='" + userSmartSpace + '\'' +
                 ", username='" + username + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", role=" + role +

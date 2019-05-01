@@ -62,8 +62,7 @@ public class UserController extends ValidateController implements Controller<Use
             if(this.isAValidUrl(adminEmail,adminSmartSpace))
                 return Arrays.stream(userBoundaries)
                         .map(userBoundary -> new UserBoundary(this.userService.store(userBoundary.convertToEntity())))
-                        .collect(Collectors.toList())
-                        .toArray(new UserBoundary[0]);
+                        .toArray(UserBoundary[]::new);
             else
                 throw new RuntimeException("not valid admin details");
     }

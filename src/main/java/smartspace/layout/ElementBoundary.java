@@ -55,8 +55,10 @@ public class ElementBoundary {
     public ElementEntity convertToEntity() {
         ElementEntity entity = new ElementEntity();
 
-        if (this.key.get(ID) != null) {
-            entity.setKey(new ElementKey(this.key.get(ID)));
+        if (this.key.get(ID) != null)  {
+            ElementKey key = new ElementKey();
+            key.setElementId(this.key.get(ID));
+            key.setElementSmartSpace(this.key.get(SMARTSPACE));
         }
 
         if (this.latlng.get(LAT) != null && this.latlng.get(LNG) != null) {

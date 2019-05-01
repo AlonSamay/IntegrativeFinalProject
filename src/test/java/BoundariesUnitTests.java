@@ -4,9 +4,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import smartspace.Application;
 import smartspace.dao.ActionDao;
 import smartspace.data.*;
@@ -15,6 +19,8 @@ import smartspace.layout.ActionBoundary;
 import smartspace.layout.ElementBoundary;
 import smartspace.layout.UserBoundary;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +48,6 @@ public class BoundariesUnitTests {
     @Test
     public void testUserConversion() {
         UserEntity user1 = this.factory.createNewUser(
-                "Ba",
                 "Babi",
                 "B",
                 UserRole.PLAYER,
@@ -87,5 +92,4 @@ public class BoundariesUnitTests {
 
         assertThat(boundary.convertToEntity()).isEqualToComparingFieldByFieldRecursively(newElement);
     }
-
 }

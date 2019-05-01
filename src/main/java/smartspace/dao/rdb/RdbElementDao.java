@@ -15,40 +15,38 @@ import java.util.Optional;
 
 @Repository
 public class RdbElementDao implements ElementDao<ElementKey> {
-	private ElementCrud elementCrud;
-	private IdGeneratorCrud idGeneratorCrud;
+    private ElementCrud elementCrud;
+    private IdGeneratorCrud idGeneratorCrud;
 
+    @Autowired
+    public RdbElementDao(ElementCrud elementCrud, IdGeneratorCrud idGeneratorCrud) {
+        this.idGeneratorCrud = idGeneratorCrud;
+        this.elementCrud = elementCrud;
 
+    }
 
-	@Autowired
-	public RdbElementDao(ElementCrud elementCrud, IdGeneratorCrud idGeneratorCrud) {
-		this.idGeneratorCrud = idGeneratorCrud;
-		this.elementCrud = elementCrud;
+    @Override
+    @Transactional
+    public ElementEntity create(ElementEntity element) {
+        IdGenerator idGenerator = new IdGenerator();
+        element.setKey(new ElementKey(this.idGeneratorCrud.save(idGenerator).getNextId()));
+        return this.elementCrud.save(element);
+    }
 
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<ElementEntity> readAll() {
+        List<ElementEntity> rv = new ArrayList<>();
+        this.elementCrud
+                .findAll()
+                .forEach(element -> rv.add(element));
+        return rv;
+    }
 
-	@Override
-	@Transactional
-	public ElementEntity create(ElementEntity element) {
-		IdGenerator idGenerator = new IdGenerator();
-		element.setKey(new ElementKey(this.idGeneratorCrud.save(idGenerator).getNextId()));
-		return this.elementCrud.save(element);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<ElementEntity> readAll() {
-		List<ElementEntity> rv = new ArrayList<>();
-		this.elementCrud
-		.findAll()
-		.forEach(element->rv.add(element));
-		return rv;
-	}
-
-	@Override
-	public Optional<ElementEntity> readById(ElementKey key) {
-		return Optional.empty();
-	}
+    @Override
+    public Optional<ElementEntity> readById(ElementKey key) {
+        return Optional.empty();
+    }
 
 
 //
@@ -58,37 +56,35 @@ public class RdbElementDao implements ElementDao<ElementKey> {
 //		return this.elementCrud.findById(key);
 //	}
 
-	@Override
-	@Transactional
-	public void update(ElementEntity update) {
-		if(this.elementCrud.existsById(update.getKey())) {
-			this.elementCrud.save(update);
-		}else {
-			throw new RuntimeException("no element with id: " + update.getKey());
-		}
+    @Override
+    @Transactional
+    public void update(ElementEntity update) {
+        if (this.elementCrud.existsById(update.getKey())) {
+            this.elementCrud.save(update);
+        } else {
+            throw new RuntimeException("no element with id: " + update.getKey());
+        }
+    }
 
+    @Override
+    @Transactional
+    public void deleteAll() {
+        this.elementCrud.deleteAll();
 
-	}
+    }
 
-	@Override
-	@Transactional
-	public void deleteAll() {
-		this.elementCrud.deleteAll();
-		
-	}
+    @Override
+    @Transactional
+    public void deleteByKey(ElementKey key) {
+        this.elementCrud.deleteById(key);
 
-	@Override
-	@Transactional
-	public void deleteByKey(ElementKey key) {
-		this.elementCrud.deleteById(key);
-		
-	}
+    }
 
-	@Override
-	@Transactional
-	public void delete(ElementEntity elementEntity) {
-		this.elementCrud.delete(elementEntity);
+    @Override
+    @Transactional
+    public void delete(ElementEntity elementEntity) {
+        this.elementCrud.delete(elementEntity);
 
-	}
+    }
 
 }
