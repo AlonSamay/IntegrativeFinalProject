@@ -61,7 +61,6 @@ public class ActionService extends Validator implements ServicePattern<ActionEnt
                 this.isValid(actionEntity.getActionType()) &&
                 this.isValid(actionEntity.getMoreAttributes());
     }
-
     private boolean isElementExist(String elementId, String elementSmartSpace){
         // actions supposed to be on elements, so we should check that this element exist in our db
         ElementKey keyToCheck = new ElementKey();
