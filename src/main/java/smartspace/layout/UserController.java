@@ -2,7 +2,6 @@ package smartspace.layout;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.logic.UserService;
@@ -19,15 +18,6 @@ public class UserController extends ValidateController implements Controller<Use
     private UserService userService;
     private static final String route  = "users/{adminSmartSpace}/{adminEmail}";
 
-<<<<<<< HEAD
-    private final RuntimeException invalidAdminRuntimeException = new RuntimeException("UserController: not valid admin details");
-
-//    @Autowired
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
-=======
->>>>>>> 398b971fc33b195eb0c2b93a2cebcb5497af7c1b
     @Autowired
     public UserController(EnhancedUserDao userDao, UserService userService) {
         super(userDao);
@@ -51,11 +41,8 @@ public class UserController extends ValidateController implements Controller<Use
                 .collect(Collectors.toList())
                 .toArray(new UserBoundary[0]);
         else
-<<<<<<< HEAD
-            throw invalidAdminRuntimeException;
-=======
             throw new RolePermissionException();
->>>>>>> 398b971fc33b195eb0c2b93a2cebcb5497af7c1b
+
     }
 
     @RequestMapping(
@@ -72,11 +59,7 @@ public class UserController extends ValidateController implements Controller<Use
                         .map(userBoundary -> new UserBoundary(this.userService.store(userBoundary.convertToEntity())))
                         .toArray(UserBoundary[]::new);
             else
-<<<<<<< HEAD
-                throw invalidAdminRuntimeException;
-=======
                 throw new RolePermissionException();
->>>>>>> 398b971fc33b195eb0c2b93a2cebcb5497af7c1b
     }
 
 }
