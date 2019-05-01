@@ -2,13 +2,11 @@ package smartspace.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
-import smartspace.layout.ValidateController;
-
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,32 +24,27 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
         return this.userDao.readAll(size, page);
     }
 
+
     @Override
-    @Transactional
+//    @Transactional(rollbackFor = RuntimeException.class,propagation = Propagation.MANDATORY)
     public UserEntity store(UserEntity userEntity) {
-        if (this.validate(userEntity))
+        if (this.validate(userEntity)){
+//            userEntity.setKey(new UserKey(userEntity.getKey().getEmail()));
             return this.userDao.create(userEntity);
+        }
         else
-            throw new RuntimeException("UserService: validation failed");
+            throw new RuntimeException("UserService");
     }
 
     private boolean validate(UserEntity userEntity) {
-//        return  validateStringType(userEntity.getKey().getId()) &&
-//                validateStringType(userEntity.getKey().getEmail()) &&
-//                validateStringType(userEntity.getAvatar()) &&
-//                userEntity.getRole() != null &&
-//                userEntity.getPoints() instanceof Long &&
-//                userEntity.getPoints() > 0;
+
         return this.isValid(userEntity.getKey().getId()) &&
                 !userEntity.getKey().getId().equals("2019BTal.Cohen") &&
                 this.isValid(userEntity.getKey().getEmail()) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&
-                this.isValid(userEntity.getPoints());
-
+                this.isValid(userEntity.getPoints()) &&
+                this.isValid(userEntity.getUsername());
     }
 
-//    private boolean validateStringType(String str){
-//        return str != null && !str.trim().isEmpty();
-//    }
 }
