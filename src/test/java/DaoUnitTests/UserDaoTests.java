@@ -1,3 +1,5 @@
+package DaoUnitTests;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,7 +57,7 @@ public class UserDaoTests {
 
         // WHEN I insert new user to the database
         UserEntity user1 =
-                this.factory.createNewUser("yanai1@gmail.com", "Yanai", "Yanai100", UserRole.PLAYER, (long) 123);
+                this.factory.createNewUser("Yanai", "Yanai100", UserRole.PLAYER, (long) 123);
         this.userDao.create(user1);
 
         // THEN the database contains a user with the right details
@@ -68,10 +70,10 @@ public class UserDaoTests {
 
         // WHEN I insert 2 users to the database
         UserEntity user1 =
-                this.factory.createNewUser("yanai1@gmail.com", "Yanai", "Yanai100", UserRole.PLAYER, (long) 123);
+                this.factory.createNewUser("Yanai", "Yanai100", UserRole.PLAYER, (long) 123);
         this.userDao.create(user1);
         UserEntity user2 =
-                this.factory.createNewUser("Alon1@gmail.com", "Alon", "Alon100", UserRole.PLAYER, (long) 124);
+                this.factory.createNewUser("Alon", "Alon100", UserRole.PLAYER, (long) 124);
         this.userDao.create(user2);
 
         // THEN the database contains those two users with the right details
@@ -101,7 +103,7 @@ public class UserDaoTests {
 
     private List<UserEntity> createUsers(int size) {
         return IntStream.range(1, size + 1)
-                .mapToObj(i -> this.factory.createNewUser("" + i, "" + i, "" + i, UserRole.PLAYER, (long) i)).map(this.userDao::create)
+                .mapToObj(i -> this.factory.createNewUser("" + i, "" + i, UserRole.PLAYER, (long) i)).map(this.userDao::create)
                 .collect(Collectors.toList());
     }
 

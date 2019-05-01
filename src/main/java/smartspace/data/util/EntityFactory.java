@@ -32,7 +32,6 @@ public interface EntityFactory {
 
     UserEntity
     createNewUser(
-            String userSmartSpace,
             String username,
             String avatar,
             UserRole role,

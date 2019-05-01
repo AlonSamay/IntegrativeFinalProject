@@ -24,7 +24,7 @@ public class UserBoundary {
     // TODO: check which strings might have spaces in it. replace any space with #
     public UserBoundary(UserEntity entity) {
         this.key = new TreeMap<>();
-        this.key.put(SMARTSPACE, entity.getUserSmartSpace());
+        this.key.put(SMARTSPACE, entity.getKey().getId());
         this.key.put(EMAIL, entity.getKey().getEmail());
 
         this.role = entity.getRole().name();
@@ -38,23 +38,20 @@ public class UserBoundary {
     public UserEntity convertToEntity() {
         UserEntity entity = new UserEntity();
 
-        if (this.key != null && this.key.get(EMAIL) != null) {
-            entity.setKey(new UserKey(this.key.get(EMAIL)));
+        if (this.key != null && this.key.get(EMAIL) != null && this.key.get(SMARTSPACE) != null) {
+            UserKey key = new UserKey();
+            key.setEmail(this.key.get(EMAIL));
+            key.setId(this.key.get(SMARTSPACE));
+            entity.setKey(key);
         }
 
-        if (this.role != null) {
-            entity.setRole(UserRole.valueOf(this.role));
-        } else {
-            entity.setRole(null);
-        }
+        entity.setRole(this.role != null ? UserRole.valueOf(this.role) : null);
 
         entity.setUsername(this.username);
 
         entity.setAvatar(this.avatar);
 
         entity.setPoints(this.points);
-
-        entity.setUserSmartSpace(this.key.get(SMARTSPACE));
 
         return entity;
     }

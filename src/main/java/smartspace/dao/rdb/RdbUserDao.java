@@ -10,25 +10,31 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import smartspace.dao.IdGenerator;
+import smartspace.dao.IdGeneratorCrud;
 import smartspace.dao.UserDao;
+import smartspace.data.ElementEntity;
+import smartspace.data.ElementKey;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 
 @Repository
 public class RdbUserDao implements UserDao<UserKey> {
 	private UserCrud userCrud;
-	private AtomicLong nextMessageId;
+	private IdGeneratorCrud idGeneratorCrud;
 	
 	
 	@Autowired
-	public RdbUserDao(UserCrud userCrud) {
+	public RdbUserDao(UserCrud userCrud, IdGeneratorCrud idGeneratorCrud) {
 		this.userCrud = userCrud;
-//		nextMessageId = new AtomicLong(1L);
+		this.idGeneratorCrud = idGeneratorCrud;
 	}
 
 	@Override
 	@Transactional
 	public UserEntity create(UserEntity user) {
+		IdGenerator idGenerator = new IdGenerator();
+		user.setKey(new UserKey(this.idGeneratorCrud.save(idGenerator).getNextId()));
 		return this.userCrud.save(user);
 	}
 
@@ -63,6 +69,4 @@ public class RdbUserDao implements UserDao<UserKey> {
 	public void deleteAll() {
 		this.userCrud.deleteAll();
 	}
-
-
 }

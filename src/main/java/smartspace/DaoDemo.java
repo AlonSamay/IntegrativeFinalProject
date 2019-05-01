@@ -140,7 +140,6 @@ public class DaoDemo implements CommandLineRunner{
 
 	private void createUser() {
 		UserEntity user1 = factory.createNewUser(
-				"Alon",
 				"AlonSamay",
 				":)",
 				UserRole.ADMIN,
@@ -150,7 +149,6 @@ public class DaoDemo implements CommandLineRunner{
 
 
 		UserEntity user2 = factory.createNewUser(
-						"Oren",
 						"OrenShadmi",
 						"1234",
 						UserRole.PLAYER,

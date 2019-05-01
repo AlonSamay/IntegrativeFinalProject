@@ -1,3 +1,5 @@
+package DaoUnitTests;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -6,8 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import smartspace.Application;
-import smartspace.dao.rdb.RdbActionDao;
-import smartspace.data.ActionEntity;
+import smartspace.dao.rdb.RdbElementDao;
+import smartspace.data.ElementEntity;
+import smartspace.data.Location;
 import smartspace.data.util.EntityFactoryImpl;
 
 import java.sql.Timestamp;
@@ -23,9 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = Application.class)
 @TestPropertySource(properties = {
         "spring.profiles.active=default"})
-public class ActionsDaoTests {
+public class ElementsDaoTests {
     private EntityFactoryImpl factory;
-    private RdbActionDao actionDao;
+    private RdbElementDao elementDao;
 
     @Autowired
     public void setFactory(EntityFactoryImpl factory) {
@@ -33,60 +36,66 @@ public class ActionsDaoTests {
     }
 
     @Autowired
-    public void setActionDao(RdbActionDao actionDao) {
-        this.actionDao = actionDao;
+    public void setElementDao(RdbElementDao elementDao) {
+        this.elementDao = elementDao;
     }
 
     @After
     public void teardown() {
-        this.actionDao.deleteAll();
+        this.elementDao.deleteAll();
     }
 
     @Test
-    public void testReadSingleAction() {
-        ActionEntity newAction = factory.createNewAction(
+    public void testReadSingleElement() {
+        ElementEntity newElement = factory.createNewElement(
                 "abc",
                 "def",
-                "fdsfsd",
+                new Location(5, 4),
                 new Timestamp(new Date().getTime()),
                 "csda@gmail.com",
                 "fds",
+                false,
                 null);
-        actionDao.create(newAction);
-        List<ActionEntity> actual = actionDao.readAll();
-        assertThat(actual.get(0)).isEqualToComparingFieldByField(newAction);
+        elementDao.create(newElement);
+        List<ElementEntity> actual = elementDao.readAll();
+        assertThat(actual.get(0)).isEqualToComparingFieldByFieldRecursively(newElement);
     }
 
     @Test
     public void testReadAll() {
-        List<ActionEntity> newActions = createActions(6);
-        List<ActionEntity> actual = this.actionDao.readAll();
+        List<ElementEntity> newElements = createElements(6);
+        List<ElementEntity> actual = this.elementDao.readAll();
         assertThat(actual).hasSize(6);
         assertThat(actual)
-                .usingElementComparatorOnFields("actionId")
+                .usingElementComparatorOnFields("elementKey")
                 .containsExactlyElementsOf(
-                        new ArrayList<>(newActions));
+                        new ArrayList<>(newElements));
     }
 
     @Test
     public void testReadWithDelete() {
-        testReadSingleAction();
-        actionDao.deleteAll();
-        List<ActionEntity> actual = actionDao.readAll();
+        testReadSingleElement();
+        elementDao.deleteAll();
+        List<ElementEntity> actual = elementDao.readAll();
         assertThat(actual).isEmpty();
     }
 
-    private List<ActionEntity> createActions(int size) {
+    private List<ElementEntity> createElements(int size) {
         return IntStream.range(1, size + 1)
-                .mapToObj(i -> this.factory.createNewAction(
+                .mapToObj(i -> this.factory.createNewElement(
                         "element #" + i,
-                        "ds",
-                        "vdf",
+                        "gs",
+                        new Location(643, 312),
                         new Timestamp(new Date().getTime()),
-                        "fds",
-                        "dasfsa",
+                        "gf@gfd.com",
+                        "fsd",
+                        i % 2 == 0,
                         null))
-                .map(this.actionDao::create)
+                .map(this.elementDao::create)
                 .collect(Collectors.toList());
     }
 }
+
+
+
+
