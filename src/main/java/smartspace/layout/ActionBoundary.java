@@ -63,8 +63,10 @@ public class ActionBoundary {
             entity.setPlayerSmartSpace(this.player.get(SMARTSPACE));
         }
 
-        if (this.properties != null) {
+        if (this.properties != null && !properties.isEmpty()) {
             entity.setMoreAttributes(this.properties);
+        } else {
+            entity.setMoreAttributes(null);
         }
 
         return entity;

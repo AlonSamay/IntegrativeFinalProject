@@ -18,7 +18,6 @@ public class UserKey implements Serializable ,Comparable<String>{
     public UserKey(String email) {
         this.smartSpace = "2019BTal.Cohen";
         this.email = email;
-
     }
 
 

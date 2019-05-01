@@ -11,7 +11,6 @@ public class ElementKey implements Serializable, Comparable<String> {
 
     private static final long serialVersionUID = 8665542775633852231L;
 
-
     private String elementSmartSpace;
     private String elementId;
 

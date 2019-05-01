@@ -38,11 +38,12 @@ public class ElementBoundary {
         this.name = entity.getName();
 
         this.expired = entity.getExpired();
+
         this.created = new Timestamp(entity.getCreationTimeStamp().getTime());
 
         this.creator = new TreeMap<>();
         this.creator.put(EMAIL, entity.getCreatorEmail());
-        this.creator.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
+        this.creator.put(SMARTSPACE, entity.getCreatorSmartSpace());
 
         this.latlng = new TreeMap<>();
         this.latlng.put(LAT, entity.getLocation().getX());
