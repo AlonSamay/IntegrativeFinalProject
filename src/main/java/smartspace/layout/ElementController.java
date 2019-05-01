@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 // TODO :
-//  handle wrong details
 //  sort by for read all
 
 @RestController
@@ -18,11 +17,6 @@ public class ElementController extends ValidateController implements Controller<
 
     private ElementService elementService;
     private static final String route = "elements/{adminSmartSpace}/{adminEmail}";
-
-//    @Autowired
-//    public ElementController(ElementService elementService) {
-//        this.elementService = elementService;
-//    }
 
     @Autowired
     public ElementController(EnhancedUserDao userDao, ElementService elementService) {
@@ -47,7 +41,7 @@ public class ElementController extends ValidateController implements Controller<
                 .collect(Collectors.toList())
                 .toArray(new ElementBoundary[0]);
         else
-            throw new RuntimeException("not valid admin details");
+            throw new RolePermissionException();
     }
 
     @RequestMapping(
@@ -65,7 +59,7 @@ public class ElementController extends ValidateController implements Controller<
                 .collect(Collectors.toList())
                 .toArray(new ElementBoundary[0]);
         else
-            throw new RuntimeException("not valid admin details");
+            throw new RolePermissionException();
     }
 
 }

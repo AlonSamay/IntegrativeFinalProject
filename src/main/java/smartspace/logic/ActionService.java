@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedActionDao;
 import smartspace.data.ActionEntity;
+import smartspace.layout.FieldException;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ActionService extends Validator implements ServicePattern<ActionEnt
             actionEntity.setCreationTimeStamp(new Date());
             return this.actionDao.create(actionEntity);
         } else
-            throw new RuntimeException("Action Service: validation failed");
+            throw new FieldException("Action Service");
     }
 
     private boolean validate(ActionEntity actionEntity) {
