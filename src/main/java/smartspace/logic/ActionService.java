@@ -4,6 +4,8 @@ import java.util.Date;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedActionDao;
@@ -12,8 +14,12 @@ import smartspace.layout.FieldException;
 
 import java.util.List;
 
+@PropertySource("application.properties")
 @Service
 public class ActionService extends Validator implements ServicePattern<ActionEntity> {
+
+    @Value("${SmartSpace.name.property}")
+    private String smartSpaceName;
 
     private EnhancedActionDao actionDao;
 
@@ -40,7 +46,7 @@ public class ActionService extends Validator implements ServicePattern<ActionEnt
     private boolean validate(ActionEntity actionEntity) {
 
         return this.isValid(actionEntity.getActionId()) &&
-                !actionEntity.getActionSmartSpace().equals("2019BTal.Cohen") &&
+                !actionEntity.getActionSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(actionEntity.getElementSmartSpace()) &&
                 this.isValid(actionEntity.getElementId()) &&
                 this.isValid(actionEntity.getPlayerSmartSpace()) &&

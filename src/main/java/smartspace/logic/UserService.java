@@ -1,6 +1,8 @@
 package smartspace.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,8 +11,13 @@ import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import java.util.List;
 
+
+@PropertySource("application.properties")
 @Service
 public class UserService extends Validator implements ServicePattern<UserEntity> {
+
+    @Value("${SmartSpace.name.property}")
+    private String smartSpaceName;
 
     private EnhancedUserDao<UserKey> userDao;
 
@@ -29,7 +36,6 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
 //    @Transactional(rollbackFor = RuntimeException.class,propagation = Propagation.MANDATORY)
     public UserEntity store(UserEntity userEntity) {
         if (this.validate(userEntity)){
-//            userEntity.setKey(new UserKey(userEntity.getKey().getEmail()));
             return this.userDao.create(userEntity);
         }
         else
@@ -39,7 +45,7 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
     private boolean validate(UserEntity userEntity) {
 
         return this.isValid(userEntity.getKey().getId()) &&
-                !userEntity.getKey().getId().equals("2019BTal.Cohen") &&
+                !userEntity.getKey().getId().equals(this.smartSpaceName) &&
                 this.isValid(userEntity.getKey().getEmail()) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&

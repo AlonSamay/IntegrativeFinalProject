@@ -1,6 +1,8 @@
 package smartspace.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
@@ -11,8 +13,12 @@ import smartspace.layout.FieldException;
 import java.util.Date;
 import java.util.List;
 
+@PropertySource("application.properties")
 @Service
 public class ElementService extends Validator implements ServicePattern<ElementEntity> {
+
+    @Value("${SmartSpace.name.property}")
+    private String smartSpaceName;
 
     private EnhancedElementDao<ElementKey> elementDao;
 
@@ -23,7 +29,6 @@ public class ElementService extends Validator implements ServicePattern<ElementE
 
     @Override
     public List<ElementEntity> getAll(int size, int page) {
-        System.out.println("read all elements service");
         return this.elementDao.readAll(size, page);
     }
 
@@ -40,7 +45,7 @@ public class ElementService extends Validator implements ServicePattern<ElementE
     private boolean validate(ElementEntity elementEntity) {
 
         return this.isValid(elementEntity.getName()) &&
-                !elementEntity.getCreatorSmartSpace().equals("2019BTal.Cohen") &&
+                !elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
                 this.isValid(elementEntity.getCreatorEmail()) &&
