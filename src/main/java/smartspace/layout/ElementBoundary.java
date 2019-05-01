@@ -59,6 +59,7 @@ public class ElementBoundary {
             ElementKey key = new ElementKey();
             key.setElementId(this.key.get(ID));
             key.setElementSmartSpace(this.key.get(SMARTSPACE));
+            entity.setKey(key);
         }
 
         if (this.latlng.get(LAT) != null && this.latlng.get(LNG) != null) {

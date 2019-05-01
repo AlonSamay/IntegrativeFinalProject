@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.layout.FieldException;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ElementService extends Validator implements ServicePattern<ElementE
             elementEntity.setCreationTimeStamp(new Date());
             return this.elementDao.create(elementEntity);
         } else
-            throw new RuntimeException("Element Service: validation failed");
+            throw new FieldException("Element Service");
     }
 
     private boolean validate(ElementEntity elementEntity) {
