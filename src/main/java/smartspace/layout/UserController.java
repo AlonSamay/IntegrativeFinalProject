@@ -19,6 +19,8 @@ public class UserController extends ValidateController implements Controller<Use
     private UserService userService;
     private static final String route  = "users/{adminSmartSpace}/{adminEmail}";
 
+    private final RuntimeException invalidAdminRuntimeException = new RuntimeException("UserController: not valid admin details");
+
 //    @Autowired
 //    public UserController(UserService userService) {
 //        this.userService = userService;
@@ -46,7 +48,7 @@ public class UserController extends ValidateController implements Controller<Use
                 .collect(Collectors.toList())
                 .toArray(new UserBoundary[0]);
         else
-            throw new RuntimeException("not valid admin details");
+            throw invalidAdminRuntimeException;
     }
 
 
@@ -64,7 +66,7 @@ public class UserController extends ValidateController implements Controller<Use
                         .map(userBoundary -> new UserBoundary(this.userService.store(userBoundary.convertToEntity())))
                         .toArray(UserBoundary[]::new);
             else
-                throw new RuntimeException("not valid admin details");
+                throw invalidAdminRuntimeException;
     }
 
 }

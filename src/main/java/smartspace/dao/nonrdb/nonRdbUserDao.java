@@ -38,7 +38,7 @@ public class nonRdbUserDao implements EnhancedUserDao<UserKey> {
         List<UserEntity> rv = new ArrayList<>();
         this.userCrud
                 .findAll()
-                .forEach(user->rv.add(user));
+                .forEach(user -> rv.add(user));
         return rv;
     }
 
@@ -51,10 +51,10 @@ public class nonRdbUserDao implements EnhancedUserDao<UserKey> {
     @Override
     @Transactional
     public void update(UserEntity update) {
-        if(this.userCrud.existsById(update.getKey())) {
+        if (this.userCrud.existsById(update.getKey())) {
             this.userCrud.save(update);
-        }else {
-            throw new RuntimeException("no user with id: " + update.getKey());
+        } else {
+            throw new RuntimeException("nonRdbUserDao: no user with id: " + update.getKey());
         }
     }
 
