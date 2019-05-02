@@ -3,6 +3,7 @@ package IntegrationTests;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,12 @@ public class ElementIntegrationTests {
         return key;
     }
 
+    @Before
+    public void onStart() {
+        this.elementDao.deleteAll();
+    }
+
+
     @After
     public void tearDown() {
         this.elementDao.deleteAll();
@@ -126,7 +133,7 @@ public class ElementIntegrationTests {
         List<ElementEntity> expected =
                 actualResult
                         .stream()
-                        .skip(4)
+                        .skip(5)
                         .limit(5)
                         .collect(Collectors.toList());
 
@@ -181,7 +188,7 @@ public class ElementIntegrationTests {
         List<ElementBoundary> expected =
                 allElements
                         .stream()
-                        .skip(4)
+                        .skip(5)
                         .limit(5)
                         .collect(Collectors.toList());
 
