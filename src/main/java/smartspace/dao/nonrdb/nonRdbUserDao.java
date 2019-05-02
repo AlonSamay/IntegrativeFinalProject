@@ -19,6 +19,7 @@ import java.util.Optional;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
 
+
 @Repository
 public class nonRdbUserDao implements EnhancedUserDao<UserKey> {
     private NUserCrud userCrud;
