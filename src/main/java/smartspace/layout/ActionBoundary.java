@@ -25,6 +25,8 @@ public class ActionBoundary {
         this.actionKey = new TreeMap<>();
         this.actionKey.put(ID, entity.getActionId());
         this.actionKey.put(SMARTSPACE, entity.getActionSmartSpace());
+//        this.actionKey.put(SMARTSPACE, "talCohenB");
+
 
         this.type = entity.getActionType();
 

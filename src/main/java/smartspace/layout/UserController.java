@@ -9,8 +9,6 @@ import smartspace.logic.UserService;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-// TODO :
-//  sort by for read all
 
 @RestController
 public class UserController extends ValidateController implements Controller<UserBoundary> {

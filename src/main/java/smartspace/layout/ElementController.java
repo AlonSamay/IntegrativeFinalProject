@@ -9,8 +9,6 @@ import smartspace.logic.ElementService;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-// TODO :
-//  sort by for read all
 
 @RestController
 public class ElementController extends ValidateController implements Controller<ElementBoundary> {

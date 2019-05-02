@@ -9,9 +9,6 @@ import smartspace.logic.ActionService;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-// TODO :
-//  sort by for read all
-
 @RestController
 public class ActionController extends ValidateController implements Controller<ActionBoundary>{
     private ActionService actionService;
