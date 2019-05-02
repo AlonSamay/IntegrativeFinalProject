@@ -47,6 +47,7 @@ public class ActionIntegrationTests {
     private EnhancedElementDao<ElementKey> elementDao;
 
     private static int counter = 0;
+    private ElementKey key;
 
     @Autowired
     public void setActionDao(EnhancedActionDao actionDao) {
@@ -79,6 +80,21 @@ public class ActionIntegrationTests {
         this.restTemplate = new RestTemplate();
     }
 
+    @Before
+    public void addElement() {
+        this.actionDao.deleteAll();
+        ElementEntity elementEntity = factory.createNewElement("a",
+                "ab",
+                new Location(5.4,3.7),
+                new Date(),
+                "fsda@gmail.com",
+                "gfsd",
+                false,
+                null);
+        key = elementDao.create(elementEntity).getKey();
+
+    }
+
     @After
     public void tearDown() {
         this.actionDao.deleteAll();
@@ -87,7 +103,7 @@ public class ActionIntegrationTests {
 
     @Test
     public void testActionsPostRequest() {
-        // GIVEN nothing
+        // GIVEN element in database
 
         // WHEN 10 action boundaries are posted to the server
         int totalSize = 10;
@@ -99,8 +115,8 @@ public class ActionIntegrationTests {
                 IntStream
                         .range(1, totalSize + 1)
                         .mapToObj(i -> factory.createNewAction(
-                                "element",
-                                "smart",
+                                key.getElementId(),
+                                key.getElementSmartSpace(),
                                 "Py",
                                 new Date(),
                                 "fda@gmail.com",
@@ -125,7 +141,7 @@ public class ActionIntegrationTests {
         List<ActionEntity> expected =
                 actualResult
                         .stream()
-                        .skip(4)
+                        .skip(5)
                         .limit(5)
                         .collect(Collectors.toList());
 
@@ -143,16 +159,6 @@ public class ActionIntegrationTests {
     public void testGetAllUsingPagination() {
         // GIVEN database which contains 10 actions and 1 element
         int totalSize = 10;
-
-        ElementEntity elementEntity = factory.createNewElement("a",
-                "ab",
-                new Location(5.4,3.7),
-                new Date(),
-                "fsda@gmail.com",
-                "gfsd",
-                false,
-                null);
-        ElementKey key = elementDao.create(elementEntity).getKey();
 
         Map<String, Object> details = new HashMap<>();
         details.put("key1","hello ");
@@ -177,7 +183,7 @@ public class ActionIntegrationTests {
         List<ActionBoundary> expected =
                 allUsers
                         .stream()
-                        .skip(4)
+                        .skip(5)
                         .limit(5)
                         .collect(Collectors.toList());
 
@@ -214,51 +220,4 @@ public class ActionIntegrationTests {
 
         // THEN I receive an error status
     }
-
-//    @Test
-//    public void testGetMessagesWithSpamType() {
-//        // GIVEN the database contains 7 PLAYER users
-//        // AND the database contains 3 more MANAGER users
-//        int playersSize = 7;
-//        IntStream
-//                .range(1, playersSize + 1)
-//                .mapToObj(i -> factory.createNewUser(
-//                        "user #" + i,
-//                        ":)",
-//                        UserRole.PLAYER,
-//                        (long) 200))
-//                .peek(user -> user.setKey(generateUserKey()))
-//                .forEach(this.actionDao::create);
-//
-//        int managerSize = 3;
-//        IntStream
-//                .range(playersSize + 1, playersSize + 1 + managerSize)
-//                .mapToObj(i -> factory.createNewUser(
-//                        "user #" + i,
-//                        ":)",
-//                        UserRole.PLAYER,
-//                        (long) 200))
-//                .peek(user -> user.setKey(generateUserKey()))
-//                .forEach(this.actionDao::create);
-//
-//
-//        String role = "PLAYER";
-//        int size = 10;
-//        int page = 0;
-//
-//        UserBoundary[] results =
-//                this.restTemplate
-//                        .getForObject(
-//                                this.baseUrl + "?size={size}&page={page}",
-//                                UserBoundary[].class,
-//                                ADMIN_SMARTSPACE,
-//                                ADMIN_EMAIL,
-//                                size,
-//                                page);
-//
-//        // THEN I receive 7 users
-//        assertThat(results)
-//                .hasSize(playersSize);
-//    }
-
 }

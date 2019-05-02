@@ -156,7 +156,7 @@ public class UserIntegrationTests {
         List<UserBoundary> expected =
                 allUsers
                         .stream()
-                        .skip(5)
+                        .skip(3)
                         .limit(5)
                         .collect(Collectors.toList());
 
@@ -193,51 +193,4 @@ public class UserIntegrationTests {
 
         // THEN I receive an error status
     }
-
-    @Test
-    public void testGetUsersWithPlayerRole() {
-        // GIVEN the database contains 7 PLAYER users
-        // AND the database contains 3 more MANAGER users
-        int playersSize = 7;
-        IntStream
-                .range(1, playersSize + 1)
-                .mapToObj(i -> factory.createNewUser(
-                        "user #" + i,
-                        ":)",
-                        UserRole.PLAYER,
-                        (long) 200))
-                .peek(user -> user.setKey(generateUserKey()))
-                .forEach(this.userDao::create);
-
-        int managerSize = 3;
-        IntStream
-                .range(playersSize + 1, playersSize + 1 + managerSize)
-                .mapToObj(i -> factory.createNewUser(
-                        "user #" + i,
-                        ":)",
-                        UserRole.PLAYER,
-                        (long) 200))
-                .peek(user -> user.setKey(generateUserKey()))
-                .forEach(this.userDao::create);
-
-
-        String role = "PLAYER";
-        int size = 10;
-        int page = 0;
-
-        UserBoundary[] results =
-                this.restTemplate
-                        .getForObject(
-                                this.baseUrl + "?size={size}&page={page}",
-                                UserBoundary[].class,
-                                ADMIN_SMARTSPACE,
-                                ADMIN_EMAIL,
-                                size,
-                                page);
-
-        // THEN I receive 7 users
-        assertThat(results)
-                .hasSize(playersSize);
-    }
-
 }
