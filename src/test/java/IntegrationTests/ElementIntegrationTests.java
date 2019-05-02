@@ -133,7 +133,7 @@ public class ElementIntegrationTests {
         List<ElementEntity> expected =
                 actualResult
                         .stream()
-                        .skip(5)
+                        .skip(4)
                         .limit(5)
                         .collect(Collectors.toList());
 
@@ -165,8 +165,6 @@ public class ElementIntegrationTests {
 
         Map<String, Object> details = new HashMap<>();
         details.put("key1", "hello ");
-        Location loc = new Location(10, 10);
-
 
         List<ElementBoundary> allElements =
                 IntStream
@@ -188,7 +186,7 @@ public class ElementIntegrationTests {
         List<ElementBoundary> expected =
                 allElements
                         .stream()
-                        .skip(5)
+                        .skip(4)
                         .limit(5)
                         .collect(Collectors.toList());
 
