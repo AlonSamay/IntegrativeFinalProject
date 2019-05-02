@@ -3,6 +3,7 @@ package smartspace.logic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
 
     @Value("${SmartSpace.name.property}")
     private String smartSpaceName;
+//    private final MongoOperations operations;
 
     private EnhancedUserDao<UserKey> userDao;
 
@@ -31,9 +33,8 @@ public class UserService extends Validator implements ServicePattern<UserEntity>
         return this.userDao.readAll(size, page);
     }
 
-
     @Override
-//    @Transactional(rollbackFor = RuntimeException.class,propagation = Propagation.MANDATORY)
+//    @Transactional(rollbackFor = RuntimeException.class)
     public UserEntity store(UserEntity userEntity) {
 
         if (this.validate(userEntity)){

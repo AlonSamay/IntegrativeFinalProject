@@ -51,9 +51,9 @@ public class DaoDemo implements CommandLineRunner{
 		createAction(moreAttributes);
 
 
-		readAllUsers();
-		readAllElements();
-		readAllActions();
+//		readAllUsers();
+////		readAllElements();
+////		readAllActions();
 
 //		ElementEntity elementEntity = readElementById();
 //		UserEntity userEntity = readUserById();
