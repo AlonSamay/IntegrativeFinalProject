@@ -36,7 +36,9 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     public ElementEntity create(ElementEntity element) {
         if(element.getElementKey() == null) {
             //SMART SPACE DOESN'T EXIST - CREATE NEW KEY
-            element.setElementKey(new ElementKey(this.idGeneratorCrud.save(new IdGenerator()).getNextId()));
+            ElementKey elementKey = new ElementKey();
+            elementKey.setElementId(this.idGeneratorCrud.save(new IdGenerator()).getNextId());
+            element.setElementKey(elementKey);
         }
         else{
             //SMARTSPACE ALREADY EXIST - ASSIGNING ID
@@ -113,5 +115,15 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
                         ASC,
                         NAME))
                 .getContent();
+    }
+
+    @Override
+    public List<ElementEntity> readAllByName(String name, int size, int page) {
+        return elementCrud.findAllByName(name, PageRequest.of(page, size));
+    }
+
+    @Override
+    public List<ElementEntity> readAllByType(String type, int size, int page) {
+        return elementCrud.findAllByType(type, PageRequest.of(page, size));
     }
 }

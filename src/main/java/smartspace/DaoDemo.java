@@ -52,8 +52,14 @@ public class DaoDemo implements CommandLineRunner{
 
 
 //		readAllUsers();
-////		readAllElements();
-////		readAllActions();
+//		readAllElements();
+//		readAllActions();
+
+		String name = "B";
+		readAllByName(name);
+
+		String type = "Login";
+		readAllByType(type);
 
 //		ElementEntity elementEntity = readElementById();
 //		UserEntity userEntity = readUserById();
@@ -74,6 +80,16 @@ public class DaoDemo implements CommandLineRunner{
 //        enchancedElementDao.deleteAll();
 //        enhancedActionDao.deleteAll();
 //        enhancedUserDao.deleteAll();
+	}
+
+	private void readAllByType(String type) {
+		enchancedElementDao.readAllByType(type,4,0)
+				.forEach(element->System.err.println(element));
+	}
+
+	private void readAllByName(String name) {
+		enchancedElementDao.readAllByName(name,4,0)
+							.forEach(element->System.err.println(element));
 	}
 
 	private void readAllActions() {
@@ -112,7 +128,7 @@ public class DaoDemo implements CommandLineRunner{
 	}
 
 	private ElementEntity readElementById() {
-		ElementEntity elementEntity = enchancedElementDao.readById(new ElementKey("5cc17077b03b0a6225bf7088")).get();
+		ElementEntity elementEntity = enchancedElementDao.readById(new ElementKey("5cc17077b03b0a6225bf7088","2019BTalCohen")).get();
 		System.err.print(elementEntity);
 		return elementEntity;
 	}
@@ -131,8 +147,8 @@ public class DaoDemo implements CommandLineRunner{
 
 	private void createElement(Map<String, Object> moreAttributes) {
 		ElementEntity element = factory.createNewElement(
-					"A",
-					"Checkout",
+					"B",
+					"Login",
 					 new Location(1.0, 2.0),
 					new Date(),
 					"b@gmail.com",

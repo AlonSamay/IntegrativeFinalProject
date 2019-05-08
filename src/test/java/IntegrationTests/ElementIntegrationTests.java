@@ -17,7 +17,7 @@ import smartspace.dao.EnhancedElementDao;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.ElementBoundary;
-import smartspace.logic.ElementService;
+import smartspace.logic.ElementServiceImp;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -37,7 +37,7 @@ public class ElementIntegrationTests {
     private String baseUrl;
     private int port;
     private EnhancedElementDao<ElementKey> elementDao;
-    private ElementService elementService;
+    private ElementServiceImp elementService;
     private RestTemplate restTemplate;
 
     @Autowired
@@ -46,7 +46,7 @@ public class ElementIntegrationTests {
     }
 
     @Autowired
-    public void setElementService(ElementService elementService) {
+    public void setElementService(ElementServiceImp elementService) {
         this.elementService = elementService;
     }
 

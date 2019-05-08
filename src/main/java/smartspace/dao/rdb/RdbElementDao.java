@@ -28,9 +28,10 @@ public class RdbElementDao implements ElementDao<ElementKey> {
     @Override
     @Transactional
     public ElementEntity create(ElementEntity element) {
-        IdGenerator idGenerator = new IdGenerator();
-        element.setKey(new ElementKey(this.idGeneratorCrud.save(idGenerator).getNextId()));
-        return this.elementCrud.save(element);
+//        IdGenerator idGenerator = new IdGenerator();
+//        element.setKey(new ElementKey(this.idGeneratorCrud.save(idGenerator).getNextId()));
+//        return this.elementCrud.save(element);
+        return null;
     }
 
     @Override

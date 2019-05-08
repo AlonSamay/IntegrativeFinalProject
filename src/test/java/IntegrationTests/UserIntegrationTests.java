@@ -3,7 +3,6 @@ package IntegrationTests;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +19,7 @@ import smartspace.data.UserKey;
 import smartspace.data.UserRole;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.UserBoundary;
-import smartspace.logic.UserService;
+import smartspace.logic.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -39,7 +38,7 @@ public class UserIntegrationTests {
     private String baseUrl;
     private int port;
     private EnhancedUserDao<UserKey> userDao;
-    private UserService userService;
+    private UserServiceImpl userService;
     private RestTemplate restTemplate;
 
     private static int counter = 0;
@@ -55,7 +54,7 @@ public class UserIntegrationTests {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public void setUserService(UserServiceImpl userService) {
         this.userService = userService;
     }
 

@@ -15,11 +15,12 @@ public class ElementKey implements Serializable, Comparable<String> {
     private String elementId;
 
     public ElementKey() {
+        this.elementSmartSpace = "2019BTalCohen";
     }
 
-    public ElementKey(String elementId){
+    public ElementKey(String elementId, String elementSmartspace){
         this.elementId = elementId;
-        this.elementSmartSpace = "2019BTal.cohen";
+        this.elementSmartSpace = elementSmartspace;
     }
 
 

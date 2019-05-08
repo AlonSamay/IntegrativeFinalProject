@@ -15,14 +15,10 @@ import org.springframework.web.client.RestTemplate;
 import smartspace.Application;
 import smartspace.dao.EnhancedActionDao;
 import smartspace.dao.EnhancedElementDao;
-import smartspace.dao.UserDao;
-import smartspace.dao.rdb.RdbActionDao;
-import smartspace.dao.rdb.RdbUserDao;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.ActionBoundary;
-import smartspace.layout.UserBoundary;
-import smartspace.logic.ActionService;
+import smartspace.logic.ActionServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -41,7 +37,7 @@ public class ActionIntegrationTests {
     private String baseUrl;
     private int port;
     private EnhancedActionDao actionDao;
-    private ActionService actionService;
+    private ActionServiceImpl actionService;
     private RestTemplate restTemplate;
 
     private EnhancedElementDao<ElementKey> elementDao;
@@ -65,7 +61,7 @@ public class ActionIntegrationTests {
     }
 
     @Autowired
-    public void setActionService(ActionService actionService) {
+    public void setActionService(ActionServiceImpl actionService) {
         this.actionService = actionService;
     }
 

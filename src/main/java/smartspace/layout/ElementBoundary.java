@@ -55,10 +55,11 @@ public class ElementBoundary {
     public ElementEntity convertToEntity() {
         ElementEntity entity = new ElementEntity();
 
-        if (this.key.get(ID) != null)  {
-            ElementKey key = new ElementKey();
-            key.setElementId(this.key.get(ID));
-            key.setElementSmartSpace(this.key.get(SMARTSPACE));
+        if(this.key == null){
+            entity.setKey(null);
+        }
+        else{
+            ElementKey key = new ElementKey(this.key.get(ID),this.key.get(SMARTSPACE));
             entity.setKey(key);
         }
 
