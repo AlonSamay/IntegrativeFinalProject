@@ -49,11 +49,14 @@ public class EntityFactoryImpl implements EntityFactory {
     }
 
     @Override
-    public UserEntity createNewUser(String username,
+    public UserEntity createNewUser(  String email,
+                                      String userSmartSpace,String username,
                                     String avatar,
                                     UserRole role,
                                     Long points) {
         return new UserEntity(
+                email,
+                userSmartSpace,
                 username,
                 avatar,
                 role,

@@ -1,22 +1,17 @@
 package smartspace.dao.rdb;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import smartspace.dao.IdGenerator;
 import smartspace.dao.IdGeneratorCrud;
 import smartspace.dao.UserDao;
-import smartspace.data.ElementEntity;
-import smartspace.data.ElementKey;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RdbUserDao implements UserDao<UserKey> {

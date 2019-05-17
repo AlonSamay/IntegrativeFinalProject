@@ -1,16 +1,18 @@
 package smartspace;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import smartspace.dao.*;
+import smartspace.dao.EnhancedActionDao;
+import smartspace.dao.EnhancedElementDao;
+import smartspace.dao.EnhancedUserDao;
+import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Component
@@ -163,31 +165,36 @@ public class DaoDemo implements CommandLineRunner{
 	}
 
 	private void createUser() {
+		UserEntity user= factory.createNewUser(
+				"AlonSamay@gmail.com",
+				"TalCohen2019.B",
+				"AlonSamay",
+				"C",
+		         UserRole.PLAYER,
+				(long) 123
+		);
+		this.enhancedUserDao.create(user);
+
 		UserEntity user1 = factory.createNewUser(
+				"AlonSamay@gmail.com",
+				"TalCohen2019.B",
 				"AlonSamay",
 				":)",
-				UserRole.ADMIN,
+				UserRole.MANAGER,
 				(long) 456);
-		user1.setKey(new UserKey("alon@gmail.com"));
+		user1.setKey(new UserKey("AlonSamay@gmail.com"));
 		this.enhancedUserDao.create(user1);
 
 
 
 		UserEntity user2 = factory.createNewUser(
-						"OrenShadmi",
-						"1234",
-						UserRole.PLAYER,
-						(long) 123);
-		user2.setKey(new UserKey("c@gmail.com"));
+				"OrenShadmi@gmail.com",
+				"TalCohen2019.B",
+				"OrenShadmi",
+				"1234",
+				UserRole.ADMIN,
+				(long) 123);
 		this.enhancedUserDao.create(user2);
-
-		UserEntity user = factory.createNewUser(
-						"Oren",
-						"C",
-						UserRole.PLAYER,
-						(long) 123);
-		user.setKey(new UserKey("h@gmail.com"));
-		this.enhancedUserDao.create(user);
 
 
 	}

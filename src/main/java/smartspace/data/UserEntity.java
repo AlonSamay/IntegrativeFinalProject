@@ -1,10 +1,10 @@
 package smartspace.data;
 
-import org.hibernate.annotations.SQLInsert;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 
 @Document(collection="USERS")
@@ -18,7 +18,8 @@ public class UserEntity implements SmartspaceEntity<UserKey> {
     @Id
     private UserKey userKey;
 
-    public UserEntity(String userName, String avatar, UserRole role, Long points) {
+    public UserEntity(String email,String userSmartSpace,String userName, String avatar, UserRole role, Long points) {
+        this.setKey(new UserKey(email));
         this.username = userName;
         this.avatar = avatar;
         this.role = role;

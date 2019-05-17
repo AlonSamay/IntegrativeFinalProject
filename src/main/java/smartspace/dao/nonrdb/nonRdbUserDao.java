@@ -2,15 +2,11 @@ package smartspace.dao.nonrdb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
-import smartspace.dao.UserDao;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
-
 
 import java.util.ArrayList;
 import java.util.List;

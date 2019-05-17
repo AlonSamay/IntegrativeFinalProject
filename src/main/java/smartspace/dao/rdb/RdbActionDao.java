@@ -3,7 +3,6 @@ package smartspace.dao.rdb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import smartspace.dao.ActionDao;
 import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.ActionEntity;

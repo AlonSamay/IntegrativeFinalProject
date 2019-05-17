@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import smartspace.dao.*;
+import smartspace.dao.EnhancedElementDao;
+import smartspace.dao.IdGenerator;
+import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 

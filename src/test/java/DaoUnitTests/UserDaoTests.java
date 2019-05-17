@@ -10,7 +10,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import smartspace.Application;
 import smartspace.dao.nonrdb.nonRdbUserDao;
-import smartspace.dao.rdb.RdbUserDao;
 import smartspace.data.UserEntity;
 import smartspace.data.UserRole;
 import smartspace.data.util.EntityFactoryImpl;
@@ -57,7 +56,7 @@ public class UserDaoTests {
 
         // WHEN I insert new user to the database
         UserEntity user1 =
-                this.factory.createNewUser("Yanai", "Yanai100", UserRole.PLAYER, (long) 123);
+                this.factory.createNewUser("Yanai@gmail.com", "","Yanai100", "S",UserRole.PLAYER, (long) 123);
         this.userDao.create(user1);
 
         // THEN the database contains a user with the right details
@@ -70,10 +69,10 @@ public class UserDaoTests {
 
         // WHEN I insert 2 users to the database
         UserEntity user1 =
-                this.factory.createNewUser("Yanai", "Yanai100", UserRole.PLAYER, (long) 123);
+                this.factory.createNewUser("Yanai@gmail.com", "","Yanai100", "S", UserRole.PLAYER, (long) 123);
         this.userDao.create(user1);
         UserEntity user2 =
-                this.factory.createNewUser("Alon", "Alon100", UserRole.PLAYER, (long) 124);
+                this.factory.createNewUser("Alon@gmail.com", "","Alon100", "S", UserRole.PLAYER, (long) 124);
         this.userDao.create(user2);
 
         // THEN the database contains those two users with the right details
@@ -103,7 +102,7 @@ public class UserDaoTests {
 
     private List<UserEntity> createUsers(int size) {
         return IntStream.range(1, size + 1)
-                .mapToObj(i -> this.factory.createNewUser("" + i, "" + i, UserRole.PLAYER, (long) i)).map(this.userDao::create)
+                .mapToObj(i -> this.factory.createNewUser("" + i, "","" + i,"S" ,UserRole.PLAYER,(long) i)).map(this.userDao::create)
                 .collect(Collectors.toList());
     }
 

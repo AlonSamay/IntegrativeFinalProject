@@ -1,7 +1,6 @@
 package smartspace.dao;
 
 import smartspace.data.UserEntity;
-import smartspace.data.UserKey;
 
 import java.util.List;
 import java.util.Optional;

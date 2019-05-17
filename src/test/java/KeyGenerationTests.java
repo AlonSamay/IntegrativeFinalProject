@@ -1,12 +1,3 @@
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,16 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import smartspace.Application;
-import smartspace.dao.ActionDao;
-import smartspace.dao.ElementDao;
-import smartspace.dao.UserDao;
 import smartspace.dao.rdb.RdbActionDao;
 import smartspace.dao.rdb.RdbElementDao;
 import smartspace.dao.rdb.RdbUserDao;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -103,6 +98,8 @@ public class KeyGenerationTests {
     public void testNewUserIdsAreUnique() {
         Set<UserKey> keys = IntStream.range(1, 11)
                 .mapToObj(i -> this.factory.createNewUser(
+                        "alon@gmail.com",
+                        "TalCohen2019.B",
                         "alons" + i,
                         "SmileyShelTom",
                         UserRole.PLAYER,

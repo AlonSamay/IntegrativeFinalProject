@@ -1,9 +1,9 @@
 package smartspace.dao.rdb;
-import java.util.Map;
-
-import javax.persistence.AttributeConverter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import javax.persistence.AttributeConverter;
+import java.util.Map;
 
 public class MapToJsonConverter implements AttributeConverter<Map<String, Object>, String>{
     private ObjectMapper jackson;

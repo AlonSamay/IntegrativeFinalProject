@@ -1,8 +1,5 @@
 package smartspace.logic;
 
-import java.util.Date;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -15,6 +12,7 @@ import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 import smartspace.layout.FieldException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,7 +1,5 @@
 package IntegrationTests;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,9 +20,13 @@ import smartspace.layout.UserBoundary;
 import smartspace.logic.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
@@ -73,13 +75,13 @@ public class UserIntegrationTests {
     public void createAdmin() {
         this.userDao.deleteAll();
 
-        UserEntity user1 = factory.createNewUser(
+        UserEntity admin = factory.createNewUser(
+                ADMIN_EMAIL, ADMIN_SMARTSPACE,
                 "AlonSamay",
                 ":)",
                 UserRole.ADMIN,
                 (long) 456);
-        user1.setKey(new UserKey("alon@gmail.com"));
-        this.userDao.create(user1);
+        this.userDao.create(admin);
     }
 
     public UserKey generateUserKey() {
@@ -105,6 +107,8 @@ public class UserIntegrationTests {
                 IntStream
                         .range(1, totalSize + 1)
                         .mapToObj(i -> factory.createNewUser(
+                                String.format("user#%d@gmail.com", i),
+                                "2019BTal.Cohen",
                                 "user #" + i,
                                 ":)",
                                 UserRole.PLAYER,
@@ -143,6 +147,8 @@ public class UserIntegrationTests {
                 IntStream
                         .range(1, totalSize + 1)
                         .mapToObj(i -> factory.createNewUser(
+                                String.format("user#%d@gmail.com", i),
+                                "2019BTal.Cohen",
                                 "user #" + i,
                                 ":)",
                                 UserRole.PLAYER,

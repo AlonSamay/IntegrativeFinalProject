@@ -1,7 +1,5 @@
 package IntegrationTests;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import smartspace.Application;
 import smartspace.dao.EnhancedElementDao;
-import smartspace.data.*;
+import smartspace.data.ElementEntity;
+import smartspace.data.ElementKey;
+import smartspace.data.Location;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.ElementBoundary;
 import smartspace.logic.ElementServiceImp;
@@ -23,6 +23,8 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)

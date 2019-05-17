@@ -3,9 +3,6 @@ package smartspace.dao;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-
 
 @Document(collection="ID_GENERATOR")
 public class IdGenerator {

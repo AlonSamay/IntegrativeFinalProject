@@ -16,6 +16,12 @@ import java.util.stream.Collectors;
 @RestController
 public class ElementController extends ValidateController implements Controller<ElementBoundary> {
 
+    // TODO  :
+    //  1. add not found exception
+    //  2. change RolePermissionException
+    //  3. AOP
+    //  4. use external library to validate the fields
+    //  5. change store function of the arrays
 
     private ElementServiceImp elementService;
     //****************   Commented the context from the proprties file and setted route to each User Role ****************
@@ -70,21 +76,18 @@ public class ElementController extends ValidateController implements Controller<
     }
 
 
-
-    //TODO CHANGE RETURN VALUE TO ELEMENT BOUNDRY
-    //TODO CONVERT IT TO ELEMENT BOUNDRY
-    //TODO VALIDATIION
     @RequestMapping(
             method=RequestMethod.POST,
             path = MANAGER_ROUTE,
             produces=MediaType.APPLICATION_JSON_VALUE,
             consumes=MediaType.APPLICATION_JSON_VALUE)
-    public ElementEntity storeByManager(
+    public ElementBoundary storeByManager(
             @PathVariable("managerSmartSpace") String managerSmartSpace,
             @PathVariable("managerEmail") String managerEmail,
             @RequestBody ElementBoundary elementBoundary) {
-            System.err.println("1");
-            return this.elementService.store(elementBoundary.convertToEntity());
+            // TODO : add role validation
+            return new ElementBoundary(this.elementService.store(elementBoundary.convertToEntity()));
+            //return this.elementService.store(elementBoundary.convertToEntity());
     }
 
     //TODO VALIDATIION

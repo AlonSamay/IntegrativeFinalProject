@@ -1,11 +1,11 @@
 package smartspace.data;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-import smartspace.dao.rdb.MapToJsonConverter;
-
-import javax.persistence.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -112,7 +112,7 @@ public class ActionEntity implements SmartspaceEntity<String> {
     }
 
     @Lob
-	@Convert(converter= MapToJsonConverter.class)
+	//@Convert(converter= MapToJsonConverter.class)
     public Map<String, Object> getMoreAttributes() {
         return moreAttributes;
     }

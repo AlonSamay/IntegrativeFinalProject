@@ -1,15 +1,11 @@
 package smartspace.data;
 
-import org.hibernate.annotations.SQLInsert;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-import javax.persistence.*;
-import org.springframework.data.annotation.Id;
-import smartspace.dao.rdb.MapToJsonConverter;
-
-import javax.transaction.Transactional;
-import java.io.Serializable;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +40,22 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
         this.creatorSmartSpace = creatorSmartSpace;
         this.expired = expired;
         this.moreAttributes = moreAttributes;
+    }
+
+    public String getElementSmartSpace(){
+        return this.elementKey.getElementSmartSpace();
+    }
+
+    public void SetElementSmartSpace(String elementSmartSpace){
+        this.elementKey.setElementSmartSpace(elementSmartSpace);
+    }
+
+    public String getElementId(){
+        return this.elementKey.getElementId();
+    }
+
+    public void SetElementIde(String elementId){
+        this.elementKey.setElementId(elementId);
     }
 
     public void setLocation(Location location) {
@@ -123,7 +135,7 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
     }
 
     @Lob
-    @Convert(converter= MapToJsonConverter.class)
+    //@Convert(converter= MapToJsonConverter.class)
     public Map<String, Object> getMoreAttributes() {
         return moreAttributes;
     }

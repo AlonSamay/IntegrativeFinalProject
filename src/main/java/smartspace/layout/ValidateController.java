@@ -1,6 +1,5 @@
 package smartspace.layout;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
