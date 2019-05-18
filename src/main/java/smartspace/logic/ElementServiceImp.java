@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.data.MailAdress;
 import smartspace.layout.FieldException;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 !elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
-                this.isValid(elementEntity.getCreatorEmail()) &&
+                this.isValid(new MailAdress(elementEntity.getCreatorEmail())) &&
                 this.isValid(elementEntity.getLocation().getX()) &&
                 this.isValid(elementEntity.getLocation().getY()) &&
                 !elementEntity.getExpired() &&

@@ -10,6 +10,7 @@ import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.data.MailAdress;
 import smartspace.layout.FieldException;
 
 import java.util.Date;
@@ -55,7 +56,7 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
                 this.isValid(actionEntity.getElementId()) &&
                 this.isElementExist(actionEntity.getElementId(),actionEntity.getElementSmartSpace()) &&
                 this.isValid(actionEntity.getPlayerSmartSpace()) &&
-                this.isValid(actionEntity.getPlayerEmail()) &&
+                this.isValid(new MailAdress(actionEntity.getPlayerEmail())) &&
                 this.isValid(actionEntity.getActionType()) &&
                 this.isValid(actionEntity.getMoreAttributes());
     }
