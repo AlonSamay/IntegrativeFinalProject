@@ -2,6 +2,7 @@ package smartspace.layout;
 
 import smartspace.data.ActionEntity;
 import smartspace.data.ActionKey;
+import smartspace.data.ElementKey;
 
 import java.util.Date;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class ActionBoundary {
     private ActionKey actionKey;
     private String type;
     private Date created;
-    private Map<String, String> element;
+    private ElementKey element;
     private Map<String, String> player;
     private Map<String, Object> properties;
 
@@ -35,9 +36,13 @@ public class ActionBoundary {
 
         this.created = entity.getCreationTimeStamp();
 
-        this.element = new TreeMap<>();
-        this.element.put(ID, entity.getElementId());
-        this.element.put(SMARTSPACE, entity.getElementSmartSpace());
+//        this.element = new TreeMap<>();
+//        this.element.put(ID, entity.getElementId());
+//        this.element.put(SMARTSPACE, entity.getElementSmartSpace());
+
+        this.element = new ElementKey(entity.getElementId(),entity.getElementSmartSpace());
+
+
 
         this.player = new TreeMap<>();
         this.player.put(SMARTSPACE, entity.getPlayerSmartSpace());
@@ -56,8 +61,8 @@ public class ActionBoundary {
 
         entity.setCreationTimeStamp(this.created);
 
-        entity.setElementId(this.element.get(ID));
-        entity.setElementSmartSpace(this.element.get(SMARTSPACE));
+        entity.setElementId(this.element.getElementId());
+        entity.setElementSmartSpace(this.element.getElementSmartSpace());
 
         entity.setPlayerEmail(this.player.get(EMAIL));
         entity.setPlayerSmartSpace(this.player.get(SMARTSPACE));
@@ -95,11 +100,11 @@ public class ActionBoundary {
         this.created = created;
     }
 
-    public Map<String, String> getElement() {
+    public ElementKey getElement() {
         return element;
     }
 
-    public void setElement(Map<String, String> element) {
+    public void setElement(ElementKey element) {
         this.element = element;
     }
 
