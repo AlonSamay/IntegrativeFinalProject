@@ -1,6 +1,7 @@
 package smartspace.layout;
 
 import smartspace.data.ActionEntity;
+import smartspace.data.ActionKey;
 
 import java.util.Date;
 import java.util.Map;
@@ -11,7 +12,7 @@ public class ActionBoundary {
     private static final String SMARTSPACE = "smartspace";
     private static final String EMAIL = "email";
 
-    private Map<String, String> actionKey;
+    private ActionKey actionKey;
     private String type;
     private Date created;
     private Map<String, String> element;
@@ -22,10 +23,12 @@ public class ActionBoundary {
     }
 
     public ActionBoundary(ActionEntity entity) {
-        this.actionKey = new TreeMap<>();
-        this.actionKey.put(ID, entity.getActionId());
-        this.actionKey.put(SMARTSPACE, entity.getActionSmartSpace());
+//        this.actionKey = new TreeMap<>();
+//        this.actionKey.put(ID, entity.getActionId());
+//        this.actionKey.put(SMARTSPACE, entity.getActionSmartSpace());
 //        this.actionKey.put(SMARTSPACE, "talCohenB");
+
+        this.actionKey = new ActionKey(entity.getActionId(),entity.getActionSmartSpace());
 
 
         this.type = entity.getActionType();
@@ -46,8 +49,8 @@ public class ActionBoundary {
     public ActionEntity convertToEntity() {
         ActionEntity entity = new ActionEntity();
 
-        entity.setKey(this.actionKey.get(ID));
-        entity.setActionSmartSpace(this.actionKey.get(SMARTSPACE));
+        entity.setKey(this.actionKey.getActionId());
+        entity.setActionSmartSpace(this.actionKey.getActionSmartSpace());
 
         entity.setActionType(this.type);
 
@@ -68,11 +71,11 @@ public class ActionBoundary {
         return entity;
     }
 
-    public Map<String, String> getActionKey() {
+    public ActionKey getActionKey() {
         return actionKey;
     }
 
-    public void setActionKey(Map<String, String> actionKey) {
+    public void setActionKey(ActionKey actionKey) {
         this.actionKey = actionKey;
     }
 
