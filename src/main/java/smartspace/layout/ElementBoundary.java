@@ -16,7 +16,7 @@ public class ElementBoundary {
     private static final String LAT = "lat";
     private static final String LNG = "lng";
 
-    private Map<String, String> key;
+    private ElementKey key;
     private String elementType;
     private String name;
     private Boolean expired;
@@ -29,9 +29,11 @@ public class ElementBoundary {
     }
 
     public ElementBoundary(ElementEntity entity) {
-        this.key = new TreeMap<>();
-        this.key.put(ID, entity.getKey().getElementId());
-        this.key.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
+//        this.key = new TreeMap<>();
+//        this.key.put(ID, entity.getKey().getElementId());
+//        this.key.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
+
+        this.key = new ElementKey(entity.getKey().getElementId(),entity.getKey().getElementSmartSpace());
 
         this.elementType = entity.getType();
 
@@ -59,7 +61,7 @@ public class ElementBoundary {
             entity.setKey(null);
         }
         else{
-            ElementKey key = new ElementKey(this.key.get(ID),this.key.get(SMARTSPACE));
+            ElementKey key = new ElementKey(this.key.getElementId(),this.key.getElementSmartSpace());
             entity.setKey(key);
         }
 
@@ -85,11 +87,11 @@ public class ElementBoundary {
         return entity;
     }
 
-    public Map<String, String> getKey() {
+    public ElementKey getKey() {
         return key;
     }
 
-    public void setKey(Map<String, String> key) {
+    public void setKey(ElementKey key) {
         this.key = key;
     }
 
