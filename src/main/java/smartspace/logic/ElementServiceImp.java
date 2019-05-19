@@ -101,6 +101,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 break;
 
             default:
+                rv=null;
                 //TODO NEED TO THINK WHAT TO IN IN CASE OF DEFAULT
         }
 

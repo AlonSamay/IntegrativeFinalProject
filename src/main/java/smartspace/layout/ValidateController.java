@@ -5,7 +5,7 @@ import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
-
+import org.apache.commons.validator.routines.*;
 import java.util.Optional;
 
 @Component

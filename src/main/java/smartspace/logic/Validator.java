@@ -1,5 +1,4 @@
 package smartspace.logic;
-
 import smartspace.data.UserRole;
 
 import java.util.Map;
@@ -13,7 +12,6 @@ public class Validator {
 //    <E> boolean isValid(Class <E> x) {
 //       return x != null;
 //    }
-
     boolean isValid (UserRole role){
         return role != null;
     }

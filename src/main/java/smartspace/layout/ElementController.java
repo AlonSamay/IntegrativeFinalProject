@@ -21,7 +21,6 @@ public class ElementController extends ValidateController implements Controller<
     //  2. change RolePermissionException
     //  3. AOP
     //  4. use external library to validate the fields
-    //  5. change store function of the arrays
 
     private ElementServiceImp elementService;
     //****************   Commented the context from the proprties file and setted route to each User Role ****************
@@ -119,16 +118,14 @@ public class ElementController extends ValidateController implements Controller<
             path= "smartspace/elements/{userSmartSpace}/{userEmail}/{elementSmartspace}/{elementId}",
             produces=MediaType.APPLICATION_JSON_VALUE,
             consumes=MediaType.APPLICATION_JSON_VALUE)
-    //TODO CONVERT RV TO ELEMENT BOUNDRY
     //TODO VALIDATIION
-    public ElementEntity getElement(
+    public ElementBoundary getElement(
             @PathVariable("userSmartSpace") String userSmartSpace,
             @PathVariable("userEmail") String userEmail,
             @PathVariable("elementSmartspace") String elementSmartSpace,
             @PathVariable("elementId") String elementId) {
-        //TODO throw Not-Found Exception in Service if no user with that id
-        return this.elementService.readById(elementSmartSpace, elementId);
-    }
+            return new ElementBoundary(this.elementService.readById(elementSmartSpace, elementId));
+        }
 
 
 

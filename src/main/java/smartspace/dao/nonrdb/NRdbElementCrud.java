@@ -14,4 +14,5 @@ public interface NRdbElementCrud extends PagingAndSortingRepository<ElementEntit
     List<ElementEntity> findAllByName(String name, Pageable pageable);
 
     List<ElementEntity> findAllByType(String type, Pageable pageable);
+    List<ElementEntity> findElementEntitiesByLocationWithin()
 }

@@ -52,12 +52,11 @@ public class ActionController extends ValidateController implements Controller<A
             @RequestBody ActionBoundary[] actionBoundaries) {
         if(this.isAValidUrl(adminEmail,adminSmartSpace))
             return Arrays.stream(actionBoundaries)
-                .map(actionBoundary -> new ActionBoundary(this.actionService.store(actionBoundary.convertToEntity())))
-                .collect(Collectors.toList())
-                .toArray(new ActionBoundary[0]);
+                    .map(actionBoundary -> new ActionBoundary(this.actionService.store(actionBoundary.convertToEntity()))).toArray(ActionBoundary[]::new);
         else
                 throw new RolePermissionException();
     }
+
 
 
 
