@@ -18,11 +18,6 @@ import java.util.stream.Collectors;
 @RestController
 public class ElementController extends ValidateController implements Controller<ElementBoundary> {
 
-    // TODO  :
-    //  1. add not found exception
-    //  2. change RolePermissionException
-    //  3. AOP
-    //  4. use external library to validate the fields
 
     private ElementServiceImp elementService;
     //****************   Commented the context from the proprties file and setted route to each User Role ****************
@@ -37,14 +32,14 @@ public class ElementController extends ValidateController implements Controller<
         super(userDao);
         this.elementService = elementService;
     }
-    @RolePermission(UserRole.ADMIN)
+    @RolePermission
     @RequestMapping(
             method = RequestMethod.GET,
             path = ADMIN_ROUTE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ElementBoundary[] getAllByAdmin(
             @PathVariable("adminSmartspace") String adminSmartSpace,
-            @PathVariable("adminEmail") String adminEmail,
+            @PathVariable("adminEmail") String adminMail,
             @RequestParam(name = "size", required = false, defaultValue = "10") int size,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
             return this.elementService
@@ -62,8 +57,6 @@ public class ElementController extends ValidateController implements Controller<
             @PathVariable("adminSmartspace") String adminSmartSpace,
             @PathVariable("adminEmail") String adminEmail,
             @RequestBody ElementBoundary[] elementBoundaries) {
-        if (this.isAValidUrl(adminEmail, adminSmartSpace)) {
-
 
             ElementEntity[] users = Arrays.stream(elementBoundaries)
                     .map(ElementBoundary::convertToEntity)
@@ -72,8 +65,7 @@ public class ElementController extends ValidateController implements Controller<
             return Arrays.stream(this.elementService.storeAll(users))
                     .map(ElementBoundary::new)
                     .toArray(ElementBoundary[]::new);
-        } else
-            throw new RolePermissionException();
+
     }
 
     @RolePermission(UserRole.MANAGER)
@@ -86,9 +78,7 @@ public class ElementController extends ValidateController implements Controller<
             @PathVariable("managerSmartSpace") String managerSmartSpace,
             @PathVariable("managerEmail") String managerEmail,
             @RequestBody ElementBoundary elementBoundary) {
-        // TODO : add role validation
         return new ElementBoundary(this.elementService.store(elementBoundary.convertToEntity()));
-        //return this.elementService.store(elementBoundary.convertToEntity());
     }
 
     @RolePermission(UserRole.MANAGER)
@@ -130,7 +120,7 @@ public class ElementController extends ValidateController implements Controller<
     }
 
 
-    @RolePermission(UserRole.PLAYER)
+    @RolePermission
     @RequestMapping(
             method = RequestMethod.GET,
             path = USER_ROUTE,
