@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.data.MailAdress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 
@@ -59,7 +60,7 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
 
         return this.isValid(userEntity.getKey().getId()) &&
                 !userEntity.getKey().getId().equals(this.smartSpaceName) &&
-                this.isValid(userEntity.getKey().getEmail()) &&
+                this.isValid(new MailAdress(userEntity.getKey().getEmail())) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&
                 this.isValid(userEntity.getPoints()) &&
