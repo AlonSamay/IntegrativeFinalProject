@@ -8,12 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.data.UserEntity;
 import smartspace.layout.FieldException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @PropertySource("application.properties")
 @Service
@@ -46,6 +45,16 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
             return this.elementDao.create(elementEntity);
         } else
             throw new FieldException(this.getClass().getSimpleName());
+    }
+
+    @Transactional
+    public ElementEntity[] storeAll(ElementEntity[] elementEntities) {
+        boolean isAllValid= Arrays.stream(elementEntities).allMatch(this::validate);
+        if (isAllValid){
+            return Arrays.stream(elementEntities).map(this::store).collect(Collectors.toList()).toArray(new ElementEntity[0]);
+        }
+        else
+            throw new RuntimeException(this.getClass().getSimpleName());
     }
 
     @Override

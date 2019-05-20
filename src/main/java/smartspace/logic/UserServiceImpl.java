@@ -5,11 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import smartspace.aop.RolePermission;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @PropertySource("application.properties")
@@ -38,6 +41,16 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
 
         if (this.validate(userEntity)){
             return this.userDao.create(userEntity);
+        }
+        else
+            throw new RuntimeException(this.getClass().getSimpleName());
+    }
+
+    @Transactional
+    public UserEntity[] storeAll(UserEntity[] userEntities) {
+        boolean isAllValid=Arrays.stream(userEntities).allMatch(this::validate);
+        if (isAllValid){
+            return Arrays.stream(userEntities).map(this::store).collect(Collectors.toList()).toArray(new UserEntity[0]);
         }
         else
             throw new RuntimeException(this.getClass().getSimpleName());
