@@ -3,7 +3,10 @@ package smartspace.layout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import smartspace.aop.RolePermission;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.data.ActionEntity;
+import smartspace.data.UserRole;
 import smartspace.logic.ActionServiceImpl;
 
 import java.util.Arrays;
@@ -21,6 +24,7 @@ public class ActionController extends ValidateController implements Controller<A
         this.actionService = actionService;
     }
 
+    @RolePermission(UserRole.ADMIN)
     @RequestMapping(
             method= RequestMethod.GET,
             path= ADMIN_ROUTE,
@@ -30,17 +34,13 @@ public class ActionController extends ValidateController implements Controller<A
             @PathVariable("adminEmail") String adminEmail,
             @RequestParam(name="size", required=false, defaultValue="10") int size,
             @RequestParam(name="page", required=false, defaultValue="0") int page) {
-            if(this.isAValidUrl(adminEmail,adminSmartSpace))
                 return this.actionService
-                .getAll(size,page)
-                .stream()
-                .map(ActionBoundary::new)
-                .collect(Collectors.toList())
-                .toArray(new ActionBoundary[0]);
-            else
-                throw new RolePermissionException();
+                        .getAll(size, page)
+                        .stream()
+                        .map(ActionBoundary::new).toArray(ActionBoundary[]::new);
     }
 
+    @RolePermission(UserRole.ADMIN)
     @RequestMapping(
             method=RequestMethod.POST,
             path= ADMIN_ROUTE,
@@ -50,13 +50,14 @@ public class ActionController extends ValidateController implements Controller<A
             @PathVariable("adminSmartspace") String adminSmartSpace,
             @PathVariable("adminEmail") String adminEmail,
             @RequestBody ActionBoundary[] actionBoundaries) {
-        if(this.isAValidUrl(adminEmail,adminSmartSpace))
-            return Arrays.stream(actionBoundaries)
-                .map(actionBoundary -> new ActionBoundary(this.actionService.store(actionBoundary.convertToEntity())))
-                .collect(Collectors.toList())
-                .toArray(new ActionBoundary[0]);
-        else
-                throw new RolePermissionException();
+
+            ActionEntity[] actions = Arrays.stream(actionBoundaries)
+                    .map(ActionBoundary::convertToEntity)
+                    .toArray(ActionEntity[]::new);
+
+            return Arrays.stream(this.actionService.storeAll(actions))
+                    .map(ActionBoundary::new)
+                    .toArray(ActionBoundary[]::new);
     }
 
 

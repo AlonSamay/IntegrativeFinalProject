@@ -10,7 +10,9 @@ import smartspace.data.MailAdress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @PropertySource("application.properties")
@@ -39,6 +41,16 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
 
         if (this.validate(userEntity)){
             return this.userDao.create(userEntity);
+        }
+        else
+            throw new RuntimeException(this.getClass().getSimpleName());
+    }
+
+    @Transactional
+    public UserEntity[] storeAll(UserEntity[] userEntities) {
+        boolean isAllValid=Arrays.stream(userEntities).allMatch(this::validate);
+        if (isAllValid){
+            return Arrays.stream(userEntities).map(this::store).collect(Collectors.toList()).toArray(new UserEntity[0]);
         }
         else
             throw new RuntimeException(this.getClass().getSimpleName());

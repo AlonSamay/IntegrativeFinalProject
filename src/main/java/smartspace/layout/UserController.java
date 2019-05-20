@@ -3,15 +3,19 @@ package smartspace.layout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import smartspace.aop.RolePermission;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.data.UserEntity;
 import smartspace.logic.UserServiceImpl;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static smartspace.data.UserRole.ADMIN;
+
 
 @RestController
-public class UserController extends ValidateController implements Controller<UserBoundary> {
+public class UserController implements Controller<UserBoundary> {
 
     private UserServiceImpl userService;
 
@@ -20,10 +24,11 @@ public class UserController extends ValidateController implements Controller<Use
 
     @Autowired
     public UserController(EnhancedUserDao userDao, UserServiceImpl userService) {
-        super(userDao);
+//        super(userDao);
         this.userService = userService;
     }
 
+    @RolePermission(ADMIN)
     @RequestMapping(
             method= RequestMethod.GET,
             path= ADMIN_ROUTE,
@@ -33,19 +38,14 @@ public class UserController extends ValidateController implements Controller<Use
             @PathVariable("adminEmail") String adminEmail,
             @RequestParam(name="size", required=false, defaultValue="10") int size,
             @RequestParam(name="page", required=false, defaultValue="0") int page) {
-        if(this.isAValidUrl(adminEmail,adminSmartSpace))
             return this.userService
-                .getAll(size,page)
-                .stream()
-                .map(UserBoundary::new)
-                .collect(Collectors.toList())
-                .toArray(new UserBoundary[0]);
-        else
+                    .getAll(size, page)
+                    .stream()
+                    .map(UserBoundary::new).toArray(UserBoundary[]::new);
 
-            throw new RolePermissionException();
 
     }
-
+    @RolePermission(ADMIN)
     @RequestMapping(
             method=RequestMethod.POST,
             path= ADMIN_ROUTE,
@@ -55,12 +55,14 @@ public class UserController extends ValidateController implements Controller<Use
             @PathVariable("adminSmartspace") String adminSmartSpace,
             @PathVariable("adminEmail") String adminEmail,
             @RequestBody UserBoundary[] userBoundaries) {
-            if(this.isAValidUrl(adminEmail,adminSmartSpace))
-                return Arrays.stream(userBoundaries)
-                        .map(userBoundary -> new UserBoundary(this.userService.store(userBoundary.convertToEntity())))
-                        .toArray(UserBoundary[]::new);
-            else
-                throw new RolePermissionException();
+//            if(this.isAValidUrl(adminEmail,adminSmartSpace)) {
+                UserEntity[] users = Arrays.stream(userBoundaries)
+                        .map(UserBoundary::convertToEntity)
+                        .toArray(UserEntity[]::new);
+
+                return Arrays.stream(this.userService.storeAll(users))
+                .map(UserBoundary::new)
+                .toArray(UserBoundary[]::new);
     }
 
 }
