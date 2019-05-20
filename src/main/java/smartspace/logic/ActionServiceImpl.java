@@ -10,11 +10,14 @@ import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.data.MailAdress;
 import smartspace.layout.FieldException;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @PropertySource("application.properties")
 @Service
@@ -47,6 +50,16 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
             throw new FieldException(this.getClass().getSimpleName());
     }
 
+    @Transactional
+    public ActionEntity[] storeAll(ActionEntity[] actionEntities) {
+        boolean isAllValid= Arrays.stream(actionEntities).allMatch(this::validate);
+        if (isAllValid){
+            return Arrays.stream(actionEntities).map(this::store).toArray(ActionEntity[]::new);
+        }
+        else
+            throw new RuntimeException(this.getClass().getSimpleName());
+    }
+
     private boolean validate(ActionEntity actionEntity) {
 
         return this.isValid(actionEntity.getActionId()) &&
@@ -55,7 +68,7 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
                 this.isValid(actionEntity.getElementId()) &&
                 this.isElementExist(actionEntity.getElementId(),actionEntity.getElementSmartSpace()) &&
                 this.isValid(actionEntity.getPlayerSmartSpace()) &&
-                this.isValid(actionEntity.getPlayerEmail()) &&
+                this.isValid(new MailAdress(actionEntity.getPlayerEmail())) &&
                 this.isValid(actionEntity.getActionType()) &&
                 this.isValid(actionEntity.getMoreAttributes());
     }

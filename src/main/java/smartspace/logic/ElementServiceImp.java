@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.data.MailAdress;
 import smartspace.layout.FieldException;
+import smartspace.layout.NotFoundException;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @PropertySource("application.properties")
 @Service
@@ -48,6 +48,16 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
             throw new FieldException(this.getClass().getSimpleName());
     }
 
+    @Transactional
+    public ElementEntity[] storeAll(ElementEntity[] elementEntities) {
+        boolean isAllValid= Arrays.stream(elementEntities).allMatch(this::validate);
+        if (isAllValid){
+            return Arrays.stream(elementEntities).map(this::store).toArray(ElementEntity[]::new);
+        }
+        else
+            throw new RuntimeException(this.getClass().getSimpleName());
+    }
+
     @Override
     @Transactional
     public void update(ElementEntity update) {
@@ -64,8 +74,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
             return elementFromDao.get();
         }
         else{
-            throw new RuntimeException("user not found");
-            //TODO throw not-found exception
+            throw new NotFoundException("element not found");
         }
 
     }
@@ -114,7 +123,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 !elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
-                this.isValid(elementEntity.getCreatorEmail()) &&
+                this.isValid(new MailAdress(elementEntity.getCreatorEmail())) &&
                 this.isValid(elementEntity.getLocation().getX()) &&
                 this.isValid(elementEntity.getLocation().getY()) &&
                 !elementEntity.getExpired() &&

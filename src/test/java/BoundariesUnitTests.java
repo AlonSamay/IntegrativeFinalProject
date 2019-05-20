@@ -6,10 +6,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import smartspace.Application;
 import smartspace.dao.ActionDao;
-import smartspace.data.*;
+import smartspace.data.ActionEntity;
+import smartspace.data.UserEntity;
+import smartspace.data.UserRole;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.ActionBoundary;
-import smartspace.layout.ElementBoundary;
 import smartspace.layout.UserBoundary;
 
 import java.sql.Timestamp;
