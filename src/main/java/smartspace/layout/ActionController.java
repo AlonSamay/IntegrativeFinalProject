@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.data.ActionEntity;
+import smartspace.data.UserEntity;
 import smartspace.logic.ActionServiceImpl;
 
 import java.util.Arrays;
@@ -50,11 +52,16 @@ public class ActionController extends ValidateController implements Controller<A
             @PathVariable("adminSmartspace") String adminSmartSpace,
             @PathVariable("adminEmail") String adminEmail,
             @RequestBody ActionBoundary[] actionBoundaries) {
-        if(this.isAValidUrl(adminEmail,adminSmartSpace))
-            return Arrays.stream(actionBoundaries)
-                .map(actionBoundary -> new ActionBoundary(this.actionService.store(actionBoundary.convertToEntity())))
-                .collect(Collectors.toList())
-                .toArray(new ActionBoundary[0]);
+        if(this.isAValidUrl(adminEmail,adminSmartSpace)) {
+
+            ActionEntity[] actions = Arrays.stream(actionBoundaries)
+                    .map(ActionBoundary::convertToEntity)
+                    .toArray(ActionEntity[]::new);
+
+            return Arrays.stream(this.actionService.storeAll(actions))
+                    .map(ActionBoundary::new)
+                    .toArray(ActionBoundary[]::new);
+        }
         else
                 throw new RolePermissionException();
     }
