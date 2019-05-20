@@ -10,7 +10,6 @@ import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
-import smartspace.data.UserEntity;
 import smartspace.layout.FieldException;
 
 import java.util.Arrays;
@@ -54,7 +53,7 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
     public ActionEntity[] storeAll(ActionEntity[] actionEntities) {
         boolean isAllValid= Arrays.stream(actionEntities).allMatch(this::validate);
         if (isAllValid){
-            return Arrays.stream(actionEntities).map(this::store).collect(Collectors.toList()).toArray(new ActionEntity[0]);
+            return Arrays.stream(actionEntities).map(this::store).toArray(ActionEntity[]::new);
         }
         else
             throw new RuntimeException(this.getClass().getSimpleName());

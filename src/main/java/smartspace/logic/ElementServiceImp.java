@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
-import smartspace.data.UserEntity;
 import smartspace.layout.FieldException;
+import smartspace.layout.NotFoundException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,7 +51,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
     public ElementEntity[] storeAll(ElementEntity[] elementEntities) {
         boolean isAllValid= Arrays.stream(elementEntities).allMatch(this::validate);
         if (isAllValid){
-            return Arrays.stream(elementEntities).map(this::store).collect(Collectors.toList()).toArray(new ElementEntity[0]);
+            return Arrays.stream(elementEntities).map(this::store).toArray(ElementEntity[]::new);
         }
         else
             throw new RuntimeException(this.getClass().getSimpleName());
@@ -73,8 +73,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
             return elementFromDao.get();
         }
         else{
-            throw new RuntimeException("user not found");
-            //TODO throw not-found exception
+            throw new NotFoundException("element not found");
         }
 
     }

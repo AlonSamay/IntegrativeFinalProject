@@ -1,13 +1,11 @@
 package smartspace.layout;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import smartspace.aop.RolePermission;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
-import smartspace.data.UserRole;
 import smartspace.logic.UserServiceImpl;
 
 import java.util.Arrays;
@@ -30,7 +28,7 @@ public class UserController implements Controller<UserBoundary> {
         this.userService = userService;
     }
 
-    @RolePermission
+    @RolePermission(ADMIN)
     @RequestMapping(
             method= RequestMethod.GET,
             path= ADMIN_ROUTE,
@@ -40,19 +38,14 @@ public class UserController implements Controller<UserBoundary> {
             @PathVariable("adminEmail") String adminEmail,
             @RequestParam(name="size", required=false, defaultValue="10") int size,
             @RequestParam(name="page", required=false, defaultValue="0") int page) {
-//        if(this.isAValidUrl(adminEmail,adminSmartSpace))
             return this.userService
-                .getAll(size,page)
-                .stream()
-                .map(UserBoundary::new)
-                .collect(Collectors.toList())
-                .toArray(new UserBoundary[0]);
-//        else
-//
-//            throw new RolePermissionException();
+                    .getAll(size, page)
+                    .stream()
+                    .map(UserBoundary::new).toArray(UserBoundary[]::new);
+
 
     }
-
+    @RolePermission(ADMIN)
     @RequestMapping(
             method=RequestMethod.POST,
             path= ADMIN_ROUTE,
@@ -70,9 +63,6 @@ public class UserController implements Controller<UserBoundary> {
                 return Arrays.stream(this.userService.storeAll(users))
                 .map(UserBoundary::new)
                 .toArray(UserBoundary[]::new);
-//            }
-//            else
-//                throw new RolePermissionException();
     }
 
 }

@@ -1,10 +1,9 @@
 package smartspace.aop;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import smartspace.dao.EnhancedUserDao;
@@ -50,12 +49,13 @@ public class RolePermissionChecker {
 //
 //    }
 
-    @Around("@annotation(smartspace.aop.RolePermission) && args(expectedRoles,..)")
-    public Object userValidation(ProceedingJoinPoint pjp, UserRole[] expectedRoles) throws Throwable {
-
+    @Around("@annotation(smartspace.aop.RolePermission)")
+    public Object userValidation(ProceedingJoinPoint pjp) throws Throwable {
         Object[] methodsArgs = pjp.getArgs();
         String smartSpaceName = String.valueOf(methodsArgs[0]);
         String email = String.valueOf(methodsArgs[1]);
+        MethodSignature method=(MethodSignature)pjp.getSignature();
+        UserRole[] expectedRoles=method.getMethod().getAnnotation(smartspace.aop.RolePermission.class).value();
 
         boolean isValid;
 
