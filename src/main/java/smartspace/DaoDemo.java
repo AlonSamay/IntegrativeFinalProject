@@ -44,7 +44,7 @@ public class DaoDemo implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 
 		Map<String, Object> moreAttributes = new HashMap<>();
-		moreAttributes.put("x", "y");
+		moreAttributes.put("x", 5);
 		moreAttributes.put("y", 42);
 
 

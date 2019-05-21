@@ -13,9 +13,11 @@ import smartspace.data.ElementKey;
 import smartspace.data.MailAdress;
 import smartspace.layout.FieldException;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @PropertySource("application.properties")
 @Service
@@ -46,6 +48,16 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
             return this.actionDao.create(actionEntity);
         } else
             throw new FieldException(this.getClass().getSimpleName());
+    }
+
+    @Transactional
+    public ActionEntity[] storeAll(ActionEntity[] actionEntities) {
+        boolean isAllValid= Arrays.stream(actionEntities).allMatch(this::validate);
+        if (isAllValid){
+            return Arrays.stream(actionEntities).map(this::store).toArray(ActionEntity[]::new);
+        }
+        else
+            throw new RuntimeException(this.getClass().getSimpleName());
     }
 
     private boolean validate(ActionEntity actionEntity) {

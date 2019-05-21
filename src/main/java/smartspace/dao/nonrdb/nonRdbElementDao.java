@@ -9,6 +9,7 @@ import smartspace.dao.IdGenerator;
 import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.data.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,10 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     private NRdbElementCrud elementCrud;
     private IdGeneratorCrud idGeneratorCrud;
+
+    @Autowired
+    private com.mongodb.MongoClient mongoClient;
+
     private final String NAME = "name";
 
 
@@ -56,7 +61,7 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
         List<ElementEntity> rv = new ArrayList<>();
         this.elementCrud
                 .findAll()
-                .forEach(element->rv.add(element));
+                .forEach(rv::add);
         return rv;
     }
 
@@ -127,5 +132,9 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     @Override
     public List<ElementEntity> readAllByType(String type, int size, int page) {
         return elementCrud.findAllByType(type, PageRequest.of(page, size));
+    }
+
+    public List<ElementEntity> readAllByLocation(Location location,int size,int page){
+        return null;
     }
 }

@@ -6,9 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import smartspace.Application;
-import smartspace.dao.rdb.RdbActionDao;
-import smartspace.dao.rdb.RdbElementDao;
-import smartspace.dao.rdb.RdbUserDao;
+import smartspace.dao.nonrdb.nonRdbActionDao;
+import smartspace.dao.nonrdb.nonRdbElementDao;
+import smartspace.dao.nonrdb.nonRdbUserDao;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
 
@@ -26,9 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
         "spring.profiles.active=default"})
 public class KeyGenerationTests {
     private EntityFactory factory;
-    private RdbActionDao actionDao;
-    private RdbElementDao elementDao;
-    private RdbUserDao userDao;
+    private nonRdbActionDao actionDao;
+    private nonRdbElementDao elementDao;
+
+    private nonRdbUserDao userDao;
 
     @Autowired
     public void setFactory(EntityFactory factory) {
@@ -36,17 +37,17 @@ public class KeyGenerationTests {
     }
 
     @Autowired
-    public void setActionDao(RdbActionDao actionDao) {
+    public void setActionDao(nonRdbActionDao actionDao) {
         this.actionDao = actionDao;
     }
 
     @Autowired
-    public void setElementDao(RdbElementDao elementDao) {
+    public void setElementDao(nonRdbElementDao elementDao) {
         this.elementDao = elementDao;
     }
 
     @Autowired
-    public void setUserDao(RdbUserDao userDao) {
+    public void setUserDao(nonRdbUserDao userDao) {
         this.userDao = userDao;
     }
 

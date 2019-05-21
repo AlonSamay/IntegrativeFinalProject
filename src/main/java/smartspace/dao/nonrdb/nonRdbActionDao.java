@@ -10,6 +10,7 @@ import smartspace.data.ActionEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Repository
