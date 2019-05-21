@@ -1,5 +1,6 @@
 package smartspace.layout;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ElementController extends ValidateController implements Controller<
     //****************   Commented the context from the proprties file and setted route to each User Role ****************
     private static final String ADMIN_ROUTE = "smartspace/admin/elements/{adminSmartspace}/{adminEmail}";
     private static final String MANAGER_ROUTE = "smartspace/elements/{managerSmartspace}/{managerEmail}";
-    private static final String USER_ROUTE = "/smartspace/elements/{userSmartspace}/{userEmail}";
+    private static final String USER_ROUTE = "smartspace/elements/{userSmartspace}/{userEmail}";
     private static final String ID = "id";
     private static final String SMARTSPACE = "smartspace";
 
@@ -31,6 +32,7 @@ public class ElementController extends ValidateController implements Controller<
         this.elementService = elementService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method= RequestMethod.GET,
             path= ADMIN_ROUTE,
@@ -51,6 +53,8 @@ public class ElementController extends ValidateController implements Controller<
             throw new RolePermissionException();
     }
 
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method=RequestMethod.POST,
             path= ADMIN_ROUTE,
@@ -74,6 +78,7 @@ public class ElementController extends ValidateController implements Controller<
     //TODO CHANGE RETURN VALUE TO ELEMENT BOUNDRY
     //TODO CONVERT IT TO ELEMENT BOUNDRY
     //TODO VALIDATIION
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method=RequestMethod.POST,
             path = MANAGER_ROUTE,
@@ -83,11 +88,11 @@ public class ElementController extends ValidateController implements Controller<
             @PathVariable("managerSmartSpace") String managerSmartSpace,
             @PathVariable("managerEmail") String managerEmail,
             @RequestBody ElementBoundary elementBoundary) {
-            System.err.println("1");
             return this.elementService.store(elementBoundary.convertToEntity());
     }
 
     //TODO VALIDATIION
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method=RequestMethod.PUT,
             path= "smartspace/elements/{managerSmartSpace}/{managerEmail}/{elementSmartspace}/{elementId}",
@@ -110,7 +115,7 @@ public class ElementController extends ValidateController implements Controller<
         elementBoundary.setKey(key);
     }
 
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method=RequestMethod.GET,
             path= "smartspace/elements/{userSmartSpace}/{userEmail}/{elementSmartspace}/{elementId}",
@@ -130,6 +135,7 @@ public class ElementController extends ValidateController implements Controller<
 
 
     //TODO VALIDATION OF USER
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method= RequestMethod.GET,
             path= USER_ROUTE,
@@ -139,14 +145,14 @@ public class ElementController extends ValidateController implements Controller<
             @PathVariable("userEmail") String userEmail,
             @RequestParam(name="search", required=false, defaultValue="all") String param,
             @RequestParam(name="value", required=false, defaultValue="A") String value,
-            @RequestParam(name="x", required=false, defaultValue="0.0") double x,
-            @RequestParam(name="y", required=false, defaultValue="0.0") double y,
+            @RequestParam(name="x", required=false, defaultValue="0.0D") double x,
+            @RequestParam(name="y", required=false, defaultValue="0.0D") double y,
             @RequestParam(name="distance", required=false, defaultValue="0.0") double distance,
             @RequestParam(name="size", required=false, defaultValue="10") int size,
             @RequestParam(name="page", required=false, defaultValue="0") int page) {
         if(isValidInput(param)){
             return this.elementService
-                    .getElementsBySearchTerm(param, value, x, y, distance, size,page)
+                    .getElementsBySearchTerm(param, value, x, y, distance, size, page)
                     .stream()
                     .map(ElementBoundary::new)
                     .collect(Collectors.toList())

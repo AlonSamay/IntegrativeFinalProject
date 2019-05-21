@@ -86,7 +86,7 @@ public class BoundariesUnitTests {
                 "gsdfn",
                 false,
                 null);
-        newElement.setKey(new ElementKey("1"));
+//        newElement.setKey(new ElementKey("1"));
 
         ElementBoundary boundary = new ElementBoundary(newElement);
 

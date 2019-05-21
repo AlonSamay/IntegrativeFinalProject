@@ -1,5 +1,6 @@
 package smartspace.dao;
 
+import org.springframework.data.geo.Circle;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 
@@ -19,6 +20,7 @@ public interface ElementDao<K> {
 		//UPDATE - Update
 
 		void update (ElementEntity update);
+
 
 		//DELETE - Delete
 		void deleteAll();

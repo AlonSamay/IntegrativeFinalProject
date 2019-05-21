@@ -40,10 +40,9 @@ public class DaoDemo implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-
 		Map<String, Object> moreAttributes = new HashMap<>();
-		moreAttributes.put("x", "y");
-		moreAttributes.put("y", 42);
+		moreAttributes.put("x", 1);
+		moreAttributes.put("y", 1);
 
 
 		createUser();
@@ -149,7 +148,7 @@ public class DaoDemo implements CommandLineRunner{
 		ElementEntity element = factory.createNewElement(
 					"B",
 					"Login",
-					 new Location(1.0, 2.0),
+					 new Location(100.0, 100.0),
 					new Date(),
 					"b@gmail.com",
 					"y",

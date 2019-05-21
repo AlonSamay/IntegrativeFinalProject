@@ -24,6 +24,7 @@ public class UserController extends ValidateController implements Controller<Use
         this.userService = userService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method= RequestMethod.GET,
             path= ADMIN_ROUTE,
@@ -46,6 +47,7 @@ public class UserController extends ValidateController implements Controller<Use
 
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method=RequestMethod.POST,
             path= ADMIN_ROUTE,

@@ -2,6 +2,10 @@ package smartspace.dao.nonrdb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.geo.Circle;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.*;
@@ -19,14 +23,17 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     private NRdbElementCrud elementCrud;
     private IdGeneratorCrud idGeneratorCrud;
+    private MongoTemplate mongoTemplate;
+
     private final String NAME = "name";
 
 
 
     @Autowired
-    public nonRdbElementDao(NRdbElementCrud elementCrud, IdGeneratorCrud idGeneratorCrud) {
+    public nonRdbElementDao(NRdbElementCrud elementCrud, IdGeneratorCrud idGeneratorCrud, MongoTemplate mongoTemplate) {
         this.idGeneratorCrud = idGeneratorCrud;
         this.elementCrud = elementCrud;
+        this.mongoTemplate =  mongoTemplate;
 
 
     }
@@ -120,6 +127,11 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     @Override
     public List<ElementEntity> readAllByName(String name, int size, int page) {
         return elementCrud.findAllByName(name, PageRequest.of(page, size));
+    }
+
+    @Override
+    public List<ElementEntity> readAllWithinLocation(Circle circle) {
+        return mongoTemplate.find(new Query(Criteria.where("location").within(circle)), ElementEntity.class);
     }
 
     @Override

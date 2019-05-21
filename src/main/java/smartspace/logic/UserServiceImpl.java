@@ -44,14 +44,14 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
     }
 
     private boolean validate(UserEntity userEntity) {
-
-        return this.isValid(userEntity.getKey().getId()) &&
-                !userEntity.getKey().getId().equals(this.smartSpaceName) &&
-                this.isValid(userEntity.getKey().getEmail()) &&
-                this.isValid(userEntity.getAvatar()) &&
-                this.isValid(userEntity.getRole()) &&
-                this.isValid(userEntity.getPoints()) &&
-                this.isValid(userEntity.getUsername());
+        return true;
+//        return this.isValid(userEntity.getKey().getId()) &&
+//                !userEntity.getKey().getId().equals(this.smartSpaceName) &&
+//                this.isValid(userEntity.getKey().getEmail()) &&
+//                this.isValid(userEntity.getAvatar()) &&
+//                this.isValid(userEntity.getRole()) &&
+//                this.isValid(userEntity.getPoints()) &&
+//                this.isValid(userEntity.getUsername());
     }
 
 }

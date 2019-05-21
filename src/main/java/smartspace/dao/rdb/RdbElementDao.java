@@ -1,6 +1,7 @@
 package smartspace.dao.rdb;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Circle;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.ElementDao;
@@ -65,6 +66,11 @@ public class RdbElementDao implements ElementDao<ElementKey> {
         } else {
             throw new RuntimeException("no element with id: " + update.getKey());
         }
+    }
+
+    @Override
+    public List<ElementEntity> readAllWithinLocation(Circle circle) {
+        return null;
     }
 
     @Override

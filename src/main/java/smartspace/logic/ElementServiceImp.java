@@ -3,6 +3,9 @@ package smartspace.logic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.geo.Circle;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
@@ -89,7 +92,10 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
 
             case LOCATION:
                 //TODO IN DAO
-//                rv = elementDao.readBetweenLocation(x,y,distance,size,page);
+                Circle circle = new Circle(x, y, distance);
+                rv = elementDao.readAllWithinLocation(circle);
+                System.err.println(rv);
+
                 break;
 
             case NAME:

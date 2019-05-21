@@ -21,6 +21,7 @@ public class ActionController extends ValidateController implements Controller<A
         this.actionService = actionService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method= RequestMethod.GET,
             path= ADMIN_ROUTE,
@@ -41,6 +42,7 @@ public class ActionController extends ValidateController implements Controller<A
                 throw new RolePermissionException();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(
             method=RequestMethod.POST,
             path= ADMIN_ROUTE,

@@ -26,4 +26,5 @@ dependencies {
     compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '2.1.6.RELEASE'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
 }
