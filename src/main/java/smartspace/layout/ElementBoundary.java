@@ -3,6 +3,7 @@ package smartspace.layout;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 import smartspace.data.Location;
+import smartspace.data.UserKey;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,12 +17,12 @@ public class ElementBoundary {
     private static final String LAT = "lat";
     private static final String LNG = "lng";
 
-    private Map<String, String> key;
+    private ElementKey key;
     private String elementType;
     private String name;
     private Boolean expired;
     private Timestamp created;
-    private Map<String, String> creator;
+    private UserKey creator;
     private Map<String, Double> latlng;
     private Map<String, Object> elementProperties;
 
@@ -29,9 +30,11 @@ public class ElementBoundary {
     }
 
     public ElementBoundary(ElementEntity entity) {
-        this.key = new TreeMap<>();
-        this.key.put(ID, entity.getKey().getElementId());
-        this.key.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
+//        this.key = new TreeMap<>();
+//        this.key.put(ID, entity.getKey().getElementId());
+//        this.key.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
+
+        this.key = new ElementKey(entity.getKey().getElementId(),entity.getKey().getElementSmartSpace());
 
         this.elementType = entity.getType();
 
@@ -41,9 +44,11 @@ public class ElementBoundary {
 
         this.created = new Timestamp(entity.getCreationTimeStamp().getTime());
 
-        this.creator = new TreeMap<>();
-        this.creator.put(EMAIL, entity.getCreatorEmail());
-        this.creator.put(SMARTSPACE, entity.getCreatorSmartSpace());
+//        this.creator = new TreeMap<>();
+//        this.creator.put(EMAIL, entity.getCreatorEmail());
+//        this.creator.put(SMARTSPACE, entity.getCreatorSmartSpace());
+
+        this.creator = new UserKey(entity.getCreatorEmail());
 
         this.latlng = new TreeMap<>();
         this.latlng.put(LAT, entity.getLocation().getX());
@@ -59,7 +64,7 @@ public class ElementBoundary {
             entity.setKey(null);
         }
         else{
-            ElementKey key = new ElementKey(this.key.get(ID),this.key.get(SMARTSPACE));
+            ElementKey key = new ElementKey(this.key.getElementId(),this.key.getElementSmartSpace());
             entity.setKey(key);
         }
 
@@ -75,9 +80,9 @@ public class ElementBoundary {
 
         entity.setExpired(this.expired);
 
-        if (this.creator.get(EMAIL) != null && this.creator.get(SMARTSPACE) != null) {
-            entity.setCreatorSmartSpace(this.creator.get(SMARTSPACE));
-            entity.setCreatorEmail(this.creator.get(EMAIL));
+        if (this.creator.getEmail() != null && this.creator.getId() != null) {
+            entity.setCreatorSmartSpace(this.creator.getId());
+            entity.setCreatorEmail(this.creator.getEmail());
         }
 
         entity.setMoreAttributes(this.elementProperties);
@@ -85,11 +90,11 @@ public class ElementBoundary {
         return entity;
     }
 
-    public Map<String, String> getKey() {
+    public ElementKey getKey() {
         return key;
     }
 
-    public void setKey(Map<String, String> key) {
+    public void setKey(ElementKey key) {
         this.key = key;
     }
 
@@ -125,11 +130,11 @@ public class ElementBoundary {
         this.created = created;
     }
 
-    public Map<String, String> getCreator() {
+    public UserKey getCreator() {
         return creator;
     }
 
-    public void setCreator(Map<String, String> creator) {
+    public void setCreator(UserKey creator) {
         this.creator = creator;
     }
 

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import smartspace.aop.RolePermission;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.ElementEntity;
+import smartspace.data.ElementKey;
 import smartspace.data.UserRole;
 import smartspace.logic.ElementServiceImp;
 
@@ -98,9 +99,7 @@ public class ElementController extends ValidateController implements Controller<
     }
 
     private void setBoundryKeyFromUrl(String elementSmartSpace, String elementId, ElementBoundary elementBoundary) {
-        Map<String, String> key = new TreeMap<>();
-        key.put(ID, elementId);
-        key.put(SMARTSPACE, elementSmartSpace);
+        ElementKey key = new ElementKey(elementId,elementSmartSpace);
         elementBoundary.setKey(key);
     }
 
