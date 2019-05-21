@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
 public class RolePermissionException extends RuntimeException {
     public RolePermissionException() {
-        super("Not Valid Admin User Details");
+        super("Not Valid Role User Details");
+    }
+    public RolePermissionException(String message) {
+        super(message);
     }
 }

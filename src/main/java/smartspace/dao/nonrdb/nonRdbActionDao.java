@@ -4,19 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import smartspace.dao.ActionDao;
 import smartspace.dao.EnhancedActionDao;
 import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.ActionEntity;
-import smartspace.data.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Repository
 public class nonRdbActionDao implements EnhancedActionDao {
 
     private NRdbActionCrud actionCrud;
+    private final String ACTION_ID = "actionId";
+
 
 
     @Autowired
@@ -51,6 +53,6 @@ public class nonRdbActionDao implements EnhancedActionDao {
 
     @Override
     public List<ActionEntity> readAll(int size, int page) {
-        return actionCrud.findAll(PageRequest.of(page, size)).getContent();
+        return actionCrud.findAll(PageRequest.of(page, size,ASC,ACTION_ID)).getContent();
     }
 }

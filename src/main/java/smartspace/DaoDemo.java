@@ -1,16 +1,18 @@
 package smartspace;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import smartspace.dao.*;
+import smartspace.dao.EnhancedActionDao;
+import smartspace.dao.EnhancedElementDao;
+import smartspace.dao.EnhancedUserDao;
+import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Component
@@ -40,9 +42,10 @@ public class DaoDemo implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+
 		Map<String, Object> moreAttributes = new HashMap<>();
-		moreAttributes.put("x", 1);
-		moreAttributes.put("y", 1);
+		moreAttributes.put("x", 5);
+		moreAttributes.put("y", 42);
 
 
 		createUser();
@@ -148,7 +151,7 @@ public class DaoDemo implements CommandLineRunner{
 		ElementEntity element = factory.createNewElement(
 					"B",
 					"Login",
-					 new Location(100.0, 100.0),
+					 new Location(1.0, 2.0),
 					new Date(),
 					"b@gmail.com",
 					"y",
@@ -162,31 +165,36 @@ public class DaoDemo implements CommandLineRunner{
 	}
 
 	private void createUser() {
+		UserEntity user= factory.createNewUser(
+				"AlonSamay@gmail.com",
+				"TalCohen2019.B",
+				"AlonSamay",
+				"C",
+		         UserRole.PLAYER,
+				(long) 123
+		);
+		this.enhancedUserDao.create(user);
+
 		UserEntity user1 = factory.createNewUser(
+				"AlonSamay@gmail.com",
+				"TalCohen2019.B",
 				"AlonSamay",
 				":)",
-				UserRole.ADMIN,
+				UserRole.MANAGER,
 				(long) 456);
-		user1.setKey(new UserKey("alon@gmail.com"));
+		user1.setKey(new UserKey("AlonSamay@gmail.com"));
 		this.enhancedUserDao.create(user1);
 
 
 
 		UserEntity user2 = factory.createNewUser(
-						"OrenShadmi",
-						"1234",
-						UserRole.PLAYER,
-						(long) 123);
-		user2.setKey(new UserKey("c@gmail.com"));
+				"OrenShadmi@gmail.com",
+				"TalCohen2019.B",
+				"OrenShadmi",
+				"1234",
+				UserRole.ADMIN,
+				(long) 123);
 		this.enhancedUserDao.create(user2);
-
-		UserEntity user = factory.createNewUser(
-						"Oren",
-						"C",
-						UserRole.PLAYER,
-						(long) 123);
-		user.setKey(new UserKey("h@gmail.com"));
-		this.enhancedUserDao.create(user);
 
 
 	}

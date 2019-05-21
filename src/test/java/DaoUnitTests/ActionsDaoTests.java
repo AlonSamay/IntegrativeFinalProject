@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import smartspace.Application;
-import smartspace.dao.rdb.RdbActionDao;
+import smartspace.dao.nonrdb.nonRdbActionDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.util.EntityFactoryImpl;
 
@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
         "spring.profiles.active=default"})
 public class ActionsDaoTests {
     private EntityFactoryImpl factory;
-    private RdbActionDao actionDao;
+    private nonRdbActionDao actionDao;
 
     @Autowired
     public void setFactory(EntityFactoryImpl factory) {
@@ -35,7 +35,7 @@ public class ActionsDaoTests {
     }
 
     @Autowired
-    public void setActionDao(RdbActionDao actionDao) {
+    public void setActionDao(nonRdbActionDao actionDao) {
         this.actionDao = actionDao;
     }
 

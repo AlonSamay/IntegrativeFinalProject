@@ -1,12 +1,3 @@
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,16 +5,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import smartspace.Application;
-import smartspace.dao.ActionDao;
-import smartspace.dao.ElementDao;
-import smartspace.dao.UserDao;
-import smartspace.dao.rdb.RdbActionDao;
-import smartspace.dao.rdb.RdbElementDao;
-import smartspace.dao.rdb.RdbUserDao;
+import smartspace.dao.nonrdb.nonRdbActionDao;
+import smartspace.dao.nonrdb.nonRdbElementDao;
+import smartspace.dao.nonrdb.nonRdbUserDao;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
@@ -31,9 +26,10 @@ import smartspace.data.util.EntityFactory;
         "spring.profiles.active=default"})
 public class KeyGenerationTests {
     private EntityFactory factory;
-    private RdbActionDao actionDao;
-    private RdbElementDao elementDao;
-    private RdbUserDao userDao;
+    private nonRdbActionDao actionDao;
+    private nonRdbElementDao elementDao;
+
+    private nonRdbUserDao userDao;
 
     @Autowired
     public void setFactory(EntityFactory factory) {
@@ -41,17 +37,17 @@ public class KeyGenerationTests {
     }
 
     @Autowired
-    public void setActionDao(RdbActionDao actionDao) {
+    public void setActionDao(nonRdbActionDao actionDao) {
         this.actionDao = actionDao;
     }
 
     @Autowired
-    public void setElementDao(RdbElementDao elementDao) {
+    public void setElementDao(nonRdbElementDao elementDao) {
         this.elementDao = elementDao;
     }
 
     @Autowired
-    public void setUserDao(RdbUserDao userDao) {
+    public void setUserDao(nonRdbUserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -103,6 +99,8 @@ public class KeyGenerationTests {
     public void testNewUserIdsAreUnique() {
         Set<UserKey> keys = IntStream.range(1, 11)
                 .mapToObj(i -> this.factory.createNewUser(
+                        "alon@gmail.com",
+                        "TalCohen2019.B",
                         "alons" + i,
                         "SmileyShelTom",
                         UserRole.PLAYER,

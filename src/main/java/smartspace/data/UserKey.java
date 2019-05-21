@@ -20,6 +20,10 @@ public class UserKey implements Serializable ,Comparable<String>{
         this.email = email;
     }
 
+    public UserKey(String email,String smartSpace) {
+        this.smartSpace = smartSpace;
+        this.email = email;
+    }
 
     public String getId() {
         return smartSpace;

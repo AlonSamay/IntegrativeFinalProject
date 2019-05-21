@@ -1,10 +1,11 @@
 package smartspace.data;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import org.springframework.data.annotation.Id;
-
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -110,7 +111,8 @@ public class ActionEntity implements SmartspaceEntity<String> {
         return creationTimeStamp;
     }
 
-
+    @Lob
+	//@Convert(converter= MapToJsonConverter.class)
     public Map<String, Object> getMoreAttributes() {
         return moreAttributes;
     }

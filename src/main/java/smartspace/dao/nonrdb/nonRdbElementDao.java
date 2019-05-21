@@ -2,15 +2,14 @@ package smartspace.dao.nonrdb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.geo.Circle;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import smartspace.dao.*;
+import smartspace.dao.EnhancedElementDao;
+import smartspace.dao.IdGenerator;
+import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
+import smartspace.data.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +22,18 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     private NRdbElementCrud elementCrud;
     private IdGeneratorCrud idGeneratorCrud;
-    private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private com.mongodb.MongoClient mongoClient;
 
     private final String NAME = "name";
 
 
 
     @Autowired
-    public nonRdbElementDao(NRdbElementCrud elementCrud, IdGeneratorCrud idGeneratorCrud, MongoTemplate mongoTemplate) {
+    public nonRdbElementDao(NRdbElementCrud elementCrud, IdGeneratorCrud idGeneratorCrud) {
         this.idGeneratorCrud = idGeneratorCrud;
         this.elementCrud = elementCrud;
-        this.mongoTemplate =  mongoTemplate;
 
 
     }
@@ -61,7 +61,7 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
         List<ElementEntity> rv = new ArrayList<>();
         this.elementCrud
                 .findAll()
-                .forEach(element->rv.add(element));
+                .forEach(rv::add);
         return rv;
     }
 
@@ -130,12 +130,11 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     }
 
     @Override
-    public List<ElementEntity> readAllWithinLocation(Circle circle) {
-        return mongoTemplate.find(new Query(Criteria.where("location").within(circle)), ElementEntity.class);
-    }
-
-    @Override
     public List<ElementEntity> readAllByType(String type, int size, int page) {
         return elementCrud.findAllByType(type, PageRequest.of(page, size));
+    }
+
+    public List<ElementEntity> readAllByLocation(Location location,int size,int page){
+        return null;
     }
 }

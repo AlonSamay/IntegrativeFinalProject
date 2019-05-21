@@ -1,14 +1,11 @@
 package smartspace.data;
 
-import org.hibernate.annotations.SQLInsert;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-import javax.persistence.*;
-import org.springframework.data.annotation.Id;
-
-import javax.transaction.Transactional;
-import java.io.Serializable;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +16,6 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
 
     private Location location;
     private String name;
-//    private double[] location;
     private String type;
     private Date creationTimeStamp;
     private boolean expired;
@@ -44,6 +40,22 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
         this.creatorSmartSpace = creatorSmartSpace;
         this.expired = expired;
         this.moreAttributes = moreAttributes;
+    }
+
+    public String getElementSmartSpace(){
+        return this.elementKey.getElementSmartSpace();
+    }
+
+    public void SetElementSmartSpace(String elementSmartSpace){
+        this.elementKey.setElementSmartSpace(elementSmartSpace);
+    }
+
+    public String getElementId(){
+        return this.elementKey.getElementId();
+    }
+
+    public void SetElementIde(String elementId){
+        this.elementKey.setElementId(elementId);
     }
 
     public void setLocation(Location location) {
@@ -122,7 +134,8 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
         return creatorEmail;
     }
 
-
+    @Lob
+    //@Convert(converter= MapToJsonConverter.class)
     public Map<String, Object> getMoreAttributes() {
         return moreAttributes;
     }
@@ -139,9 +152,9 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
     }
 
 
-    public boolean isExpired() {
-        return expired;
-    }
+
+
+
 
     @Override
     public String toString() {
