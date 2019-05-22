@@ -58,8 +58,8 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
 
     private boolean validate(UserEntity userEntity) {
 
-        return this.isValid(userEntity.getKey().getId()) &&
-                !userEntity.getKey().getId().equals(this.smartSpaceName) &&
+        return this.isValid(userEntity.getKey().getSmartspace()) &&
+                !userEntity.getKey().getSmartspace().equals(this.smartSpaceName) &&
                 this.isValid(new MailAdress(userEntity.getKey().getEmail())) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&

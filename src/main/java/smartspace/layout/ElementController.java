@@ -24,7 +24,7 @@ public class ElementController extends ValidateController implements Controller<
     //****************   Commented the context from the proprties file and setted route to each User Role ****************
     private static final String ADMIN_ROUTE = "smartspace/admin/elements/{adminSmartspace}/{adminEmail}";
     private static final String MANAGER_ROUTE = "smartspace/elements/{managerSmartSpace}/{managerEmail}";
-    private static final String USER_ROUTE = "/smartspace/elements/{userSmartspace}/{userEmail}";
+    private static final String USER_ROUTE = "/smartspace/elements/{userSmartSpace}/{userEmail}";
     private static final String ID = "id";
     private static final String SMARTSPACE = "smartspace";
 
@@ -48,6 +48,8 @@ public class ElementController extends ValidateController implements Controller<
                     .stream()
                     .map(ElementBoundary::new).toArray(ElementBoundary[]::new);
     }
+
+
     @RolePermission(UserRole.ADMIN)
     @RequestMapping(
             method = RequestMethod.POST,
@@ -85,7 +87,7 @@ public class ElementController extends ValidateController implements Controller<
     @RolePermission(UserRole.MANAGER)
     @RequestMapping(
             method = RequestMethod.PUT,
-            path = "smartspace/elements/{managerSmartSpace}/{managerEmail}/{elementSmartspace}/{elementId}",
+            path = MANAGER_ROUTE+"/{elementSmartspace}/{elementId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateByManager(
@@ -106,10 +108,9 @@ public class ElementController extends ValidateController implements Controller<
     @RolePermission({UserRole.PLAYER,UserRole.MANAGER})
     @RequestMapping(
             method = RequestMethod.GET,
-            path = "smartspace/elements/{userSmartSpace}/{userEmail}/{elementSmartspace}/{elementId}",
+            path = USER_ROUTE+"/{elementSmartspace}/{elementId}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    //TODO VALIDATIION
     public ElementBoundary getElement(
             @PathVariable("userSmartSpace") String userSmartSpace,
             @PathVariable("userEmail") String userEmail,
@@ -125,7 +126,7 @@ public class ElementController extends ValidateController implements Controller<
             path = USER_ROUTE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ElementBoundary[] getElementsBySearch(
-            @PathVariable("userSmartspace") String userSmartSpace,
+            @PathVariable("userSmartSpace") String userSmartSpace,
             @PathVariable("userEmail") String userEmail,
             @RequestParam(name = "search", required = false, defaultValue = "all") String param,
             @RequestParam(name = "value", required = false, defaultValue = "A") String value,
@@ -142,7 +143,6 @@ public class ElementController extends ValidateController implements Controller<
                     .collect(Collectors.toList())
                     .toArray(new ElementBoundary[0]);
         } else {
-            //TODO CHANGE THE EXCEPTION TYPE TO BAD REQUEST
             throw new RuntimeException("param is invalid");
         }
     }

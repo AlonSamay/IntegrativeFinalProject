@@ -11,7 +11,7 @@ public class ElementKey implements Serializable, Comparable<String> {
     private String elementId;
 
     public ElementKey() {
-        this.elementSmartSpace = "2019BTalCohen";
+        this.elementSmartSpace = "2019BTal.Cohen";
     }
 
     public ElementKey(String elementId, String elementSmartspace){

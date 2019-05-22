@@ -86,7 +86,7 @@ public class UserIntegrationTests {
 
     public UserKey generateUserKey() {
         UserKey key = new UserKey();
-        key.setId("Bla" + (++counter));
+        key.setSmartSpace("Bla" + (++counter));
         key.setEmail("bla@gmail.com");
         return key;
     }

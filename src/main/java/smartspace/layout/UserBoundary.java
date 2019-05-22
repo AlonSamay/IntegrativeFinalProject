@@ -4,14 +4,11 @@ import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 public class UserBoundary {
     private static final String SMARTSPACE = "smartspace";
     private static final String EMAIL = "email";
 
-    private Map<String, String> key;
+    private UserKey key;
     private String role;
     private String username;
     private String avatar;
@@ -22,9 +19,11 @@ public class UserBoundary {
     }
 
     public UserBoundary(UserEntity entity) {
-        this.key = new TreeMap<>();
-        this.key.put(SMARTSPACE, entity.getKey().getId());
-        this.key.put(EMAIL, entity.getKey().getEmail());
+//        this.key = new TreeMap<>();
+////        this.key.put(SMARTSPACE, entity.getKey().getSmartspace());
+////        this.key.put(EMAIL, entity.getKey().getEmail());
+
+        this.key = new UserKey(entity.getKey().getSmartspace(),entity.getKey().getEmail());
 
         this.role = entity.getRole().name();
 
@@ -37,10 +36,10 @@ public class UserBoundary {
     public UserEntity convertToEntity() {
         UserEntity entity = new UserEntity();
 
-        if (this.key != null && this.key.get(EMAIL) != null && this.key.get(SMARTSPACE) != null) {
+        if (this.key != null && this.key.getEmail() != null && this.key.getSmartspace() != null) {
             UserKey key = new UserKey();
-            key.setEmail(this.key.get(EMAIL));
-            key.setId(this.key.get(SMARTSPACE));
+            key.setEmail(this.key.getEmail());
+            key.setSmartSpace(this.key.getSmartspace());
             entity.setKey(key);
         }
 
@@ -55,11 +54,11 @@ public class UserBoundary {
         return entity;
     }
 
-    public Map<String, String> getKey() {
+    public UserKey getKey() {
         return key;
     }
 
-    public void setKey(Map<String, String> key) {
+    public void setKey(UserKey key) {
         this.key = key;
     }
 

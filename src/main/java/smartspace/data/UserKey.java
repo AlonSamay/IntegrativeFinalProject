@@ -25,7 +25,7 @@ public class UserKey implements Serializable ,Comparable<String>{
         this.email = email;
     }
 
-    public String getId() {
+    public String getSmartspace() {
         return smartSpace;
     }
 
@@ -33,7 +33,7 @@ public class UserKey implements Serializable ,Comparable<String>{
         return email;
     }
 
-    public void setId(String smartspace) {
+    public void setSmartSpace(String smartspace) {
         this.smartSpace = smartspace;
     }
 

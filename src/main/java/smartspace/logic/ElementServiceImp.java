@@ -44,7 +44,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
     @Override
     @Transactional
     public ElementEntity store(ElementEntity elementEntity) {
-        if (validate(elementEntity)) {
+        if (validateNewElement(elementEntity)) {
             elementEntity.setCreationTimeStamp(new Date());
             return this.elementDao.create(elementEntity);
         } else
@@ -77,7 +77,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
             return elementFromDao.get();
         }
         else{
-            throw new NotFoundException("element not found");
+            throw new NotFoundException(String.format("%s not found",elementId));
         }
 
     }
@@ -115,7 +115,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
 
             default:
                 rv=null;
-                //TODO NEED TO THINK WHAT TO IN IN CASE OF DEFAULT
+                throw new NotFoundException("Cannot search by this term");
         }
 
         return rv;
@@ -132,6 +132,18 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 this.isValid(elementEntity.getLocation().getY()) &&
                 !elementEntity.getExpired() &&
                 this.isValid(elementEntity.getMoreAttributes());
-        // DELETED THE VALIDATION OF NULL KEY
     }
+    private boolean validateNewElement(ElementEntity elementEntity) {
+
+        return this.isValid(elementEntity.getName()) &&
+                elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
+                this.isValid(elementEntity.getType()) &&
+                this.isValid(elementEntity.getCreatorSmartSpace()) &&
+                this.isValid(new MailAdress(elementEntity.getCreatorEmail())) &&
+                this.isValid(elementEntity.getLocation().getX()) &&
+                this.isValid(elementEntity.getLocation().getY()) &&
+                !elementEntity.getExpired() &&
+                this.isValid(elementEntity.getMoreAttributes());
+    }
+
 }

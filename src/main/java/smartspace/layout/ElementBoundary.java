@@ -30,9 +30,6 @@ public class ElementBoundary {
     }
 
     public ElementBoundary(ElementEntity entity) {
-//        this.key = new TreeMap<>();
-//        this.key.put(ID, entity.getKey().getElementId());
-//        this.key.put(SMARTSPACE, entity.getKey().getElementSmartSpace());
 
         this.key = new ElementKey(entity.getKey().getElementId(),entity.getKey().getElementSmartSpace());
 
@@ -44,11 +41,8 @@ public class ElementBoundary {
 
         this.created = new Timestamp(entity.getCreationTimeStamp().getTime());
 
-//        this.creator = new TreeMap<>();
-//        this.creator.put(EMAIL, entity.getCreatorEmail());
-//        this.creator.put(SMARTSPACE, entity.getCreatorSmartSpace());
 
-        this.creator = new UserKey(entity.getCreatorEmail());
+        this.creator = new UserKey(entity.getCreatorEmail(),entity.getCreatorSmartSpace());
 
         this.latlng = new TreeMap<>();
         this.latlng.put(LAT, entity.getLocation().getX());
@@ -80,12 +74,12 @@ public class ElementBoundary {
 
         entity.setExpired(this.expired);
 
-        if (this.creator.getEmail() != null && this.creator.getId() != null) {
-            entity.setCreatorSmartSpace(this.creator.getId());
+        if (this.creator.getEmail() != null && this.creator.getSmartspace() != null) {
+            entity.setCreatorSmartSpace(this.creator.getSmartspace());
             entity.setCreatorEmail(this.creator.getEmail());
         }
-
-        entity.setMoreAttributes(this.elementProperties);
+        if(this.elementProperties !=null)
+            entity.setMoreAttributes(this.elementProperties);
 
         return entity;
     }

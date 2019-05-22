@@ -5,7 +5,7 @@ import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
-import org.apache.commons.validator.routines.*;
+
 import java.util.Optional;
 
 @Component
@@ -21,7 +21,7 @@ public class ValidateController {
         if(!userFromDb.isPresent())
             return false;
         else {
-            return userFromDb.get().getRole() == UserRole.ADMIN && userFromDb.get().getKey().getId().equals(smartSpaceName);
+            return userFromDb.get().getRole() == UserRole.ADMIN && userFromDb.get().getKey().getSmartspace().equals(smartSpaceName);
         }
     }
 
