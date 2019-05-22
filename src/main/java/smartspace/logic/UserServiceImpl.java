@@ -6,17 +6,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
-import smartspace.data.ElementKey;
-import smartspace.data.MailAdress;
+import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 
-import javax.swing.text.html.Option;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.stream.Collectors;
 
 
 @PropertySource("application.properties")
@@ -51,7 +47,7 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
     @Override
     @Transactional
     public UserEntity get(String smartspace, String email) {
-        UserKey userKey = new UserKey(new MailAdress(email), smartspace);
+        UserKey userKey = new UserKey(new EmailAddress(email), smartspace);
         Optional<UserEntity> entityFromDB = userDao.readById(userKey);
         if (!entityFromDB.isPresent()) {
             throw new RuntimeException(this.getClass().getSimpleName() + ": No user with email and smartspace provided");

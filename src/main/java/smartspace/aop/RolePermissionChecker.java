@@ -7,12 +7,12 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import smartspace.dao.EnhancedUserDao;
-import smartspace.data.MailAdress;
+import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
-import smartspace.layout.NotFoundException;
-import smartspace.layout.RolePermissionException;
+import smartspace.layout.exceptions.NotFoundException;
+import smartspace.layout.exceptions.RolePermissionException;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -60,7 +60,7 @@ public class RolePermissionChecker {
 
         boolean isValid;
 
-        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(new MailAdress(email), smartSpaceName));
+        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(new EmailAddress(email), smartSpaceName));
 
         isValid = userFromDb.isPresent();
 

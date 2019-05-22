@@ -2,11 +2,10 @@ package smartspace.layout;
 
 import org.springframework.stereotype.Component;
 import smartspace.dao.EnhancedUserDao;
-import smartspace.data.MailAdress;
+import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
-import org.apache.commons.validator.routines.*;
 
 import java.util.Optional;
 
@@ -19,7 +18,7 @@ public class ValidateController {
     }
 
     public boolean isAValidUrl(String email, String smartSpaceName) {
-        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(new MailAdress(email), smartSpaceName));
+        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(new EmailAddress(email), smartSpaceName));
         if (!userFromDb.isPresent()) {
             return false;
         }

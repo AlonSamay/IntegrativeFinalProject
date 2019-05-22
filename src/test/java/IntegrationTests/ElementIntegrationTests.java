@@ -210,4 +210,12 @@ public class ElementIntegrationTests {
                 .usingElementComparatorOnFields("key")
                 .containsExactlyInAnyOrderElementsOf(expected);
     }
+
+    @Test
+    public void testCreateElement() {
+        // GIVEN nothing
+
+        // WHEN adding new element
+        factory.createNewElement("hello", "good", new Location(4.2, 3.2), new Date())
+    }
 }

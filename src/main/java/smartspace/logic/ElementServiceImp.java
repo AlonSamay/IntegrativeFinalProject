@@ -4,19 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.geo.Circle;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
-import smartspace.data.MailAdress;
-import smartspace.layout.FieldException;
-import smartspace.layout.NotFoundException;
+import smartspace.data.EmailAddress;
+import smartspace.layout.exceptions.FieldException;
+import smartspace.layout.exceptions.NotFoundException;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @PropertySource("application.properties")
 @Service
@@ -127,7 +124,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 !elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
-                this.isValid(new MailAdress(elementEntity.getCreatorEmail())) &&
+                this.isValid(new EmailAddress(elementEntity.getCreatorEmail())) &&
                 this.isValid(elementEntity.getLocation().getX()) &&
                 this.isValid(elementEntity.getLocation().getY()) &&
                 !elementEntity.getExpired() &&

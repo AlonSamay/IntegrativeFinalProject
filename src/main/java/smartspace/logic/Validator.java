@@ -1,7 +1,7 @@
 package smartspace.logic;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import smartspace.data.MailAdress;
+import smartspace.data.EmailAddress;
 import smartspace.data.UserRole;
 
 import java.util.Map;
@@ -19,8 +19,8 @@ public class Validator {
         return role != null;
     }
 
-    boolean isValid(MailAdress mail){
-        return EmailValidator.getInstance().isValid(mail.getMail());
+    boolean isValid(EmailAddress mail){
+        return EmailValidator.getInstance().isValid(mail.getAddress());
     }
 
     boolean isValid(Long x) {

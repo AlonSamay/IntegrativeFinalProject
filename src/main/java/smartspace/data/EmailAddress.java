@@ -1,20 +1,19 @@
 package smartspace.data;
 
-public class MailAdress {
-    private String mail;
+public class EmailAddress {
+    private String address;
 
-    public MailAdress(){
-
+    public EmailAddress(){
     }
-    public MailAdress(String mail){
-        this.mail = mail;
-    }
-
-    public String getMail() {
-        return mail;
+    public EmailAddress(String mail){
+        this.address = mail;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
