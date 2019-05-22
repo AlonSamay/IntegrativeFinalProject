@@ -100,9 +100,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 break;
 
             case LOCATION:
-                //TODO IN DAO
-                Circle circle = new Circle(x, y, distance);
-                rv = elementDao.readAllWithinLocation(circle);
+                rv = elementDao.readAllWithinLocation(new Circle(x, y, distance));
                 System.err.println(rv);
 
                 break;

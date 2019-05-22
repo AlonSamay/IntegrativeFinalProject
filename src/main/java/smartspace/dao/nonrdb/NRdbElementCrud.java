@@ -1,6 +1,7 @@
 package smartspace.dao.nonrdb;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.geo.Circle;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -15,6 +16,4 @@ public interface NRdbElementCrud extends PagingAndSortingRepository<ElementEntit
     List<ElementEntity> findAllByName(String name, Pageable pageable);
 
     List<ElementEntity> findAllByType(String type, Pageable pageable);
-
-//    List<ElementEntity> findWithinLocation(Query location, Class<ElementEntity> elementEntityClass);
 }
