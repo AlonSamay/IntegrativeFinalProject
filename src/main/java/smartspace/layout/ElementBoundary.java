@@ -39,7 +39,7 @@ public class ElementBoundary {
         this.created = new Timestamp(entity.getCreationTimeStamp().getTime());
 
 
-        this.creator = new UserKey(new EmailAddress(entity.getCreatorEmail()));
+        this.creator = new UserKey(entity.getCreatorEmail());
 
         this.latlng = new TreeMap<>();
         this.latlng.put(LAT, entity.getLocation().getX());

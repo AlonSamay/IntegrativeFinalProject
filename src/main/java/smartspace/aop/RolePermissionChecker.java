@@ -60,7 +60,7 @@ public class RolePermissionChecker {
 
         boolean isValid;
 
-        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(new EmailAddress(email), smartSpaceName));
+        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(email, smartSpaceName));
 
         isValid = userFromDb.isPresent();
 

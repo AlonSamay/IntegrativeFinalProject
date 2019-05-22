@@ -54,7 +54,7 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
         return this.elementKey.getElementId();
     }
 
-    public void SetElementIde(String elementId){
+    public void SetElementId(String elementId){
         this.elementKey.setElementId(elementId);
     }
 

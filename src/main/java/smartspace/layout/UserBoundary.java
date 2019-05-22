@@ -24,7 +24,7 @@ public class UserBoundary {
 ////        this.key.put(SMARTSPACE, entity.getKey().getSmartspace());
 ////        this.key.put(EMAIL, entity.getKey().getEmail());
 
-        this.key = new UserKey(entity.getKey().getSmartspace(),entity.getKey().getEmail());
+        this.key = new UserKey(entity.getKey().getEmail(),entity.getKey().getSmartspace());
 
         this.role = entity.getRole().name();
 

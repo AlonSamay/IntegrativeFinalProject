@@ -18,7 +18,7 @@ public class ValidateController {
     }
 
     public boolean isAValidUrl(String email, String smartSpaceName) {
-        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(new EmailAddress(email), smartSpaceName));
+        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(email, smartSpaceName));
         if (!userFromDb.isPresent()) {
             return false;
         }

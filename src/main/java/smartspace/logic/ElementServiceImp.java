@@ -124,7 +124,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 !elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
-                this.isValid(new EmailAddress(elementEntity.getCreatorEmail())) &&
+                this.isValid(elementEntity.getCreatorEmail()) &&
                 this.isValid(elementEntity.getLocation().getX()) &&
                 this.isValid(elementEntity.getLocation().getY()) &&
                 !elementEntity.getExpired() &&
@@ -136,7 +136,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
                 elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(elementEntity.getType()) &&
                 this.isValid(elementEntity.getCreatorSmartSpace()) &&
-                this.isValid(new MailAdress(elementEntity.getCreatorEmail())) &&
+                this.isValid(elementEntity.getCreatorEmail()) &&
                 this.isValid(elementEntity.getLocation().getX()) &&
                 this.isValid(elementEntity.getLocation().getY()) &&
                 !elementEntity.getExpired() &&

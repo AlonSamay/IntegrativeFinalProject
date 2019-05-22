@@ -3,6 +3,7 @@ package smartspace.layout;
 import smartspace.data.ActionEntity;
 import smartspace.data.ActionKey;
 import smartspace.data.ElementKey;
+import smartspace.data.UserKey;
 
 import java.util.Date;
 import java.util.Map;
@@ -17,17 +18,13 @@ public class ActionBoundary {
     private String type;
     private Date created;
     private ElementKey element;
-    private Map<String, String> player;
+    private UserKey player;
     private Map<String, Object> properties;
 
     public ActionBoundary() {
     }
 
     public ActionBoundary(ActionEntity entity) {
-//        this.actionKey = new TreeMap<>();
-//        this.actionKey.put(ID, entity.getActionId());
-//        this.actionKey.put(SMARTSPACE, entity.getActionSmartSpace());
-//        this.actionKey.put(SMARTSPACE, "talCohenB");
 
         this.actionKey = new ActionKey(entity.getActionId(),entity.getActionSmartSpace());
 
@@ -36,17 +33,10 @@ public class ActionBoundary {
 
         this.created = entity.getCreationTimeStamp();
 
-//        this.element = new TreeMap<>();
-//        this.element.put(ID, entity.getElementId());
-//        this.element.put(SMARTSPACE, entity.getElementSmartSpace());
 
         this.element = new ElementKey(entity.getElementId(),entity.getElementSmartSpace());
 
-
-
-        this.player = new TreeMap<>();
-        this.player.put(SMARTSPACE, entity.getPlayerSmartSpace());
-        this.player.put(EMAIL, entity.getPlayerEmail());
+        this.player= new UserKey(entity.getPlayerEmail(),entity.getElementSmartSpace());
 
         this.properties = entity.getMoreAttributes();
     }
@@ -64,8 +54,8 @@ public class ActionBoundary {
         entity.setElementId(this.element.getElementId());
         entity.setElementSmartSpace(this.element.getElementSmartSpace());
 
-        entity.setPlayerEmail(this.player.get(EMAIL));
-        entity.setPlayerSmartSpace(this.player.get(SMARTSPACE));
+        entity.setPlayerEmail(this.player.getEmail());
+        entity.setPlayerSmartSpace(this.player.getSmartspace());
 
         if (this.properties != null) {
             entity.setMoreAttributes(this.properties);
@@ -108,11 +98,11 @@ public class ActionBoundary {
         this.element = element;
     }
 
-    public Map<String, String> getPlayer() {
+    public UserKey getPlayer() {
         return player;
     }
 
-    public void setPlayer(Map<String, String> player) {
+    public void setPlayer(UserKey player) {
         this.player = player;
     }
 

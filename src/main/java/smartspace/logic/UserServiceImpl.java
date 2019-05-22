@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.EmailAddress;
+import smartspace.data.MailAdress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 
@@ -47,7 +48,7 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
     @Override
     @Transactional
     public UserEntity get(String smartspace, String email) {
-        UserKey userKey = new UserKey(new EmailAddress(email), smartspace);
+        UserKey userKey = new UserKey(email, smartspace);
         Optional<UserEntity> entityFromDB = userDao.readById(userKey);
         if (!entityFromDB.isPresent()) {
             throw new RuntimeException(this.getClass().getSimpleName() + ": No user with email and smartspace provided");
@@ -85,14 +86,14 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
 
     private boolean validateDifferentSmartspace(UserEntity entity) {
          return validate(entity)
-                 && !entity.getUserKey().getId().equals(this.smartSpaceName);
+                 && !entity.getUserKey().getSmartspace().equals(this.smartSpaceName);
     }
 
     private boolean validate(UserEntity userEntity) {
 
         return this.isValid(userEntity.getKey().getSmartspace()) &&
                 !userEntity.getKey().getSmartspace().equals(this.smartSpaceName) &&
-                this.isValid(new MailAdress(userEntity.getKey().getEmail())) &&
+                this.isValid(userEntity.getKey().getEmail()) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&
                 this.isValid(userEntity.getPoints()) &&
