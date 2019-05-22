@@ -248,4 +248,22 @@ public class UserIntegrationTests {
                 .isEqualToIgnoringGivenFields(userEntity, "userKey", "username", "avatar")
                 .isNotEqualTo(userEntity);
     }
+
+    @Test
+    public void testGetUser() {
+        // GIVEN a user in the database
+        UserEntity user = factory.createNewUser(
+                "yanai1000@gmail.com", ADMIN_SMARTSPACE,
+                "Yanai",
+                ":S",
+                UserRole.PLAYER,
+                (long) 100);
+        this.userDao.create(user);
+
+        // WHEN I invoke get request of user
+        UserEntity userEntity = userService.get(ADMIN_SMARTSPACE, "yanai1000@gmail.com");
+
+        // THEN I get the exact user
+        assertThat(user).isEqualToComparingFieldByFieldRecursively(userEntity);
+    }
 }
