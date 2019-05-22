@@ -1,6 +1,7 @@
 package smartspace.layout;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import smartspace.aop.RolePermission;
@@ -92,6 +93,7 @@ public class UserController implements Controller<UserBoundary> {
     }
 
     // TODO: check if user email already exists in DB
+    @RolePermission
     @RequestMapping(
             method = RequestMethod.POST,
             path = ROUTE,

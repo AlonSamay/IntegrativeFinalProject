@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
@@ -35,7 +36,11 @@ public class ElementIntegrationTests {
     private static final String ADMIN_SMARTSPACE = "2019BTal.Cohen";
     private static final String ADMIN_EMAIL = "alon@gmail.com";
 
+    private MongoTemplate mongoTemplate;
+
     private EntityFactory factory;
+    private String adminUrl;
+    private String userUrl;
     private String baseUrl;
     private int port;
     private EnhancedElementDao<ElementKey> elementDao;
@@ -71,7 +76,9 @@ public class ElementIntegrationTests {
 
     @PostConstruct
     public void init() {
-        this.baseUrl = "http://localhost:" + port + "/smartspace/admin/elements/{adminSmartSpace}/{ADMIN_EMAIL}";
+        this.adminUrl = "/admin/elements/{adminSmartSpace}/{ADMIN_EMAIL}";
+        this.userUrl = "/elements/219BTal.Cohen/alon@gmail.com";
+        this.baseUrl = "http://localhost:" + port + "/smartspace";
         this.restTemplate = new RestTemplate();
     }
 
@@ -212,4 +219,24 @@ public class ElementIntegrationTests {
     }
 
 
+<<<<<<< HEAD
+=======
+        // WHEN adding new element
+        ElementEntity entity = factory.createNewElement(
+                "hello",
+                "good",
+                new Location(4.2, 3.2),
+                new Date(),
+                "samay@gmail.com",
+                ADMIN_SMARTSPACE,
+                false,
+                null);
+        restTemplate.postForEntity(this.baseUrl + this.userUrl, entity, ElementBoundary.class);
+
+        // THEN the new element is added
+        Optional<ElementEntity> entityFromDB = elementDao.readById(entity.getKey());
+
+        assert (entityFromDB.isPresent());
+    }
+>>>>>>> AloNs
 }
