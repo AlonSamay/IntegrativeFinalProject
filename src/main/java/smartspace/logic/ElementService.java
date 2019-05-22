@@ -3,8 +3,6 @@ package smartspace.logic;
 import java.util.List;
 
 public interface ElementService<K> extends ServicePattern<K>{
-
-
     void update(K entity);
 
     K readById(String smartSpace, String id);

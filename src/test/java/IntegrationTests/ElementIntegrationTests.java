@@ -219,8 +219,10 @@ public class ElementIntegrationTests {
     }
 
 
-<<<<<<< HEAD
-=======
+    @Test
+    public void testAddElement() {
+        // GIVEN nothing
+        
         // WHEN adding new element
         ElementEntity entity = factory.createNewElement(
                 "hello",
@@ -238,5 +240,4 @@ public class ElementIntegrationTests {
 
         assert (entityFromDB.isPresent());
     }
->>>>>>> AloNs
 }
