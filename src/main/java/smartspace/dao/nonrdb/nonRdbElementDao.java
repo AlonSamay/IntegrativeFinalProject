@@ -137,5 +137,6 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     @Override
     public List<ElementEntity> readAllByType(String type, int size, int page) {
         return elementCrud.findAllByType(type, PageRequest.of(page, size));
+        mongoTemplate.
     }
 }
