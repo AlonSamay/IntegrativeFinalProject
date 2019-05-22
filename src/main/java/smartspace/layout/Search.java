@@ -1,5 +1,5 @@
 package smartspace.layout;
 
-public enum search {
+public enum Search {
     ALL, LOCATION, NAME, TYPE
 }

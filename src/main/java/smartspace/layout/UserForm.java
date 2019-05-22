@@ -1,6 +1,6 @@
 package smartspace.layout;
 
-import smartspace.data.MailAdress;
+import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
@@ -24,7 +24,7 @@ public class UserForm {
     public UserEntity convertToEntity() {
         UserEntity entity = new UserEntity();
 
-        entity.setKey(new UserKey(new MailAdress(this.email)));
+        entity.setKey(new UserKey(new EmailAddress(this.email)));
         entity.setUsername(this.username);
         entity.setRole(UserRole.valueOf(this.role));
         entity.setAvatar(this.avatar);

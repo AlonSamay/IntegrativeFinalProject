@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import smartspace.Application;
 import smartspace.dao.EnhancedUserDao;
-import smartspace.data.MailAdress;
+import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
@@ -92,7 +92,7 @@ public class UserIntegrationTests {
     public UserKey generateUserKey() {
         UserKey key = new UserKey();
         key.setId("Bla" + (++counter));
-        key.setEmail(new MailAdress("bla@gmail.com"));
+        key.setEmail(new EmailAddress("bla@gmail.com"));
         return key;
     }
 
