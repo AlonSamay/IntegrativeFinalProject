@@ -11,8 +11,6 @@ import smartspace.data.UserRole;
 import smartspace.logic.ElementServiceImp;
 
 import java.util.Arrays;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 
@@ -128,7 +126,7 @@ public class ElementController extends ValidateController implements Controller<
     public ElementBoundary[] getElementsBySearch(
             @PathVariable("userSmartSpace") String userSmartSpace,
             @PathVariable("userEmail") String userEmail,
-            @RequestParam(name = "search", required = false, defaultValue = "all") String param,
+            @RequestParam(name = "Search", required = false, defaultValue = "all") String param,
             @RequestParam(name = "value", required = false, defaultValue = "A") String value,
             @RequestParam(name = "x", required = false, defaultValue = "0.0") double x,
             @RequestParam(name = "y", required = false, defaultValue = "0.0") double y,
@@ -149,10 +147,10 @@ public class ElementController extends ValidateController implements Controller<
 
 
     private boolean isValidInput(String param) {
-        return param.equalsIgnoreCase(search.ALL.name()) ||
-                param.equalsIgnoreCase(search.LOCATION.name()) ||
-                param.equalsIgnoreCase(search.NAME.name()) ||
-                param.equalsIgnoreCase(search.TYPE.name());
+        return param.equalsIgnoreCase(Search.ALL.name()) ||
+                param.equalsIgnoreCase(Search.LOCATION.name()) ||
+                param.equalsIgnoreCase(Search.NAME.name()) ||
+                param.equalsIgnoreCase(Search.TYPE.name());
     }
 
 

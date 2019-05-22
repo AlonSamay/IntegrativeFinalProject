@@ -7,11 +7,12 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
-import smartspace.layout.NotFoundException;
-import smartspace.layout.RolePermissionException;
+import smartspace.layout.exceptions.NotFoundException;
+import smartspace.layout.exceptions.RolePermissionException;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -54,12 +55,12 @@ public class RolePermissionChecker {
         Object[] methodsArgs = pjp.getArgs();
         String smartSpaceName = String.valueOf(methodsArgs[0]);
         String email = String.valueOf(methodsArgs[1]);
-        MethodSignature method=(MethodSignature)pjp.getSignature();
-        UserRole[] expectedRoles=method.getMethod().getAnnotation(smartspace.aop.RolePermission.class).value();
+        MethodSignature method = (MethodSignature) pjp.getSignature();
+        UserRole[] expectedRoles = method.getMethod().getAnnotation(smartspace.aop.RolePermission.class).value();
 
         boolean isValid;
 
-        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(email, smartSpaceName));
+        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(new EmailAddress(email), smartSpaceName));
 
         isValid = userFromDb.isPresent();
 
@@ -74,11 +75,9 @@ public class RolePermissionChecker {
             Object rv = pjp.proceed();
             return rv;
         } catch (Throwable e) {
-           throw e;
+            throw e;
         }
     }
-
-
 
 
 }

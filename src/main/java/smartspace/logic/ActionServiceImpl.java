@@ -10,14 +10,13 @@ import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
-import smartspace.data.MailAdress;
-import smartspace.layout.FieldException;
+import smartspace.data.EmailAddress;
+import smartspace.layout.exceptions.FieldException;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @PropertySource("application.properties")
 @Service
@@ -52,11 +51,10 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
 
     @Transactional
     public ActionEntity[] storeAll(ActionEntity[] actionEntities) {
-        boolean isAllValid= Arrays.stream(actionEntities).allMatch(this::validate);
-        if (isAllValid){
+        boolean isAllValid = Arrays.stream(actionEntities).allMatch(this::validate);
+        if (isAllValid) {
             return Arrays.stream(actionEntities).map(this::store).toArray(ActionEntity[]::new);
-        }
-        else
+        } else
             throw new RuntimeException(this.getClass().getSimpleName());
     }
 
@@ -66,13 +64,14 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
                 !actionEntity.getActionSmartSpace().equals(this.smartSpaceName) &&
                 this.isValid(actionEntity.getElementSmartSpace()) &&
                 this.isValid(actionEntity.getElementId()) &&
-                this.isElementExist(actionEntity.getElementId(),actionEntity.getElementSmartSpace()) &&
+                this.isElementExist(actionEntity.getElementId(), actionEntity.getElementSmartSpace()) &&
                 this.isValid(actionEntity.getPlayerSmartSpace()) &&
-                this.isValid(new MailAdress(actionEntity.getPlayerEmail())) &&
+                this.isValid(new EmailAddress(actionEntity.getPlayerEmail())) &&
                 this.isValid(actionEntity.getActionType()) &&
                 this.isValid(actionEntity.getMoreAttributes());
     }
-    private boolean isElementExist(String elementId, String elementSmartSpace){
+
+    private boolean isElementExist(String elementId, String elementSmartSpace) {
         // actions supposed to be on elements, so we should check that this element exist in our db
         ElementKey keyToCheck = new ElementKey();
         keyToCheck.setElementId(elementId);

@@ -8,19 +8,19 @@ public class UserKey implements Serializable ,Comparable<String>{
     private static final long serialVersionUID = 8656507240646501250L;
 
     private String smartSpace;
-    private String email;
+    private EmailAddress email;
 
     public UserKey() {
 
 
     }
 
-    public UserKey(String email) {
+    public UserKey(EmailAddress email) {
         this.smartSpace = "2019BTal.Cohen";
         this.email = email;
     }
 
-    public UserKey(String email,String smartSpace) {
+    public UserKey(EmailAddress email, String smartSpace) {
         this.smartSpace = smartSpace;
         this.email = email;
     }
@@ -29,7 +29,7 @@ public class UserKey implements Serializable ,Comparable<String>{
         return smartSpace;
     }
 
-    public String getEmail() {
+    public EmailAddress getEmail() {
         return email;
     }
 
@@ -37,7 +37,7 @@ public class UserKey implements Serializable ,Comparable<String>{
         this.smartSpace = smartspace;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(EmailAddress email) {
         this.email = email;
     }
 

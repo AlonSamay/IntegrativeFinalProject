@@ -124,7 +124,7 @@ public class DaoDemo implements CommandLineRunner{
 	}
 
 	private UserEntity readUserById() {
-		UserEntity userEntity= enhancedUserDao.readById(new UserKey("a@gmail.com")).get();
+		UserEntity userEntity= enhancedUserDao.readById(new UserKey(new EmailAddress("a@gmail.com"))).get();
 		System.err.print(userEntity);
 		return userEntity;
 	}
@@ -182,7 +182,7 @@ public class DaoDemo implements CommandLineRunner{
 				":)",
 				UserRole.MANAGER,
 				(long) 456);
-		user1.setKey(new UserKey("AlonSamay@gmail.com"));
+		user1.setKey(new UserKey(new EmailAddress("AlonSamay@gmail.com")));
 		this.enhancedUserDao.create(user1);
 
 

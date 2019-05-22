@@ -17,6 +17,7 @@ public class ActionController extends ValidateController implements Controller<A
     private ActionServiceImpl actionService;
     //****************   Commented the context from the proprties file and setted route to each User Role ****************
     private static final String ADMIN_ROUTE = "smartspace/admin/actions/{adminSmartspace}/{adminEmail}";
+    private static final String ROUTE = "smartspace/actions";
 
     @Autowired
     public ActionController(EnhancedUserDao userDao, ActionServiceImpl actionService) {
@@ -60,6 +61,16 @@ public class ActionController extends ValidateController implements Controller<A
                     .toArray(ActionBoundary[]::new);
     }
 
+    @RolePermission({UserRole.MANAGER, UserRole.PLAYER})
+    @RequestMapping(
+            method=RequestMethod.POST,
+            path= ROUTE,
+            produces=MediaType.APPLICATION_JSON_VALUE,
+            consumes=MediaType.APPLICATION_JSON_VALUE)
+    public ActionBoundary invoke(
+            @RequestBody ActionBoundary actionBoundary) {
+        return new ActionBoundary(actionService.store(actionBoundary.convertToEntity()));
+    }
 
 
 
