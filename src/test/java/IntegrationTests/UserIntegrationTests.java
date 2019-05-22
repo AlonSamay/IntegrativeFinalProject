@@ -12,17 +12,20 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import smartspace.Application;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.data.MailAdress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.UserBoundary;
+import smartspace.layout.UserForm;
 import smartspace.logic.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -37,7 +40,8 @@ public class UserIntegrationTests {
     private static final String ADMIN_EMAIL = "alon@gmail.com";
 
     private EntityFactory factory;
-    private String baseUrl;
+    private String adminBaseURL;
+    private String baseURL;
     private int port;
     private EnhancedUserDao<UserKey> userDao;
     private UserServiceImpl userService;
@@ -67,7 +71,8 @@ public class UserIntegrationTests {
 
     @PostConstruct
     public void init() {
-        this.baseUrl = "http://localhost:" + port + "/smartspace/admin/users/{adminSmartSpace}/{ADMIN_EMAIL}";
+        this.baseURL = "http://localhost:" + port + "/smartspace";
+        this.adminBaseURL = "http://localhost:" + port + "/smartspace/admin/users/{adminSmartSpace}/{ADMIN_EMAIL}";
         this.restTemplate = new RestTemplate();
     }
 
@@ -87,7 +92,7 @@ public class UserIntegrationTests {
     public UserKey generateUserKey() {
         UserKey key = new UserKey();
         key.setId("Bla" + (++counter));
-        key.setEmail("bla@gmail.com");
+        key.setEmail(new MailAdress("bla@gmail.com"));
         return key;
     }
 
@@ -120,7 +125,7 @@ public class UserIntegrationTests {
         List<UserEntity> actualResult =
                 Arrays.stream(Objects.requireNonNull(
                         this.restTemplate.postForObject(
-                                this.baseUrl,
+                                this.adminBaseURL,
                                 allUsers,
                                 UserBoundary[].class,
                                 ADMIN_SMARTSPACE,
@@ -171,7 +176,7 @@ public class UserIntegrationTests {
         UserBoundary[] result =
                 this.restTemplate
                         .getForObject(
-                                this.baseUrl + "?size={size}&page={page}",
+                                this.adminBaseURL + "?size={size}&page={page}",
                                 UserBoundary[].class,
                                 ADMIN_SMARTSPACE,
                                 ADMIN_EMAIL,
@@ -192,10 +197,55 @@ public class UserIntegrationTests {
         String type = "TEMP";
         this.restTemplate
                 .getForObject(
-                        this.baseUrl + "/{type}",
+                        this.adminBaseURL + "/{type}",
                         UserBoundary[].class,
                         type);
 
         // THEN I receive an error status
+    }
+
+    @Test
+    public void testNewUser() {
+        // GIVEN nothing
+
+        // WHEN I create new user using user form
+        UserForm userForm = new UserForm("samay.alon@gmail.com",
+                "PLAYER",
+                "AloNs",
+                "T_T");
+
+        UserBoundary boundary = this.restTemplate.postForObject(this.baseURL + "/users", userForm, UserBoundary.class);
+
+        // THEN the new user is added to the DB
+        assertThat(boundary)
+                .isEqualToComparingOnlyGivenFields(userForm, "role", "username", "avatar");
+    }
+
+    @Test
+    public void testUpdateExistingUser() {
+        // GIVEN a user in the database
+        UserEntity user = factory.createNewUser(
+                ADMIN_EMAIL, ADMIN_SMARTSPACE,
+                "AlonSamay",
+                ":)",
+                UserRole.PLAYER,
+                (long) 100);
+        this.userDao.create(user);
+
+        // WHEN I edit the username, avatar and points, and update
+        user.setUsername("AloNs");
+        user.setAvatar(":/");
+        user.setPoints((long) 200);
+        userService.update(user);
+
+        // THEN all attributes with changes (without points) will update
+        Optional<UserEntity> entity = userDao.readById(user.getKey());
+        if (!entity.isPresent()) {
+            throw new RuntimeException(this.getClass().getSimpleName());
+        }
+        UserEntity userEntity = entity.get();
+        assertThat(user)
+                .isEqualToIgnoringGivenFields(userEntity, "userKey", "username", "avatar")
+                .isNotEqualTo(userEntity);
     }
 }

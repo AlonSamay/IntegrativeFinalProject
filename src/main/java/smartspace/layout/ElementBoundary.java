@@ -1,9 +1,6 @@
 package smartspace.layout;
 
-import smartspace.data.ElementEntity;
-import smartspace.data.ElementKey;
-import smartspace.data.Location;
-import smartspace.data.UserKey;
+import smartspace.data.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -48,7 +45,7 @@ public class ElementBoundary {
 //        this.creator.put(EMAIL, entity.getCreatorEmail());
 //        this.creator.put(SMARTSPACE, entity.getCreatorSmartSpace());
 
-        this.creator = new UserKey(entity.getCreatorEmail());
+        this.creator = new UserKey(new MailAdress(entity.getCreatorEmail()));
 
         this.latlng = new TreeMap<>();
         this.latlng.put(LAT, entity.getLocation().getX());
@@ -82,7 +79,7 @@ public class ElementBoundary {
 
         if (this.creator.getEmail() != null && this.creator.getId() != null) {
             entity.setCreatorSmartSpace(this.creator.getId());
-            entity.setCreatorEmail(this.creator.getEmail());
+            entity.setCreatorEmail(this.creator.getEmail().getMail());
         }
 
         entity.setMoreAttributes(this.elementProperties);

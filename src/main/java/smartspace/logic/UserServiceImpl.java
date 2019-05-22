@@ -6,12 +6,16 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.data.ElementKey;
 import smartspace.data.MailAdress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 
+import javax.swing.text.html.Option;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 
@@ -38,33 +42,62 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
     @Override
     @Transactional
     public UserEntity store(UserEntity userEntity) {
-
-        if (this.validate(userEntity)){
-            return this.userDao.create(userEntity);
+        if (!this.validate(userEntity)) {
+            throw new RuntimeException(this.getClass().getSimpleName() + ": Invalid entity");
         }
-        else
-            throw new RuntimeException(this.getClass().getSimpleName());
+        return this.userDao.create(userEntity);
     }
 
+    @Override
+    @Transactional
+    public UserEntity get(String smartspace, String email) {
+        UserKey userKey = new UserKey(new MailAdress(email), smartspace);
+        Optional<UserEntity> entityFromDB = userDao.readById(userKey);
+        if (!entityFromDB.isPresent()) {
+            throw new RuntimeException(this.getClass().getSimpleName() + ": No user with email and smartspace provided");
+        }
+        return entityFromDB.get();
+    }
+
+    @Override
     @Transactional
     public UserEntity[] storeAll(UserEntity[] userEntities) {
-        boolean isAllValid=Arrays.stream(userEntities).allMatch(this::validate);
-        if (isAllValid){
-            return Arrays.stream(userEntities).map(this::store).collect(Collectors.toList()).toArray(new UserEntity[0]);
-        }
-        else
+        boolean isAllValid = Arrays.stream(userEntities)
+                .allMatch(this::validateDifferentSmartspace);
+        if (!isAllValid) {
             throw new RuntimeException(this.getClass().getSimpleName());
+        }
+        return Arrays.stream(userEntities)
+                .map(this::store)
+                .toArray(UserEntity[]::new);
+    }
+
+    @Override
+    @Transactional
+    public void update(UserEntity entity) {
+        if (!validate(entity)) {
+            throw new RuntimeException(this.getClass().getSimpleName());
+        }
+        Optional<UserEntity> entityFromDB = userDao.readById(entity.getKey());
+        if (!entityFromDB.isPresent()) {
+            throw new RuntimeException(this.getClass().getSimpleName());
+        }
+        entity.setPoints(entityFromDB.get().getPoints());
+
+        userDao.update(entity);
+    }
+
+    private boolean validateDifferentSmartspace(UserEntity entity) {
+         return validate(entity)
+                 && !entity.getUserKey().getId().equals(this.smartSpaceName);
     }
 
     private boolean validate(UserEntity userEntity) {
-
         return this.isValid(userEntity.getKey().getId()) &&
-                !userEntity.getKey().getId().equals(this.smartSpaceName) &&
-                this.isValid(new MailAdress(userEntity.getKey().getEmail())) &&
+                this.isValid(userEntity.getKey().getEmail()) &&
                 this.isValid(userEntity.getAvatar()) &&
                 this.isValid(userEntity.getRole()) &&
                 this.isValid(userEntity.getPoints()) &&
                 this.isValid(userEntity.getUsername());
     }
-
 }

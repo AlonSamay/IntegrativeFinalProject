@@ -1,5 +1,6 @@
 package smartspace.layout;
 
+import smartspace.data.MailAdress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
@@ -24,7 +25,7 @@ public class UserBoundary {
     public UserBoundary(UserEntity entity) {
         this.key = new TreeMap<>();
         this.key.put(SMARTSPACE, entity.getKey().getId());
-        this.key.put(EMAIL, entity.getKey().getEmail());
+        this.key.put(EMAIL, entity.getKey().getEmail().getMail());
 
         this.role = entity.getRole().name();
 
@@ -38,9 +39,7 @@ public class UserBoundary {
         UserEntity entity = new UserEntity();
 
         if (this.key != null && this.key.get(EMAIL) != null && this.key.get(SMARTSPACE) != null) {
-            UserKey key = new UserKey();
-            key.setEmail(this.key.get(EMAIL));
-            key.setId(this.key.get(SMARTSPACE));
+            UserKey key = new UserKey(new MailAdress(this.key.get(EMAIL)), this.key.get(SMARTSPACE));
             entity.setKey(key);
         }
 
