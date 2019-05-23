@@ -24,7 +24,7 @@ public class Validator {
     }
 
     boolean isValid(Long x) {
-        return x != null && x > 0;
+        return x != null && x >= 0;
     }
 
     boolean isValid(Double x) {

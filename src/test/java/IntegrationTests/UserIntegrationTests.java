@@ -94,7 +94,7 @@ public class UserIntegrationTests {
 
     public UserKey generateUserKey() {
         UserKey key = new UserKey();
-        key.setSmartSpace("Bla" + (++counter));
+        key.setSmartspace("Bla" + (++counter));
         key.setEmail("bla@gmail.com");
         return key;
     }

@@ -37,9 +37,10 @@ public class UserBoundary {
         entity.setUsername(this.username);
 
         entity.setAvatar(this.avatar);
-
-        entity.setPoints(this.points);
-
+        if(this.points ==null)
+         entity.setPoints(0L);
+        else
+            entity.setPoints(this.points);
         return entity;
     }
 

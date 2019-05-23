@@ -8,32 +8,32 @@ public class UserKey implements Serializable, Comparable<String> {
 
     private static final long serialVersionUID = 8656507240646501250L;
 
-    private String smartSpace;
+    private String smartspace;
     private String email;
 
     public UserKey() {
     }
 
     public UserKey(String email) {
-        this.smartSpace = "2019BTal.Cohen";
+        this.smartspace = "2019BTal.Cohen";
         this.email = email;
     }
 
-    public UserKey(String email, String smartSpace) {
-        this.smartSpace = smartSpace;
+    public UserKey(String email, String smartspace) {
+        this.smartspace = smartspace;
         this.email = email;
     }
 
     public String getSmartspace() {
-        return smartSpace;
+        return smartspace;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setSmartSpace(String smartspace) {
-        this.smartSpace = smartspace;
+    public void setSmartspace(String smartspace) {
+        this.smartspace = smartspace;
     }
 
     public void setEmail(String email) {
@@ -45,13 +45,13 @@ public class UserKey implements Serializable, Comparable<String> {
         if (this == o) return true;
         if (!(o instanceof UserKey)) return false;
         UserKey userKey = (UserKey) o;
-        return Objects.equals(smartSpace, userKey.smartSpace) &&
+        return Objects.equals(smartspace, userKey.smartspace) &&
                 Objects.equals(email, userKey.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(smartSpace, email);
+        return Objects.hash(smartspace, email);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class UserKey implements Serializable, Comparable<String> {
     @Override
     public String toString() {
         return "UserKey{" +
-                "smartSpace='" + smartSpace + '\'' +
+                "smartspace='" + smartspace + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

@@ -44,8 +44,12 @@ public class ActionBoundary {
     public ActionEntity convertToEntity() {
         ActionEntity entity = new ActionEntity();
 
-        entity.setKey(this.actionKey.getActionId());
-        entity.setActionSmartSpace(this.actionKey.getActionSmartSpace());
+        if (this.actionKey !=null ) {
+            entity.setKey(this.actionKey.getActionId());
+            entity.setActionSmartSpace(this.actionKey.getActionSmartSpace());
+        }
+        else
+            entity.setKey(null);
 
         entity.setActionType(this.type);
 

@@ -31,7 +31,7 @@ public class ElementController extends ValidateController implements Controller<
         super(userDao);
         this.elementService = elementService;
     }
-    @RolePermission
+    @RolePermission(UserRole.ADMIN)
     @RequestMapping(
             method = RequestMethod.GET,
             path = ADMIN_ROUTE,
