@@ -6,9 +6,6 @@ import smartspace.data.UserKey;
 import smartspace.data.UserRole;
 
 public class UserBoundary {
-    private static final String SMARTSPACE = "smartspace";
-    private static final String EMAIL = "email";
-
     private UserKey key;
     private String role;
     private String username;
@@ -20,11 +17,7 @@ public class UserBoundary {
     }
 
     public UserBoundary(UserEntity entity) {
-//        this.key = new TreeMap<>();
-////        this.key.put(SMARTSPACE, entity.getKey().getSmartspace());
-////        this.key.put(EMAIL, entity.getKey().getEmail());
-
-        this.key = new UserKey(entity.getKey().getEmail(),entity.getKey().getSmartspace());
+        this.key = entity.getKey();
 
         this.role = entity.getRole().name();
 
@@ -37,12 +30,7 @@ public class UserBoundary {
     public UserEntity convertToEntity() {
         UserEntity entity = new UserEntity();
 
-        if (this.key != null && this.key.getEmail() != null && this.key.getSmartspace() != null) {
-            UserKey key = new UserKey();
-            key.setEmail(this.key.getEmail());
-            key.setSmartSpace(this.key.getSmartspace());
-            entity.setKey(key);
-        }
+        entity.setKey(key);
 
         entity.setRole(this.role != null ? UserRole.valueOf(this.role) : null);
 

@@ -7,16 +7,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import smartspace.Application;
 import smartspace.dao.EnhancedActionDao;
 import smartspace.dao.EnhancedElementDao;
-import smartspace.data.ActionEntity;
-import smartspace.data.ElementEntity;
-import smartspace.data.ElementKey;
-import smartspace.data.Location;
+import smartspace.dao.EnhancedUserDao;
+import smartspace.data.*;
 import smartspace.data.util.EntityFactory;
 import smartspace.layout.ActionBoundary;
 import smartspace.logic.ActionServiceImpl;
@@ -36,14 +35,18 @@ public class ActionIntegrationTests {
     private static final String ADMIN_SMARTSPACE = "2019BTal.Cohen";
     private static final String ADMIN_EMAIL = "alon@gmail.com";
 
-    private EntityFactory factory;
     private String baseUrl;
+    private String adminUrl;
+    private String actionUrl;
     private int port;
-    private EnhancedActionDao actionDao;
+
+    private EntityFactory factory;
     private ActionServiceImpl actionService;
     private RestTemplate restTemplate;
 
     private EnhancedElementDao<ElementKey> elementDao;
+    private EnhancedActionDao actionDao;
+    private EnhancedUserDao<UserKey> userDao;
 
     private static int counter = 0;
     private ElementKey key;
@@ -56,6 +59,11 @@ public class ActionIntegrationTests {
     @Autowired
     public void setElementDao(EnhancedElementDao<ElementKey> elementDao) {
         this.elementDao = elementDao;
+    }
+
+    @Autowired
+    public void setUserDao(EnhancedUserDao<UserKey> userDao) {
+        this.userDao = userDao;
     }
 
     @LocalServerPort
@@ -75,7 +83,9 @@ public class ActionIntegrationTests {
 
     @PostConstruct
     public void init() {
-        this.baseUrl = "http://localhost:" + port + "/smartspace/admin/actions/{adminSmartSpace}/{ADMIN_EMAIL}";
+        this.baseUrl = "http://localhost:" + port + "/smartspace";
+        this.adminUrl = "/admin/actions/{adminSmartspace}/{adminEmail";
+        this.actionUrl = "/actions";
         this.restTemplate = new RestTemplate();
     }
 
@@ -84,7 +94,7 @@ public class ActionIntegrationTests {
         this.actionDao.deleteAll();
         ElementEntity elementEntity = factory.createNewElement("a",
                 "ab",
-                new Location(5.4,3.7),
+                new Location(5.4, 3.7),
                 new Date(),
                 "fsda@gmail.com",
                 "gfsd",
@@ -108,7 +118,7 @@ public class ActionIntegrationTests {
         int totalSize = 10;
 
         Map<String, Object> details = new HashMap<>();
-        details.put("key1","hello ");
+        details.put("key1", "hello ");
 
         List<ActionBoundary> allActions =
                 IntStream
@@ -120,9 +130,7 @@ public class ActionIntegrationTests {
                                 new Date(),
                                 "fda@gmail.com",
                                 "space",
-                                details ))
-                        .peek(action -> action.setKey("#" + ++counter))
-                        .peek(action -> action.setActionSmartSpace("yo"))
+                                details))
                         .map(ActionBoundary::new)
                         .collect(Collectors.toList());
 
@@ -160,7 +168,7 @@ public class ActionIntegrationTests {
         int totalSize = 10;
 
         Map<String, Object> details = new HashMap<>();
-        details.put("key1","hello ");
+        details.put("key1", "hello ");
 
         List<ActionBoundary> allUsers =
                 IntStream
@@ -173,8 +181,6 @@ public class ActionIntegrationTests {
                                 "fda@gmail.com",
                                 "space",
                                 details))
-                        .peek(action -> action.setKey("#" + ++counter))
-                        .peek(action->action.setActionSmartSpace("fds"))
                         .map(this.actionService::store)
                         .map(ActionBoundary::new)
                         .collect(Collectors.toList());
@@ -218,5 +224,25 @@ public class ActionIntegrationTests {
                         type);
 
         // THEN I receive an error status
+    }
+
+    @Test
+    public void testActionInvoke() {
+        // GIVEN nothing
+
+        // WHEN I invoke post of an action
+        ActionEntity entity = factory.createNewAction(
+                "alo",
+                "smartspace",
+                "bad",
+                new Date(),
+                "samay@gmail.com",
+                "smartspace",
+                null);
+        ActionBoundary boundary = new ActionBoundary(entity);
+        ActionBoundary boundaryFromDB = restTemplate.postForObject(baseUrl + actionUrl, boundary, ActionBoundary.class);
+
+        // THEN the action will be added into the DB
+        assertThat(boundary).isEqualToComparingFieldByFieldRecursively(boundaryFromDB);
     }
 }

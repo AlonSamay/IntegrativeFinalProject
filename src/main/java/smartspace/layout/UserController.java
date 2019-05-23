@@ -23,7 +23,7 @@ public class UserController implements Controller<UserBoundary> {
 
     //****************   Commented the context from the proprties file and setted route to each User Role ****************
     private static final String ADMIN_ROUTE = "smartspace/admin/users/{adminSmartspace}/{adminEmail}";
-    private static final String USER_ROUTE = "smartspace/users/{userSmartspace}/{userEmail}";
+    private static final String USER_ROUTE = "smartspace/users/login/{userSmartspace}/{userEmail}";
     private static final String ROUTE = "smartspace/users";
 
     @Autowired
@@ -68,7 +68,6 @@ public class UserController implements Controller<UserBoundary> {
                 .toArray(UserBoundary[]::new);
     }
 
-    // TODO: validate if updating user is connected one
     @RolePermission({MANAGER, PLAYER})
     @RequestMapping(
             method = RequestMethod.PUT,
@@ -92,8 +91,6 @@ public class UserController implements Controller<UserBoundary> {
         return new UserBoundary(userService.get(userSmartspace, userEmail));
     }
 
-    // TODO: check if user email already exists in DB
-    @RolePermission
     @RequestMapping(
             method = RequestMethod.POST,
             path = ROUTE,

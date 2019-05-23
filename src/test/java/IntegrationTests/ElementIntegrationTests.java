@@ -76,7 +76,7 @@ public class ElementIntegrationTests {
 
     @PostConstruct
     public void init() {
-        this.adminUrl = "/admin/elements/{adminSmartSpace}/{ADMIN_EMAIL}";
+        this.adminUrl = "/admin/elements/{adminSmartspace}/{adminEmail}";
         this.userUrl = "/elements/219BTal.Cohen/alon@gmail.com";
         this.baseUrl = "http://localhost:" + port + "/smartspace";
         this.restTemplate = new RestTemplate();

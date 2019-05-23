@@ -1,9 +1,10 @@
 package smartspace.data;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 
-public class UserKey implements Serializable ,Comparable<String>{
+public class UserKey implements Serializable, Comparable<String> {
 
     private static final long serialVersionUID = 8656507240646501250L;
 
@@ -11,8 +12,6 @@ public class UserKey implements Serializable ,Comparable<String>{
     private String email;
 
     public UserKey() {
-
-
     }
 
     public UserKey(String email) {
@@ -63,7 +62,7 @@ public class UserKey implements Serializable ,Comparable<String>{
     @Override
     public String toString() {
         return "UserKey{" +
-                "id='" + smartSpace + '\'' +
+                "smartSpace='" + smartSpace + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

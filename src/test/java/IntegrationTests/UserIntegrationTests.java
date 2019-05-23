@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import smartspace.Application;
 import smartspace.dao.EnhancedUserDao;
-import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;
@@ -39,10 +38,12 @@ public class UserIntegrationTests {
     private static final String ADMIN_SMARTSPACE = "2019BTal.Cohen";
     private static final String ADMIN_EMAIL = "alon@gmail.com";
 
-    private EntityFactory factory;
-    private String adminBaseURL;
     private String baseURL;
+    private String adminURL;
+    private String userURL;
     private int port;
+
+    private EntityFactory factory;
     private EnhancedUserDao<UserKey> userDao;
     private UserServiceImpl userService;
     private RestTemplate restTemplate;
@@ -72,7 +73,9 @@ public class UserIntegrationTests {
     @PostConstruct
     public void init() {
         this.baseURL = "http://localhost:" + port + "/smartspace";
-        this.adminBaseURL = "http://localhost:" + port + "/smartspace/admin/users/{adminSmartSpace}/{ADMIN_EMAIL}";
+        this.adminURL ="/admin/users/{adminSmartspace}/{adminEmail}";
+        this.userURL ="/users/login/{userSmartspace}/{userEmail}";
+
         this.restTemplate = new RestTemplate();
     }
 
@@ -125,7 +128,7 @@ public class UserIntegrationTests {
         List<UserEntity> actualResult =
                 Arrays.stream(Objects.requireNonNull(
                         this.restTemplate.postForObject(
-                                this.adminBaseURL,
+                                this.adminURL,
                                 allUsers,
                                 UserBoundary[].class,
                                 ADMIN_SMARTSPACE,
@@ -176,7 +179,7 @@ public class UserIntegrationTests {
         UserBoundary[] result =
                 this.restTemplate
                         .getForObject(
-                                this.adminBaseURL + "?size={size}&page={page}",
+                                this.adminURL + "?size={size}&page={page}",
                                 UserBoundary[].class,
                                 ADMIN_SMARTSPACE,
                                 ADMIN_EMAIL,
@@ -197,7 +200,7 @@ public class UserIntegrationTests {
         String type = "TEMP";
         this.restTemplate
                 .getForObject(
-                        this.adminBaseURL + "/{type}",
+                        this.adminURL + "/{type}",
                         UserBoundary[].class,
                         type);
 
@@ -225,18 +228,20 @@ public class UserIntegrationTests {
     public void testUpdateExistingUser() {
         // GIVEN a user in the database
         UserEntity user = factory.createNewUser(
-                ADMIN_EMAIL, ADMIN_SMARTSPACE,
+                "alon@gmail.com",
+                "kk",
                 "AlonSamay",
                 ":)",
                 UserRole.PLAYER,
                 (long) 100);
         this.userDao.create(user);
 
-        // WHEN I edit the username, avatar and points, and update
+        // WHEN I update the username, avatar and points
         user.setUsername("AloNs");
         user.setAvatar(":/");
         user.setPoints((long) 200);
-        userService.update(user);
+
+        restTemplate.put(baseURL + userURL, new UserBoundary(user), "kk", "alon@gmail.com");
 
         // THEN all attributes with changes (without points) will update
         Optional<UserEntity> entity = userDao.readById(user.getKey());
@@ -245,25 +250,26 @@ public class UserIntegrationTests {
         }
         UserEntity userEntity = entity.get();
         assertThat(user)
-                .isEqualToIgnoringGivenFields(userEntity, "userKey", "username", "avatar")
-                .isNotEqualTo(userEntity);
+                .isEqualToIgnoringGivenFields(userEntity, "userKey", "username", "avatar");
     }
 
     @Test
     public void testGetUser() {
         // GIVEN a user in the database
         UserEntity user = factory.createNewUser(
-                "yanai1000@gmail.com", ADMIN_SMARTSPACE,
+                "yanai1000@gmail.com",
+                "jj",
                 "Yanai",
                 ":S",
                 UserRole.PLAYER,
                 (long) 100);
-        this.userDao.create(user);
+        userDao.create(user);
 
         // WHEN I invoke get request of user
-        UserEntity userEntity = userService.get(ADMIN_SMARTSPACE, "yanai1000@gmail.com");
+        UserBoundary boundary = restTemplate.getForObject(baseURL + userURL, UserBoundary.class, "jj", "yanai1000@gmail.com");
+        UserEntity entity = boundary != null ? boundary.convertToEntity() : null;
 
         // THEN I get the exact user
-        assertThat(user).isEqualToComparingFieldByFieldRecursively(userEntity);
+        assertThat(user).isEqualToIgnoringGivenFields(entity, "userKey");
     }
 }

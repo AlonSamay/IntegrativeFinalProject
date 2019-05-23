@@ -61,7 +61,6 @@ public class ActionController extends ValidateController implements Controller<A
                     .toArray(ActionBoundary[]::new);
     }
 
-    @RolePermission({UserRole.MANAGER, UserRole.PLAYER})
     @RequestMapping(
             method=RequestMethod.POST,
             path= ROUTE,
