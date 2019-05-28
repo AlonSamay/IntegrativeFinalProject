@@ -70,7 +70,4 @@ public class ActionController extends ValidateController implements Controller<A
             @RequestBody ActionBoundary actionBoundary) {
         return new ActionBoundary(actionService.store(actionBoundary.convertToEntity()));
     }
-
-
-
 }

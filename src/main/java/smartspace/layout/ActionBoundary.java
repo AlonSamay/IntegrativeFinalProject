@@ -7,12 +7,8 @@ import smartspace.data.UserKey;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class ActionBoundary {
-    private static final String ID = "id";
-    private static final String SMARTSPACE = "smartspace";
-    private static final String EMAIL = "email";
 
     private ActionKey actionKey;
     private String type;
@@ -49,14 +45,14 @@ public class ActionBoundary {
             entity.setActionSmartSpace(this.actionKey.getActionSmartSpace());
         }
         else
-            entity.setKey(null);
+            entity.setActionSmartSpace(new ActionKey().getActionSmartSpace());
 
         entity.setActionType(this.type);
 
         entity.setCreationTimeStamp(this.created);
 
-        entity.setElementId(this.element.getElementId());
-        entity.setElementSmartSpace(this.element.getElementSmartSpace());
+        entity.setElementId(this.element.getId());
+        entity.setElementSmartSpace(this.element.getSmartspace());
 
         entity.setPlayerEmail(this.player.getEmail());
         entity.setPlayerSmartSpace(this.player.getSmartspace());

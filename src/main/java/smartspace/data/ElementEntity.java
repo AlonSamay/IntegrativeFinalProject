@@ -43,19 +43,19 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
     }
 
     public String getElementSmartSpace(){
-        return this.elementKey.getElementSmartSpace();
+        return this.elementKey.getSmartspace();
     }
 
     public void SetElementSmartSpace(String elementSmartSpace){
-        this.elementKey.setElementSmartSpace(elementSmartSpace);
+        this.elementKey.setSmartspace(elementSmartSpace);
     }
 
     public String getElementId(){
-        return this.elementKey.getElementId();
+        return this.elementKey.getId();
     }
 
     public void SetElementId(String elementId){
-        this.elementKey.setElementId(elementId);
+        this.elementKey.setId(elementId);
     }
 
     public void setLocation(Location location) {
@@ -120,7 +120,7 @@ public class ElementEntity implements SmartspaceEntity<ElementKey> {
     }
 
 
-    public boolean getExpired() {
+    public boolean isExpired() {
         return expired;
     }
 

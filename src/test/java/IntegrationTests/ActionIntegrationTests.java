@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
@@ -124,8 +123,8 @@ public class ActionIntegrationTests {
                 IntStream
                         .range(1, totalSize + 1)
                         .mapToObj(i -> factory.createNewAction(
-                                key.getElementId(),
-                                key.getElementSmartSpace(),
+                                key.getId(),
+                                key.getSmartspace(),
                                 "Py",
                                 new Date(),
                                 "fda@gmail.com",
@@ -174,8 +173,8 @@ public class ActionIntegrationTests {
                 IntStream
                         .range(1, totalSize + 1)
                         .mapToObj(i -> factory.createNewAction(
-                                key.getElementId(),
-                                key.getElementSmartSpace(),
+                                key.getId(),
+                                key.getSmartspace(),
                                 "Py",
                                 new Date(),
                                 "fda@gmail.com",
@@ -228,12 +227,23 @@ public class ActionIntegrationTests {
 
     @Test
     public void testActionInvoke() {
-        // GIVEN nothing
+        // GIVEN element in the DB
+        ElementEntity element = factory.createNewElement(
+                "hello",
+                "good",
+                new Location(4.2, 3.2),
+                new Date(),
+                "samay@gmail.com",
+                ADMIN_SMARTSPACE,
+                false,
+                null);
+        element.setKey(new ElementKey("50", ADMIN_SMARTSPACE));
+        elementDao.create(element);
 
-        // WHEN I invoke post of an action
+        // WHEN I invoke post of an action on the element
         ActionEntity entity = factory.createNewAction(
-                "alo",
-                "smartspace",
+                "50",
+                "ADMIN_SMARTSPACE",
                 "bad",
                 new Date(),
                 "samay@gmail.com",

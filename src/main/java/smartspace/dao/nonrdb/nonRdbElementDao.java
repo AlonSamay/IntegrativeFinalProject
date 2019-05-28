@@ -44,12 +44,12 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
         if(element.getElementKey() == null) {
             //SMART SPACE DOESN'T EXIST - CREATE NEW KEY
             ElementKey elementKey = new ElementKey();
-            elementKey.setElementId(this.idGeneratorCrud.save(new IdGenerator()).getNextId());
+            elementKey.setId(this.idGeneratorCrud.save(new IdGenerator()).getNextId());
             element.setElementKey(elementKey);
         }
         else{
             //SMARTSPACE ALREADY EXIST - ASSIGNING ID
-            element.getElementKey().setElementId(this.idGeneratorCrud.save(new IdGenerator()).getNextId());
+            element.getElementKey().setId(this.idGeneratorCrud.save(new IdGenerator()).getNextId());
         }
         return this.elementCrud.save(element);
     }
