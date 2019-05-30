@@ -11,7 +11,7 @@ import smartspace.data.util.EntityFactory;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
+
 
 
 @Component
@@ -38,6 +38,7 @@ public class DaoDemo implements CommandLineRunner{
 		this.idGeneratorCrud = idGeneratorCrud;
 		this.factory = factory;
 		this.managerMail="Alon@gmail.com";
+
 	}
 
 
@@ -53,10 +54,10 @@ public class DaoDemo implements CommandLineRunner{
 //		readAllElements();
 //		readAllActions();
 
-		String name = "cart";
+		String name = "carttalcohen19@gmail.com";
 		readAllByName(name);
 
-		String type = "Product";
+		String type = "product";
 		readAllByType(type);
 
 	}

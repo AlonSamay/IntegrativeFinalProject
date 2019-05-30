@@ -114,9 +114,6 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
         if (!this.isValid(elementEntity.getCreatorSmartSpace()))
             throw new FieldException(this.getClass().getSimpleName(), "Element's creator smartspace");
 
-        if (!this.isValid(elementEntity.getElementSmartSpace()))
-            throw new FieldException(this.getClass().getSimpleName(), "Element's smartspace");
-
         if (!this.isValid(elementEntity.getName()))
             throw new FieldException(this.getClass().getSimpleName(), "Element's name");
 

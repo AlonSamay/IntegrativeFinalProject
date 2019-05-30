@@ -39,7 +39,7 @@ public class ElementBoundary {
         this.created = new Timestamp(entity.getCreationTimeStamp().getTime());
 
 
-        this.creator = new UserKey(entity.getCreatorEmail());
+        this.creator = new UserKey(entity.getCreatorEmail(),entity.getCreatorSmartSpace());
 
         this.latlng = new TreeMap<>();
         this.latlng.put(LAT, entity.getLocation().getX());
@@ -71,10 +71,9 @@ public class ElementBoundary {
 
         entity.setExpired(this.expired);
 
-        if (this.creator.getEmail() != null && this.creator.getSmartspace() != null) {
-            entity.setCreatorSmartSpace(this.creator.getSmartspace());
-            entity.setCreatorEmail(this.creator.getEmail());
-        }
+        entity.setCreatorSmartSpace(this.creator.getSmartspace());
+        entity.setCreatorEmail(this.creator.getEmail());
+
         if(this.elementProperties !=null)
             entity.setMoreAttributes(this.elementProperties);
 

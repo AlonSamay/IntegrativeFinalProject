@@ -56,7 +56,7 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
     public UserEntity[] storeAll(UserEntity[] userEntities) {
         boolean isAllValid = Arrays.stream(userEntities)
                 .allMatch(this::validateImportedUser);
-        if (!isAllValid)
+        if (isAllValid)
         return Arrays.stream(userEntities)
                 .map(this.userDao::create)
                 .toArray(UserEntity[]::new);
