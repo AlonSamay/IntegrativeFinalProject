@@ -126,7 +126,7 @@ public class ElementController extends ValidateController implements Controller<
     public ElementBoundary[] getElementsBySearch(
             @PathVariable("userSmartSpace") String userSmartSpace,
             @PathVariable("userEmail") String userEmail,
-            @RequestParam(name = "Search", required = false, defaultValue = "all") String param,
+            @RequestParam(name = "search", required = false, defaultValue = "all") String param,
             @RequestParam(name = "value", required = false, defaultValue = "A") String value,
             @RequestParam(name = "x", required = false, defaultValue = "0.0") double x,
             @RequestParam(name = "y", required = false, defaultValue = "0.0") double y,
@@ -137,9 +137,7 @@ public class ElementController extends ValidateController implements Controller<
             return this.elementService
                     .getElementsBySearchTerm(param, value, x, y, distance, size, page)
                     .stream()
-                    .map(ElementBoundary::new)
-                    .collect(Collectors.toList())
-                    .toArray(new ElementBoundary[0]);
+                    .map(ElementBoundary::new).toArray(ElementBoundary[]::new);
         } else {
             throw new RuntimeException("param is invalid");
         }

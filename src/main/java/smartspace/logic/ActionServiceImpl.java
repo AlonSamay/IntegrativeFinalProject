@@ -121,9 +121,13 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
             String actionType = actionEntity.getActionType();
             if(actionType != null && !actionType.trim().isEmpty()){
                 String className = this.createClassNameForPlugIn(actionType);
-                Class<?> theClass = Class.forName(className);
-                Object plugin = ctx.getBean(theClass);
-                actionEntity = ((PluginCommand) plugin).invoke(actionEntity);
+                try {
+                    Class<?> theClass = Class.forName(className);
+                    Object plugin = ctx.getBean(theClass);
+                    actionEntity = ((PluginCommand) plugin).invoke(actionEntity);
+                }catch (ClassNotFoundException exc){
+                    System.out.println("No plugin for this action , Saving to db ");
+                }
                 return this.store(actionEntity); //will do validation and create with dao
             }
             else {
