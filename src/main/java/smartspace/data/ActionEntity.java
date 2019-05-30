@@ -37,7 +37,6 @@ public class ActionEntity implements SmartspaceEntity<ActionKey> {
         this.playerEmail = playerEmail;
         this.playerSmartSpace = playerSmartSpace;
         this.moreAttributes = moreAttributes;
-        this.actionKey = new ActionKey();
     }
 
     public void setElementSmartSpace(String elementSmartSpace) {
