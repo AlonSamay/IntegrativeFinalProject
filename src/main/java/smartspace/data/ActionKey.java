@@ -6,33 +6,37 @@ public class ActionKey {
 
     private static final long serialVersionUID = 8665542775633852231L;
 
-    private String actionSmartSpace;
-    private String actionId;
+    private String smartspace;
+    private String id;
 
     public ActionKey() {
-        this.actionSmartSpace = "2019BTalCohen";
+        this.smartspace = "2019BTalCohen";
+    }
+    public ActionKey(String id) {
+        this.id=id;
+        this.smartspace = "2019BTalCohen";
     }
 
-    public ActionKey(String elementId, String elementSmartspace){
-        this.actionId = elementId;
-        this.actionSmartSpace = elementSmartspace;
+    public ActionKey(String id, String actionSmartSpace){
+        this.id = id;
+        this.smartspace = actionSmartSpace;
     }
 
 
-    public String getActionSmartSpace() {
-        return actionSmartSpace;
+    public String getSmartspace() {
+        return smartspace;
     }
 
-    public void setActionSmartSpace(String actionSmartSpace) {
-        this.actionSmartSpace = actionSmartSpace;
+    public void setSmartspace(String smartspace) {
+        this.smartspace = smartspace;
     }
 
-    public String getActionId() {
-        return actionId;
+    public String getId() {
+        return id;
     }
 
-    public void setActionId(String actionId) {
-        this.actionId = actionId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
@@ -40,20 +44,20 @@ public class ActionKey {
         if (this == o) return true;
         if (!(o instanceof ActionKey)) return false;
         ActionKey that = (ActionKey) o;
-        return Objects.equals(actionSmartSpace, that.actionSmartSpace) &&
-                Objects.equals(actionId, that.actionId);
+        return Objects.equals(smartspace, that.smartspace) &&
+                Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(actionSmartSpace, actionId);
+        return Objects.hash(smartspace, id);
     }
 
     @Override
     public String toString() {
         return "ActionKey{" +
-                "actionSmartSpace='" + actionSmartSpace + '\'' +
-                ", actionId='" + actionId + '\'' +
+                "smartspace='" + smartspace + '\'' +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

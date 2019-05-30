@@ -13,6 +13,7 @@ import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,14 +43,11 @@ public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     @Transactional
     public ElementEntity create(ElementEntity element) {
         if(element.getElementKey() == null) {
-            //SMART SPACE DOESN'T EXIST - CREATE NEW KEY
+            //for new element that managet create
             ElementKey elementKey = new ElementKey();
             elementKey.setId(this.idGeneratorCrud.save(new IdGenerator()).getNextId());
+            element.setCreationTimeStamp(new Date());
             element.setElementKey(elementKey);
-        }
-        else{
-            //SMARTSPACE ALREADY EXIST - ASSIGNING ID
-            element.getElementKey().setId(this.idGeneratorCrud.save(new IdGenerator()).getNextId());
         }
         return this.elementCrud.save(element);
     }

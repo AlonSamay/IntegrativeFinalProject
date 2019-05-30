@@ -5,6 +5,7 @@ import smartspace.data.ActionKey;
 import smartspace.data.ElementKey;
 import smartspace.data.UserKey;
 
+import javax.swing.*;
 import java.util.Date;
 import java.util.Map;
 
@@ -40,13 +41,13 @@ public class ActionBoundary {
     public ActionEntity convertToEntity() {
         ActionEntity entity = new ActionEntity();
 
-        if (this.actionKey !=null ) {
-            entity.setKey(this.actionKey.getActionId());
-            entity.setActionSmartSpace(this.actionKey.getActionSmartSpace());
+        if (this.actionKey ==null ) {
+            entity.setKey(null);
         }
-        else
-            entity.setActionSmartSpace(new ActionKey().getActionSmartSpace());
-
+        else {
+            ActionKey key = new ActionKey(this.actionKey.getId(),this.actionKey.getSmartspace());
+            entity.setKey(key);
+        }
         entity.setActionType(this.type);
 
         entity.setCreationTimeStamp(this.created);

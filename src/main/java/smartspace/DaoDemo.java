@@ -63,25 +63,6 @@ public class DaoDemo implements CommandLineRunner{
 		String type = "Login";
 		readAllByType(type);
 
-//		ElementEntity elementEntity = readElementById();
-//		UserEntity userEntity = readUserById();
-
-
-//
-//		updateUser(userEntity);
-//		updateEntity(elementEntity);
-
-
-//		enchancedElementDao.deleteByKey(new ElementKey("5cc17077b03b0a6225bf7088"));
-//		readAllElements();
-
-
-//		elementDao.delete(elementEntity);
-//		readAllElements();
-//
-//        enchancedElementDao.deleteAll();
-//        enhancedActionDao.deleteAll();
-//        enhancedUserDao.deleteAll();
 	}
 
 	private void readAllByType(String type) {
