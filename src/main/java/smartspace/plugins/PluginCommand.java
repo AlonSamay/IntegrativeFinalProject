@@ -1,10 +1,7 @@
-package smartspace.logic;
+package smartspace.plugins;
 
 import smartspace.data.ActionEntity;
 
-public interface ActionService<K> extends ServicePattern<K>{
-
+public interface PluginCommand{
     public ActionEntity invoke(ActionEntity actionEntity);
-
-
 }
