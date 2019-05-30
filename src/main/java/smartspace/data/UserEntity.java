@@ -19,7 +19,7 @@ public class UserEntity implements SmartspaceEntity<UserKey> {
     private UserKey userKey;
 
     public UserEntity(String email,String userSmartSpace,String userName, String avatar, UserRole role, Long points) {
-        this.setKey(new UserKey(email));
+        this.setKey(new UserKey(email,userSmartSpace));
         this.username = userName;
         this.avatar = avatar;
         this.role = role;

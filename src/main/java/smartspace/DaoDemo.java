@@ -157,8 +157,7 @@ public class DaoDemo implements CommandLineRunner{
 					"y",
 					true,
 					moreAttributes);
-		ElementKey elementKey = new ElementKey();
-		elementKey.setElementSmartSpace("my_smartspace");
+		ElementKey elementKey = new ElementKey("my_smartspace", "30");
 		element.setElementKey(elementKey);
 		this.enchancedElementDao.create(element);
 
@@ -176,13 +175,12 @@ public class DaoDemo implements CommandLineRunner{
 //		this.enhancedUserDao.create(user);
 
 		UserEntity user1 = factory.createNewUser(
-				"AlonSamay@gmail.com",
+				"Alon@gmail.com",
 				"TalCohen2019.B",
 				"AlonSamay",
 				":)",
 				UserRole.MANAGER,
 				(long) 456);
-		user1.setKey(new UserKey("AlonSamay@gmail.com"));
 		this.enhancedUserDao.create(user1);
 
 

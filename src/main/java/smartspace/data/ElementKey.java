@@ -7,16 +7,16 @@ public class ElementKey implements Serializable, Comparable<String> {
 
     private static final long serialVersionUID = 8665542775633852231L;
 
-    private String elementSmartSpace;
-    private String elementId;
+    private String smartspace;
+    private String id;
 
     public ElementKey() {
-        this.elementSmartSpace = "2019BTal.Cohen";
+        this.smartspace = "2019BTal.Cohen";
     }
 
     public ElementKey(String elementId, String elementSmartspace){
-        this.elementId = elementId;
-        this.elementSmartSpace = elementSmartspace;
+        this.id = elementId;
+        this.smartspace = elementSmartspace;
     }
 
 
@@ -32,20 +32,20 @@ public class ElementKey implements Serializable, Comparable<String> {
         return 0;
     }
 
-    public String getElementSmartSpace() {
-        return elementSmartSpace;
+    public String getSmartspace() {
+        return smartspace;
     }
 
-    public String getElementId() {
-        return elementId;
+    public String getId() {
+        return id;
     }
 
-    public void setElementSmartSpace(String elementSmartSpace) {
-        this.elementSmartSpace = elementSmartSpace;
+    public void setSmartspace(String smartspace) {
+        this.smartspace = smartspace;
     }
 
-    public void setElementId(String elementId) {
-        this.elementId = elementId;
+    public void setId(String id) {
+        this.id = id;
     }
 
 
@@ -54,20 +54,20 @@ public class ElementKey implements Serializable, Comparable<String> {
         if (this == o) return true;
         if (!(o instanceof ElementKey)) return false;
         ElementKey that = (ElementKey) o;
-        return Objects.equals(elementSmartSpace, that.elementSmartSpace) &&
-                Objects.equals(elementId, that.elementId);
+        return Objects.equals(smartspace, that.smartspace) &&
+                Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(elementSmartSpace, elementId);
+        return Objects.hash(smartspace, id);
     }
 
     @Override
     public String toString() {
         return "ElementKey{" +
-                "elementSmartSpace='" + elementSmartSpace + '\'' +
-                ", elementId=" + elementId +
+                "smartspace='" + smartspace + '\'' +
+                ", id=" + id +
                 '}';
     }
 }

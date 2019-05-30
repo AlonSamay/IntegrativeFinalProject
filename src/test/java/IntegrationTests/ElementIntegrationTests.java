@@ -85,8 +85,8 @@ public class ElementIntegrationTests {
 
     public ElementKey generateElementKey() {
         ElementKey key = new ElementKey();
-        key.setElementId("Bla" + (++counter));
-        key.setElementSmartSpace("mySmartSpace");
+        key.setId("Bla" + (++counter));
+        key.setSmartspace("mySmartSpace");
         return key;
     }
 
@@ -169,7 +169,7 @@ public class ElementIntegrationTests {
 
     @Test
     public void testGetAllUsingPagination() {
-        // GIVEN the database contains 10 messages
+        // GIVEN the database contains 10 elements
         int totalSize = 10;
 
         Map<String, Object> details = new HashMap<>();
@@ -235,9 +235,9 @@ public class ElementIntegrationTests {
                 null);
         restTemplate.postForEntity(this.baseUrl + this.userUrl, entity, ElementBoundary.class);
 
-        // THEN the new element is added
+        // THEN the new element is added and exists in DB
         Optional<ElementEntity> entityFromDB = elementDao.readById(entity.getKey());
 
-        assert (entityFromDB.isPresent());
+        assertThat(entityFromDB.isPresent()).isTrue();
     }
 }

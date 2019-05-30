@@ -28,13 +28,13 @@ public class ElementBoundary {
 
     public ElementBoundary(ElementEntity entity) {
 
-        this.key = new ElementKey(entity.getKey().getElementId(),entity.getKey().getElementSmartSpace());
+        this.key = new ElementKey(entity.getKey().getId(),entity.getKey().getSmartspace());
 
         this.elementType = entity.getType();
 
         this.name = entity.getName();
 
-        this.expired = entity.getExpired();
+        this.expired = entity.isExpired();
 
         this.created = new Timestamp(entity.getCreationTimeStamp().getTime());
 
@@ -55,7 +55,7 @@ public class ElementBoundary {
             entity.setKey(null);
         }
         else{
-            ElementKey key = new ElementKey(this.key.getElementId(),this.key.getElementSmartSpace());
+            ElementKey key = new ElementKey(this.key.getId(),this.key.getSmartspace());
             entity.setKey(key);
         }
 
