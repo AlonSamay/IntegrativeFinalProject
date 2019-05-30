@@ -149,8 +149,8 @@ public class DaoDemo implements CommandLineRunner{
 
 	private void createElement(Map<String, Object> moreAttributes) {
 		ElementEntity element = factory.createNewElement(
-					"B",
-					"Login",
+					"AmazonCatalog",
+					"Catalog",
 					 new Location(1.0, 2.0),
 					new Date(),
 					"b@gmail.com",
@@ -164,15 +164,15 @@ public class DaoDemo implements CommandLineRunner{
 	}
 
 	private void createUser() {
-		UserEntity user= factory.createNewUser(
-				"AlonSamay@gmail.com",
-				"TalCohen2019.B",
-				"AlonSamay",
-				"C",
-		         UserRole.PLAYER,
-				(long) 123
-		);
-		this.enhancedUserDao.create(user);
+//		UserEntity user= factory.createNewUser(
+//				"AlonSamay@gmail.com",
+//				"TalCohen2019.B",
+//				"AlonSamay",
+//				"C",
+//		         UserRole.PLAYER,
+//				(long) 123
+//		);
+//		this.enhancedUserDao.create(user);
 
 		UserEntity user1 = factory.createNewUser(
 				"Alon@gmail.com",
@@ -186,7 +186,7 @@ public class DaoDemo implements CommandLineRunner{
 
 
 		UserEntity user2 = factory.createNewUser(
-				"OrenShadmi@gmail.com",
+				"alon@gmail.com",
 				"TalCohen2019.B",
 				"OrenShadmi",
 				"1234",

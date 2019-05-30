@@ -61,6 +61,16 @@ public class ActionController extends ValidateController implements Controller<A
                     .toArray(ActionBoundary[]::new);
     }
 
+//    @RequestMapping(
+//            method=RequestMethod.POST,
+//            path= ROUTE,
+//            produces=MediaType.APPLICATION_JSON_VALUE,
+//            consumes=MediaType.APPLICATION_JSON_VALUE)
+//    public ActionBoundary invoke(
+//            @RequestBody ActionBoundary actionBoundary) {
+//        return new ActionBoundary(actionService.store(actionBoundary.convertToEntity()));
+//    }
+
     @RequestMapping(
             method=RequestMethod.POST,
             path= ROUTE,
@@ -68,6 +78,11 @@ public class ActionController extends ValidateController implements Controller<A
             consumes=MediaType.APPLICATION_JSON_VALUE)
     public ActionBoundary invoke(
             @RequestBody ActionBoundary actionBoundary) {
-        return new ActionBoundary(actionService.store(actionBoundary.convertToEntity()));
+        return new ActionBoundary(actionService.invoke(actionBoundary.convertToEntity()));
     }
+
+
+
+
+
 }

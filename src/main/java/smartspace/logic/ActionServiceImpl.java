@@ -2,6 +2,7 @@ package smartspace.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,8 @@ import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 import smartspace.data.EmailAddress;
 import smartspace.layout.exceptions.FieldException;
+import smartspace.layout.exceptions.IlegalActionType;
+import smartspace.plugins.PluginCommand;
 import smartspace.layout.exceptions.NotFoundException;
 
 import java.util.Arrays;
@@ -30,12 +33,20 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
 
     private EnhancedActionDao actionDao;
     private EnhancedElementDao elementDao;
+    private ApplicationContext ctx;
 
     @Autowired
-    public ActionServiceImpl(EnhancedActionDao actionDao, EnhancedElementDao elementDao) {
+    public ActionServiceImpl(EnhancedActionDao actionDao, EnhancedElementDao elementDao, ApplicationContext ctx) {
         this.actionDao = actionDao;
         this.elementDao = elementDao;
+        this.ctx = ctx;
     }
+
+//    @Autowired
+//    public ActionServiceImpl(EnhancedActionDao actionDao, EnhancedElementDao elementDao) {
+//        this.actionDao = actionDao;
+//        this.elementDao = elementDao;
+//    }
 
     @Override
     public List<ActionEntity> getAll(int size, int page) {
@@ -101,5 +112,34 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
         // actions supposed to be on elements, so we should check that this element exist in our db
         ElementKey keyToCheck = new ElementKey(elementId, elementSmartSpace);
         return this.elementDao.readById(keyToCheck).isPresent();
+    }
+
+    private String createClassNameForPlugIn(String actionType){
+        return "smartspace.plugins."
+                + actionType.toUpperCase().charAt(0)
+                + actionType.substring(1)
+                + "Plugin";
+    }
+
+    @Override
+    @Transactional
+    public ActionEntity invoke(ActionEntity actionEntity){
+        try {
+
+            String actionType = actionEntity.getActionType();
+            if(actionType != null && !actionType.trim().isEmpty()){
+                String className = this.createClassNameForPlugIn(actionType);
+                Class<?> theClass = Class.forName(className);
+                Object plugin = ctx.getBean(theClass);
+                actionEntity = ((PluginCommand) plugin).invoke(actionEntity);
+                return this.store(actionEntity); //will do validation and create with dao
+            }
+            else {
+                throw new IlegalActionType();
+            }
+
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 }
