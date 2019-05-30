@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedActionDao;
 import smartspace.dao.EnhancedElementDao;
 import smartspace.data.ActionEntity;
-import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 import smartspace.data.EmailAddress;
 import smartspace.layout.exceptions.FieldException;
@@ -20,9 +19,6 @@ import smartspace.layout.exceptions.NotFoundException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 @PropertySource("application.properties")
 @Service
@@ -57,22 +53,25 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
     @Transactional
     public ActionEntity store(ActionEntity actionEntity) {
         validate(actionEntity);
-        actionEntity.setCreationTimeStamp(new Date());
         return this.actionDao.create(actionEntity);
     }
 
     @Transactional
     public ActionEntity[] storeAll(ActionEntity[] actionEntities) {
+        boolean isAllValid = Arrays.stream(actionEntities).allMatch(this::validateImportedAction);
+        if(isAllValid)
         return Arrays.stream(actionEntities)
-                .filter(this::validateDifferentUserSmartspace)
-                .map(this::store).toArray(ActionEntity[]::new);
+                .map(this.actionDao::create).toArray(ActionEntity[]::new);
+        throw new RuntimeException("Not valid Actions");
     }
 
-    private boolean validateDifferentUserSmartspace(ActionEntity actionEntity) {
-        if (!this.isValid(actionEntity.getKey()))
+    private boolean validateImportedAction(ActionEntity actionEntity) {
+        if (!this.isValid(actionEntity.getActionId()))
             throw new FieldException(this.getClass().getSimpleName(), "Action's key");
         if (!this.isValid(actionEntity.getActionSmartSpace()))
             throw new FieldException(this.getClass().getSimpleName(), "Action's smartspace");
+        if (!this.isElementExist(actionEntity.getElementId(), actionEntity.getElementSmartSpace()))
+            throw new NotFoundException(this.getClass().getSimpleName() + ": Action's element isn't exist in DB");
         return !actionEntity.getActionSmartSpace().equals(smartSpaceName);
 
     }
@@ -99,13 +98,6 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
         if (!this.isValid(actionEntity.getMoreAttributes()))
             throw new FieldException(this.getClass().getSimpleName(), "Action's properties");
 
-//        return this.isValid(actionEntity.getSmartspace()) &&
-//                this.isValid(actionEntity.getId()) &&
-//                this.isElementExist(actionEntity.getId(), actionEntity.getSmartspace()) &&
-//                this.isValid(actionEntity.getPlayerSmartSpace()) &&
-//                this.isValid(new EmailAddress(actionEntity.getPlayerEmail())) &&
-//                this.isValid(actionEntity.getActionType()) &&
-//                this.isValid(actionEntity.getMoreAttributes());
     }
 
     private boolean isElementExist(String elementId, String elementSmartSpace) {

@@ -40,17 +40,16 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
     @Transactional
     public ElementEntity store(ElementEntity elementEntity) {
         validate(elementEntity);
-        elementEntity.setCreationTimeStamp(new Date());
         return this.elementDao.create(elementEntity);
     }
 
     @Transactional
     public ElementEntity[] storeAll(ElementEntity[] elementEntities) {
-        boolean isAllValid = Arrays.stream(elementEntities).allMatch(this::validateDifferentElementSmartspace);
+        boolean isAllValid = Arrays.stream(elementEntities).allMatch(this::validateImportedElement);
         if (isAllValid) {
-            return Arrays.stream(elementEntities).map(this::store).toArray(ElementEntity[]::new);
+            return Arrays.stream(elementEntities).map(this.elementDao::create).toArray(ElementEntity[]::new);
         } else
-            throw new RuntimeException(this.getClass().getSimpleName());
+            throw new RuntimeException("not all elements are valid");
     }
 
     @Override
@@ -101,7 +100,7 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
         return rv;
     }
 
-    private boolean validateDifferentElementSmartspace(ElementEntity elementEntity) {
+    private boolean validateImportedElement(ElementEntity elementEntity) {
         return elementEntity.getKey() != null
                 && this.isValid(elementEntity.getElementKey().getId())
                 && this.isValid(elementEntity.getElementKey().getSmartspace())
@@ -127,15 +126,6 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
         if (elementEntity.isExpired())
             throw new FieldException(this.getClass().getSimpleName() + ": Element expired");
 
-//        return this.isValid(elementEntity.getName()) &&
-//                !elementEntity.getCreatorSmartSpace().equals(this.smartSpaceName) &&
-//                this.isValid(elementEntity.getType()) &&
-//                this.isValid(elementEntity.getCreatorSmartSpace()) &&
-//                this.isValid(elementEntity.getCreatorEmail()) &&
-//                this.isValid(elementEntity.getLocation().getX()) &&
-//                this.isValid(elementEntity.getLocation().getY()) &&
-//                !elementEntity.isExpired() &&
-//                this.isValid(elementEntity.getMoreAttributes());
     }
 
 }

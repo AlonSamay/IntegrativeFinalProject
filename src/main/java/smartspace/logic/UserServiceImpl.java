@@ -7,13 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
 import smartspace.data.EmailAddress;
-import smartspace.data.MailAdress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.layout.exceptions.FieldException;
 import smartspace.layout.exceptions.NotFoundException;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -57,13 +55,13 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
     @Transactional
     public UserEntity[] storeAll(UserEntity[] userEntities) {
         boolean isAllValid = Arrays.stream(userEntities)
-                .allMatch(this::validateDifferentSmartspace);
-        if (!isAllValid) {
-            throw new RuntimeException(this.getClass().getSimpleName());
-        }
+                .allMatch(this::validateImportedUser);
+        if (!isAllValid)
         return Arrays.stream(userEntities)
-                .map(this::store)
+                .map(this.userDao::create)
                 .toArray(UserEntity[]::new);
+        throw new RuntimeException(this.getClass().getSimpleName());
+
     }
 
     @Override
@@ -75,7 +73,7 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
         userDao.update(entity);
     }
 
-    private boolean validateDifferentSmartspace(UserEntity entity) {
+    private boolean validateImportedUser(UserEntity entity) {
         return !entity.getUserKey().getSmartspace().equals(this.smartSpaceName);
     }
 

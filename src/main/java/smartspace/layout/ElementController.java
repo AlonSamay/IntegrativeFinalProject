@@ -59,11 +59,11 @@ public class ElementController extends ValidateController implements Controller<
             @PathVariable("adminEmail") String adminEmail,
             @RequestBody ElementBoundary[] elementBoundaries) {
 
-            ElementEntity[] users = Arrays.stream(elementBoundaries)
+            ElementEntity[] elements = Arrays.stream(elementBoundaries)
                     .map(ElementBoundary::convertToEntity)
                     .toArray(ElementEntity[]::new);
 
-            return Arrays.stream(this.elementService.storeAll(users))
+            return Arrays.stream(this.elementService.storeAll(elements))
                     .map(ElementBoundary::new)
                     .toArray(ElementBoundary[]::new);
 

@@ -22,13 +22,6 @@ public class ElementKey implements Serializable, Comparable<String> {
 
     @Override
     public int compareTo(String o) {
-//        if (Integer.parseInt(id) > Integer.parseInt(o)) {
-//            return 1;
-//        } else if (Integer.parseInt(this.id) < Integer.parseInt(o)) {
-//            return -1;
-//        } else {
-//            return 0;
-//        }
         return 0;
     }
 

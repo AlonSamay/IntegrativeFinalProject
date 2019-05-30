@@ -10,24 +10,26 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Document(collection="ACTIONS")
-public class ActionEntity implements SmartspaceEntity<String> {
+@Document(collection = "ACTIONS")
 
-    private String actionSmartSpace;
-    private String actionId;
+public class ActionEntity implements SmartspaceEntity<ActionKey> {
+
     private String elementSmartSpace;
     private String elementId;
     private String playerSmartSpace;
     private String playerEmail;
     private String actionType;
-    private Date   creationTimeStamp;
-    private Map<String,Object> moreAttributes;
+    private Date creationTimeStamp;
+    private Map<String, Object> moreAttributes;
+
+    @Id
+    private ActionKey actionKey;
 
     public ActionEntity() {
         this.moreAttributes = new HashMap<>();
     }
 
-    public ActionEntity(String elementId, String elementSmartSpace, String actionType, Date creationTimeStamp, String playerEmail, String playerSmartSpace,  Map<String, Object> moreAttributes) {
+    public ActionEntity(String elementId, String elementSmartSpace, String actionType, Date creationTimeStamp, String playerEmail, String playerSmartSpace, Map<String, Object> moreAttributes) {
         this.elementId = elementId;
         this.elementSmartSpace = elementSmartSpace;
         this.actionType = actionType;
@@ -35,10 +37,7 @@ public class ActionEntity implements SmartspaceEntity<String> {
         this.playerEmail = playerEmail;
         this.playerSmartSpace = playerSmartSpace;
         this.moreAttributes = moreAttributes;
-    }
-
-    public void setActionSmartSpace(String actionSmartSpace) {
-        this.actionSmartSpace = actionSmartSpace;
+        this.actionKey = new ActionKey();
     }
 
     public void setElementSmartSpace(String elementSmartSpace) {
@@ -69,36 +68,33 @@ public class ActionEntity implements SmartspaceEntity<String> {
         this.moreAttributes = moreAttributes;
     }
 
-    @Id
+
     public String getActionId() {
-        return actionId;
+        return this.actionKey.getId();
     }
 
     public void setActionId(String actionId) {
-        this.actionId = actionId;
+        this.actionKey.setId(actionId);
     }
 
-    public String getActionSmartSpace() {
-        return actionSmartSpace;
-    }
 
     public String getElementSmartSpace() {
-        return elementSmartSpace;
+        return this.elementSmartSpace;
     }
 
 
     public String getElementId() {
-        return elementId;
+        return this.elementId;
     }
 
 
     public String getPlayerSmartSpace() {
-        return playerSmartSpace;
+        return this.playerSmartSpace;
     }
 
 
     public String getPlayerEmail() {
-        return playerEmail;
+        return this.playerEmail;
     }
 
 
@@ -112,30 +108,36 @@ public class ActionEntity implements SmartspaceEntity<String> {
     }
 
     @Lob
-	//@Convert(converter= MapToJsonConverter.class)
+    //@Convert(converter= MapToJsonConverter.class)
     public Map<String, Object> getMoreAttributes() {
         return moreAttributes;
     }
 
-//    @Column(name="ID")
 
-//    @GeneratedValue
+    public void setActionSmartSpace(String actionSmartSpace) {
+        this.actionKey.setSmartspace(actionSmartSpace);
+    }
 
-    @Override
-    public String getKey() {
-        return this.actionId;
+    public String getActionSmartSpace() {
+        return this.actionKey.getSmartspace();
     }
 
     @Override
-    public void setKey(String key) {
-        this.actionId = key;
+    public ActionKey getKey() {
+        return this.actionKey;
+    }
+
+
+    @Override
+    public void setKey(ActionKey key) {
+        this.actionKey = key;
     }
 
     @Override
     public String toString() {
         return "ActionEntity{" +
-                "actionSmartSpace='" + actionSmartSpace + '\'' +
-                ", actionId='" + actionId + '\'' +
+                "actionSmartSpace='" + actionKey.getSmartspace() + '\'' +
+                ", actionId='" + actionKey.getId() + '\'' +
                 ", elementSmartSpace='" + elementSmartSpace + '\'' +
                 ", elementId='" + elementId + '\'' +
                 ", playerSmartSpace='" + playerSmartSpace + '\'' +
