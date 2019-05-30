@@ -7,7 +7,7 @@ import smartspace.dao.EnhancedActionDao;
 import smartspace.data.ActionEntity;
 
 @Component
-public class CheckOutPlugIn extends ActionPlugIn implements PluginCommand{
+public class CheckOutPlugIn extends ActionPlugIn{
 
     @Autowired
     public CheckOutPlugIn(EnhancedActionDao actionDao, ObjectMapper jackson) {

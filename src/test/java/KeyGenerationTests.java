@@ -60,7 +60,7 @@ public class KeyGenerationTests {
 
     @Test
     public void testNewActionIdsAreUnique() {
-        Set<String> keys = IntStream.range(1, 11)
+        Set<ActionKey> keys = IntStream.range(1, 11)
                 .mapToObj(i -> this.factory.createNewAction(
                         "elemnt " + i,
                         "mysmartspace",
@@ -68,7 +68,7 @@ public class KeyGenerationTests {
                         new Date(),
                         "tom@gmail.com",
                         "newsmartspace",
-                        new HashMap<>()))
+                        null))
                 .map(this.actionDao::create)
                 .map(ActionEntity::getKey)
                 .collect(Collectors.toSet());

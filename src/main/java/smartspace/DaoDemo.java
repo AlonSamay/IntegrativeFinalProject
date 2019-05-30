@@ -39,6 +39,10 @@ public class DaoDemo implements CommandLineRunner{
 		this.factory = factory;
 		this.managerMail="Alon@gmail.com";
 
+		this.enchancedElementDao.deleteAll();
+		this.enhancedActionDao.deleteAll();
+		this.enhancedUserDao.deleteAll();
+
 	}
 
 
