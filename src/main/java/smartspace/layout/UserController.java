@@ -27,8 +27,7 @@ public class UserController implements Controller<UserBoundary> {
     private static final String ROUTE = "smartspace/users";
 
     @Autowired
-    public UserController(EnhancedUserDao userDao, UserServiceImpl userService) {
-//        super(userDao);
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
     }
 

@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import smartspace.aop.RolePermission;
-import smartspace.dao.EnhancedUserDao;
+import smartspace.dao.nonrdb.nonRdbUserDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.UserRole;
 import smartspace.logic.ActionServiceImpl;
+import smartspace.logic.UserServiceImpl;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @RestController
 public class ActionController extends ValidateController implements Controller<ActionBoundary>{
@@ -20,8 +20,8 @@ public class ActionController extends ValidateController implements Controller<A
     private static final String ROUTE = "smartspace/actions";
 
     @Autowired
-    public ActionController(EnhancedUserDao userDao, ActionServiceImpl actionService) {
-        super(userDao);
+    public ActionController(UserServiceImpl userService, ActionServiceImpl actionService) {
+        super(userService);
         this.actionService = actionService;
     }
 

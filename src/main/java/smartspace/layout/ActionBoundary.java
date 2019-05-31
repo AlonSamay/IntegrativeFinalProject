@@ -5,7 +5,6 @@ import smartspace.data.ActionKey;
 import smartspace.data.ElementKey;
 import smartspace.data.UserKey;
 
-import javax.swing.*;
 import java.util.Date;
 import java.util.Map;
 

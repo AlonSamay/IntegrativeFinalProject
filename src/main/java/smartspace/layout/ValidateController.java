@@ -1,29 +1,22 @@
 package smartspace.layout;
 
 import org.springframework.stereotype.Component;
-import smartspace.dao.EnhancedUserDao;
-import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
-import smartspace.data.UserKey;
 import smartspace.data.UserRole;
+import smartspace.logic.UserServiceImpl;
 
-import java.util.Optional;
 
 @Component
 public class ValidateController {
-    private EnhancedUserDao userDao;
+    private UserServiceImpl userService;
 
-    public ValidateController(EnhancedUserDao userDao) {
-        this.userDao = userDao;
+    public ValidateController(UserServiceImpl userDao) {
+        this.userService = userDao;
     }
 
     public boolean isAValidUrl(String email, String smartSpaceName) {
-        Optional<UserEntity> userFromDb = this.userDao.readById(new UserKey(email, smartSpaceName));
-        if (!userFromDb.isPresent()) {
-            return false;
-        }
-        UserEntity entity = userFromDb.get();
-        return entity.getRole() == UserRole.ADMIN && entity.getKey().getSmartspace().equals(smartSpaceName);
+        UserEntity userFromDb = this.userService.get(smartSpaceName,email);
+        return userFromDb.getRole() == UserRole.ADMIN && userFromDb.getKey().getSmartspace().equals(smartSpaceName);
     }
 
 //    public boolean isLocalSmartSpace(String smartSpace){
