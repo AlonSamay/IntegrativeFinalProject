@@ -9,8 +9,8 @@ import smartspace.dao.EnhancedActionDao;
 //@Component
 public abstract class ActionPlugIn implements PluginCommand {
 
-    private ActionDao actionDao;
-    private ObjectMapper jackson;
+     ActionDao actionDao;
+     ObjectMapper jackson;
 
 //    @Autowired
     public ActionPlugIn(ActionDao actionDao, ObjectMapper jackson) {
