@@ -21,7 +21,7 @@ import static org.springframework.data.domain.Sort.Direction.ASC;
 
 
 @Repository
-public class nonRdbElementDao implements smartspace.dao.nonRdbElementDao<ElementKey> {
+public class nonRdbElementDao implements EnhancedElementDao<ElementKey> {
     private NRdbElementCrud elementCrud;
     private IdGeneratorCrud idGeneratorCrud;
     private MongoTemplate mongoTemplate;

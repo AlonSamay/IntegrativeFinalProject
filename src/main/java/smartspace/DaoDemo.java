@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import smartspace.dao.*;
 import smartspace.dao.nonrdb.nonRdbActionDao;
+import smartspace.dao.nonrdb.nonRdbElementDao;
 import smartspace.dao.nonrdb.nonRdbUserDao;
 import smartspace.data.*;
 import smartspace.data.util.EntityFactory;

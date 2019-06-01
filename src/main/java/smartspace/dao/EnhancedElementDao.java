@@ -5,7 +5,7 @@ import smartspace.data.ElementEntity;
 
 import java.util.List;
 
-public interface nonRdbElementDao<k> extends ElementDao<k>{
+public interface EnhancedElementDao<k> extends ElementDao<k>{
     public List<ElementEntity> readAll (int size, int page);
 
     public List<ElementEntity> readAllByName(String name, int size, int page);
