@@ -7,9 +7,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import smartspace.dao.nonrdb.nonRdbActionDao;
 import smartspace.dao.nonrdb.nonRdbElementDao;
-import smartspace.data.ActionEntity;
-import smartspace.data.ElementEntity;
-import smartspace.data.ElementKey;
+import smartspace.dao.nonrdb.nonRdbUserDao;
+import smartspace.data.*;
+import smartspace.logic.UserServiceImpl;
 
 import java.util.Map;
 
@@ -17,12 +17,14 @@ import java.util.Map;
 @Component
 public class PayPlugin extends CartPlugin {
 
-    private final Environment env;
+    private Environment env;
+    private UserServiceImpl userService;
 
     @Autowired
-    public PayPlugin(nonRdbActionDao actionDao, ObjectMapper jackson, nonRdbElementDao elementDao, Environment env) {
+    public PayPlugin(nonRdbActionDao actionDao, ObjectMapper jackson, nonRdbElementDao elementDao, Environment env, UserServiceImpl userService) {
         super(actionDao, jackson, elementDao);
         this.env = env;
+        this.userService = userService;
     }
 
     @Override
@@ -46,10 +48,24 @@ public class PayPlugin extends CartPlugin {
 
             cartToUpdate.setMoreAttributes(moreAtt);
             elementDao.create(cartToUpdate);
+            long newPointsForUser = this.updateUserPoints(actionEntity.getPlayerEmail(), actionEntity.getPlayerSmartSpace(),
+                    (((Double) (cartToUpdate.getMoreAttributes().get(env.getProperty("fields.cart.amount"))))).floatValue());
+            moreAtt.clear();
+            moreAtt.put("points", newPointsForUser);
+            actionEntity.setMoreAttributes(moreAtt);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
         return actionEntity;
+    }
+
+    private long updateUserPoints(String playerEmail, String playerSmartSpace, float amount) {
+        UserEntity buyer = this.userService.get(playerSmartSpace, playerEmail);
+        long currentPoints = buyer.getPoints();
+        long newPoints = (long) (currentPoints + amount / 3);
+        buyer.setPoints(newPoints);
+        userService.store(buyer);
+        return newPoints;
     }
 }

@@ -36,8 +36,6 @@ public class UpdateCartPlugin extends CartPlugin {
                     actionEntity.getElementId(), actionEntity.getElementSmartSpace());
 
             Map<String, Object> moreAtt = cartToUpdate.getMoreAttributes();
-            moreAtt.clear();
-            moreAtt.put(env.getProperty("fields.cart.cartOwnerId"), input.getCartOwnerId());
             moreAtt.put(env.getProperty("fields.cart.amount"), input.getAmount());
             moreAtt.put(env.getProperty("fields.cart.products"), input.getProducts());
             cartToUpdate.setMoreAttributes(moreAtt);
