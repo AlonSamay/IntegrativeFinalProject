@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.geo.Circle;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import smartspace.dao.EnhancedElementDao;
+import smartspace.dao.nonRdbElementDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 import smartspace.data.EmailAddress;
@@ -24,10 +24,10 @@ public class ElementServiceImp extends Validator implements ElementService<Eleme
     @Value("${SmartSpace.name.property}")
     private String smartSpaceName;
 
-    private EnhancedElementDao<ElementKey> elementDao;
+    private nonRdbElementDao elementDao;
 
     @Autowired
-    public ElementServiceImp(EnhancedElementDao<ElementKey> elementDao) {
+    public ElementServiceImp(nonRdbElementDao elementDao) {
         this.elementDao = elementDao;
     }
 

@@ -19,6 +19,9 @@ public abstract class ActionPlugIn implements PluginCommand {
     nonRdbActionDao actionDao;
     nonRdbElementDao elementDao;
     ObjectMapper jackson;
+    public ActionPlugIn(){
+
+    }
 
     public ActionPlugIn(nonRdbActionDao actionDao, ObjectMapper jackson, nonRdbElementDao elementDao) {
         this.actionDao = actionDao;

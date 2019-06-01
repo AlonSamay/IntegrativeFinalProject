@@ -6,18 +6,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import smartspace.dao.EnhancedActionDao;
-import smartspace.dao.EnhancedElementDao;
+import smartspace.dao.nonRdbElementDao;
+import smartspace.dao.nonrdb.nonRdbActionDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.ElementKey;
 import smartspace.data.EmailAddress;
 import smartspace.layout.exceptions.FieldException;
 import smartspace.layout.exceptions.IlegalActionType;
-import smartspace.plugins.PluginCommand;
 import smartspace.layout.exceptions.NotFoundException;
+import smartspace.plugins.PluginCommand;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 @PropertySource("application.properties")
@@ -27,22 +26,17 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
     @Value("${SmartSpace.name.property}")
     private String smartSpaceName;
 
-    private EnhancedActionDao actionDao;
-    private EnhancedElementDao elementDao;
+    private nonRdbActionDao actionDao;
+    private nonRdbElementDao elementDao;
     private ApplicationContext ctx;
 
     @Autowired
-    public ActionServiceImpl(EnhancedActionDao actionDao, EnhancedElementDao elementDao, ApplicationContext ctx) {
+    public ActionServiceImpl(nonRdbActionDao actionDao, nonRdbElementDao elementDao, ApplicationContext ctx) {
         this.actionDao = actionDao;
         this.elementDao = elementDao;
         this.ctx = ctx;
     }
 
-//    @Autowired
-//    public ActionServiceImpl(EnhancedActionDao actionDao, EnhancedElementDao elementDao) {
-//        this.actionDao = actionDao;
-//        this.elementDao = elementDao;
-//    }
 
     @Override
     public List<ActionEntity> getAll(int size, int page) {
@@ -59,9 +53,9 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
     @Transactional
     public ActionEntity[] storeAll(ActionEntity[] actionEntities) {
         boolean isAllValid = Arrays.stream(actionEntities).allMatch(this::validateImportedAction);
-        if(isAllValid)
-        return Arrays.stream(actionEntities)
-                .map(this.actionDao::create).toArray(ActionEntity[]::new);
+        if (isAllValid)
+            return Arrays.stream(actionEntities)
+                    .map(this.actionDao::create).toArray(ActionEntity[]::new);
         throw new RuntimeException("Not valid Actions");
     }
 
@@ -106,7 +100,7 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
         return this.elementDao.readById(keyToCheck).isPresent();
     }
 
-    private String createClassNameForPlugIn(String actionType){
+    private String createClassNameForPlugIn(String actionType) {
         return "smartspace.plugins."
                 + actionType.toUpperCase().charAt(0)
                 + actionType.substring(1)
@@ -115,26 +109,25 @@ public class ActionServiceImpl extends Validator implements ActionService<Action
 
     @Override
     @Transactional
-    public ActionEntity invoke(ActionEntity actionEntity){
+    public ActionEntity invoke(ActionEntity actionEntity) {
         try {
 
             String actionType = actionEntity.getActionType();
-            if(actionType != null && !actionType.trim().isEmpty()){
+            if (actionType != null && !actionType.trim().isEmpty()) {
                 String className = this.createClassNameForPlugIn(actionType);
                 try {
                     Class<?> theClass = Class.forName(className);
                     Object plugin = ctx.getBean(theClass);
                     actionEntity = ((PluginCommand) plugin).invoke(actionEntity);
-                }catch (ClassNotFoundException exc){
+                } catch (ClassNotFoundException exc) {
                     System.out.println("No plugin for this action , Saving to db ");
                 }
                 return this.store(actionEntity); //will do validation and create with dao
-            }
-            else {
+            } else {
                 throw new IlegalActionType();
             }
 
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

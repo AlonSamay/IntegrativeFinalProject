@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import smartspace.aop.RolePermission;
-import smartspace.dao.nonrdb.nonRdbUserDao;
 import smartspace.data.ActionEntity;
 import smartspace.data.UserRole;
 import smartspace.logic.ActionServiceImpl;

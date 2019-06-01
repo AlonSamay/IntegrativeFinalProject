@@ -5,8 +5,8 @@ import smartspace.data.UserKey;
 import java.util.Date;
 
 public class CartInput {
-    //TODO : add validator for fields as user, prdoucts and amount
-    private UserKey user;
+    //TODO : add validator for fields as cartOwnerId, prdoucts and amount
+    private UserKey cartOwnerId;
     private String[] products;
     private float amount;
     private String address;
@@ -18,18 +18,18 @@ public class CartInput {
 
     public CartInput() {
     }
-    public CartInput(UserKey user){
-        this.user=user;
+    public CartInput(UserKey cartOwnerId){
+        this.cartOwnerId = cartOwnerId;
         this.amount=0;
         this.address ="N/A";
     }
 
-    public UserKey getUser() {
-        return user;
+    public UserKey getCartOwnerId() {
+        return cartOwnerId;
     }
 
-    public void setUser(UserKey user) {
-        this.user = user;
+    public void setCartOwnerId(UserKey cartOwnerId) {
+        this.cartOwnerId = cartOwnerId;
     }
 
     public String[] getProducts() {

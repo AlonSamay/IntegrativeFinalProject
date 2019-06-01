@@ -1,17 +1,13 @@
 package smartspace.layout;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import smartspace.aop.RolePermission;
-import smartspace.dao.EnhancedUserDao;
 import smartspace.data.UserEntity;
-import smartspace.data.UserKey;
 import smartspace.logic.UserServiceImpl;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static smartspace.data.UserRole.*;
 
