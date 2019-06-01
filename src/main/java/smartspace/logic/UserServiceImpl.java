@@ -6,6 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import smartspace.dao.EnhancedUserDao;
+import smartspace.dao.nonrdb.nonRdbUserDao;
 import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
@@ -24,10 +25,10 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
     @Value("${SmartSpace.name.property}")
     private String smartSpaceName;
 
-    private EnhancedUserDao<UserKey> userDao;
+    private nonRdbUserDao userDao;
 
     @Autowired
-    public UserServiceImpl(EnhancedUserDao<UserKey> userDao) {
+    public UserServiceImpl(nonRdbUserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -106,13 +107,5 @@ public class UserServiceImpl extends Validator implements UserService<UserEntity
 
         if (!this.isValid(userEntity.getUsername()))
             throw new FieldException(this.getClass().getSimpleName(), "User's name");
-
-//        return this.isValid(userEntity.getKey().getSmartspace()) &&
-//                userEntity.getKey().getSmartspace().equals(this.smartSpaceName) &&
-//                this.isValid(userEntity.getKey().getEmail()) &&
-//                this.isValid(userEntity.getAvatar()) &&
-//                this.isValid(userEntity.getRole()) &&
-//                this.isValid(userEntity.getPoints()) &&
-//                this.isValid(userEntity.getUsername());
     }
 }

@@ -1,6 +1,5 @@
 package smartspace.layout;
 
-import smartspace.data.EmailAddress;
 import smartspace.data.UserEntity;
 import smartspace.data.UserKey;
 import smartspace.data.UserRole;

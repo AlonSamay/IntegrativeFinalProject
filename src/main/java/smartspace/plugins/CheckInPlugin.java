@@ -5,14 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import smartspace.dao.ActionDao;
 import smartspace.dao.EnhancedActionDao;
+import smartspace.dao.nonrdb.nonRdbActionDao;
+import smartspace.dao.nonrdb.nonRdbElementDao;
 import smartspace.data.ActionEntity;
 
 @Component
 public class CheckInPlugin extends ActionPlugIn {
 
     @Autowired
-    public CheckInPlugin(ActionDao actionDao, ObjectMapper jackson) {
-        super(actionDao, jackson);
+    public CheckInPlugin(nonRdbActionDao actionDao, ObjectMapper jackson, nonRdbElementDao elementDao) {
+        super(actionDao, jackson,elementDao);
     }
 
     @Override

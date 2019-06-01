@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import smartspace.aop.RolePermission;
-import smartspace.dao.EnhancedUserDao;
 import smartspace.data.ElementEntity;
 import smartspace.data.ElementKey;
 import smartspace.data.UserRole;
 import smartspace.logic.ElementServiceImp;
+import smartspace.logic.UserServiceImpl;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -27,8 +26,8 @@ public class ElementController extends ValidateController implements Controller<
     private static final String SMARTSPACE = "smartspace";
 
     @Autowired
-    public ElementController(EnhancedUserDao userDao, ElementServiceImp elementService) {
-        super(userDao);
+    public ElementController(UserServiceImpl userService, ElementServiceImp elementService) {
+        super(userService);
         this.elementService = elementService;
     }
     @RolePermission(UserRole.ADMIN)
