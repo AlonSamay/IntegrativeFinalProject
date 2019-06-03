@@ -9,7 +9,7 @@ import smartspace.dao.IdGenerator;
 import smartspace.dao.IdGeneratorCrud;
 import smartspace.data.ActionEntity;
 import smartspace.data.ActionKey;
-import sun.security.krb5.internal.ccache.CredentialsCache;
+
 
 import java.util.ArrayList;
 import java.util.Date;

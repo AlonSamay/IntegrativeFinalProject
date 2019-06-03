@@ -7,18 +7,25 @@ import smartspace.dao.EnhancedActionDao;
 import smartspace.dao.nonrdb.nonRdbActionDao;
 import smartspace.dao.nonrdb.nonRdbElementDao;
 import smartspace.data.ActionEntity;
+import smartspace.data.ElementEntity;
+import smartspace.data.ElementKey;
 
 @Component
-public class CheckOutPlugIn extends ActionPlugIn{
+public class CheckOutPlugin extends ActionPlugIn{
 
     @Autowired
-    public CheckOutPlugIn(nonRdbActionDao actionDao, ObjectMapper jackson, nonRdbElementDao elementDao) {
+    public CheckOutPlugin(nonRdbActionDao actionDao, ObjectMapper jackson, nonRdbElementDao elementDao) {
         super(actionDao, jackson,elementDao);
     }
 
     @Override
     public ActionEntity invoke(ActionEntity actionEntity) {
-        System.out.println("****** invoke method checkout plugin");
-        return null;
+        ElementKey key = new ElementKey(actionEntity.getElementId(), actionEntity.getElementSmartSpace());
+        ElementEntity userCart = getElementByKey(key);
+
+        userCart.setExpired(true);
+        elementDao.update(userCart);
+
+        return actionEntity;
     }
 }
