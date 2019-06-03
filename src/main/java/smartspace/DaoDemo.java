@@ -255,8 +255,7 @@ public class DaoDemo implements CommandLineRunner {
 
         moreAtt.clear();
 
-        moreAtt.put("PlayerMail", "talcohen19@gmail.com");
-        moreAtt.put("PlayerSmartSpace", this.smartSpaceName);
+        moreAtt.put("cartOwnerId", new UserKey("talcohen@gmail.com"));
         ElementEntity cart = factory.createNewElement(
                 "carttalcohen19@gmail.com",
                 "cart",
